@@ -1,12 +1,11 @@
 from app.repositories.restaurant_repo import RestaurantRepository #import our repository
 
-
 class SearchService: #make our SearchService class
 
     def __init__(self):
         self.repo = RestaurantRepository()
 
-    def filter_restaurants(self, name: str = None, cuisine_type: str = None, min_rating: float = None):
+    def filter_restaurants(self, name: str = None, cuisine_type: str = None, min_rating: float = None, limit: int = 10, offset: int = 0):
         restaurants = self.repo.load_all() #get the data from the json
         if name: #name filter
             restaurants = [r for r in restaurants if name.lower() in r.get("name", "").lower()]
@@ -17,5 +16,17 @@ class SearchService: #make our SearchService class
         if min_rating is not None: #rating filter
             restaurants = [r for r in restaurants if r.get("rating", 0.0) >= min_rating]
 
-        message = "Success" if restaurants else "No restaurants found matching your criteria."
-        return {"message": message, "data": restaurants}
+
+        paginated_restaurants = restaurants[offset:offset + limit] 
+
+        if len(paginated_restaurants) == 0: 
+            return { #if the list is empty, return a message saying no restaurants found matching criteria, and an empty list for data
+                "message": "No restaurants found matching your criteria.", 
+                "data": []
+            }
+
+        #but if we made it here that means we have some results to return, so we return a success message and the paginated list of restaurants
+        return {
+            "message": "Success", 
+            "data": paginated_restaurants
+        }
