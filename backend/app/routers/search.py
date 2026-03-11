@@ -10,11 +10,16 @@ search_service = SearchService()
 def search_restaurants(
     name: Optional[str] = None,
     cuisine_type: Optional[str] = None,
-    min_rating: Optional[float] = None
+    min_rating: Optional[float] = None,
+    limit: int = 10, #search return limit
+    offset: int = 0 #search return offset 
+    
 ):
     # Pass the query parameters down to the service layer
     return search_service.filter_restaurants(
         name=name, 
         cuisine_type=cuisine_type, 
-        min_rating=min_rating
+        min_rating=min_rating,
+        limit=limit, #added these 2 parameters to the service call
+        offset=offset
     )
