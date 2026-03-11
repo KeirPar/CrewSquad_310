@@ -5,7 +5,7 @@ from typing import List, Dict, Any
 #had to change this file from what is originally in the repo because I wanted to have a more robust way of handling the data, and I also wanted to be able to update only certain fields without having to provide all of them, so I made all fields optional in the update model
 class RestaurantRepository:
     def __init__(self):
-        self.data_path = Path(__file__).resolve().parents[0] / "data" / "restaurant.json" #this points to our restaurant.json file
+        self.data_path = Path(__file__).resolve().parents[1] / "data" / "restaurant.json" #this points to our restaurant.json file
         self.data_path.parent.mkdir(parents=True, exist_ok=True)        #ensures that this exists, if not it creates it
 
 

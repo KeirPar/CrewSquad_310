@@ -6,7 +6,6 @@ class SearchService: #make our SearchService class
     def __init__(self):
         self.repo = RestaurantRepository()
 
-
     def filter_restaurants(self, name: str = None, cuisine_type: str = None, min_rating: float = None):
         restaurants = self.repo.load_all() #get the data from the json
         if name: #name filter
