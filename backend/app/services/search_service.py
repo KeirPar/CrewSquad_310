@@ -5,7 +5,7 @@ class SearchService: #make our SearchService class
     def __init__(self):
         self.repo = RestaurantRepository()
 
-    def filter_restaurants(self, name: str = None, cuisine_type: str = None, min_rating: float = None, limit: int = 10, offset: int = 0):
+    def filter_restaurants(self, name: str = None, cuisine_type: str = None, min_rating: float = None, sort_by: str = None, limit: int = 10, offset: int = 0):
         restaurants = self.repo.load_all() #get the data from the json
         if name: #name filter
             restaurants = [r for r in restaurants if name.lower() in r.get("name", "").lower()]
@@ -15,6 +15,12 @@ class SearchService: #make our SearchService class
             
         if min_rating is not None: #rating filter
             restaurants = [r for r in restaurants if r.get("rating", 0.0) >= min_rating]
+
+        #added for sorting, we can sort by rating or price
+        if sort_by == "rating_desc":
+            restaurants.sort(key=lambda r: r.get("rating", 0.0), reverse=True) #sort by rating, high to low
+        elif sort_by == "price_asc":
+            restaurants.sort(key=lambda r: r.get("price_tier", 9999), reverse=False) #sort by price, low to high
 
 
         paginated_restaurants = restaurants[offset:offset + limit] 

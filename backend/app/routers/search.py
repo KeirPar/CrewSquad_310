@@ -11,6 +11,7 @@ def search_restaurants(
     name: Optional[str] = None,
     cuisine_type: Optional[str] = None,
     min_rating: Optional[float] = None,
+    sort_by: Optional[str] = None, #how we're gonna sort (price or rating)
     limit: int = 10, #search return limit
     offset: int = 0 #search return offset 
     
@@ -20,6 +21,7 @@ def search_restaurants(
         name=name, 
         cuisine_type=cuisine_type, 
         min_rating=min_rating,
+        sort_by=sort_by, #added this for the sorting
         limit=limit, #added these 2 parameters to the service call
         offset=offset
     )
