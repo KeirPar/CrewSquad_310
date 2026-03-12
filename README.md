@@ -1,10 +1,10 @@
 # COSC 310 Project
 
 ## To run locally
-Run the following commands inside the "backend/" folder
 ```
 cd ./backend
 ```
+Run the following commands inside the "backend/" folder
 ### Install Dependency in virtual environment and activate
 1. Create virtual environment
 ```
