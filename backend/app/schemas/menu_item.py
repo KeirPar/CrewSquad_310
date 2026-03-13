@@ -9,3 +9,4 @@ class MenuItem(BaseModel):
     image_url: str
     add_ons: List[int]  #   add-ons' id
     is_available: bool
+    restaurant_id: int 
