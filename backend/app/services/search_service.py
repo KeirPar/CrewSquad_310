@@ -1,12 +1,12 @@
 from app.repositories.restaurant_repo import RestaurantRepository #import our repository
-from app.schemas.restaurant_order import RestaurantOrder
+from app.schemas.restaurant_sort_order import RestaurantSortOrder
 
 class SearchService: #make our SearchService class
 
     def __init__(self):
         self.repo = RestaurantRepository()
 
-    def filter_restaurants(self, name: str = None, cuisine_type: str = None, min_rating: float = None, sort_by: RestaurantOrder = None, limit: int = 10, offset: int = 0):
+    def filter_restaurants(self, name: str = None, cuisine_type: str = None, min_rating: float = None, sort_by: RestaurantSortOrder = None, limit: int = 10, offset: int = 0):
         restaurants = self.repo.load_all() #get the data from the json
         if name: #name filter
             restaurants = [r for r in restaurants if name.lower() in r.get("name", "").lower()]
@@ -18,9 +18,9 @@ class SearchService: #make our SearchService class
             restaurants = [r for r in restaurants if r.get("rating", 0.0) >= min_rating]
 
         #added for sorting, we can sort by rating or price
-        if sort_by == RestaurantOrder.RATING_DESC:
+        if sort_by == RestaurantSortOrder.RATING_DESC:
             restaurants.sort(key=lambda r: r.get("rating", 0.0), reverse=True) #sort by rating, high to low
-        elif sort_by == RestaurantOrder.PRICE_ASC:
+        elif sort_by == RestaurantSortOrder.PRICE_ASC:
             restaurants.sort(key=lambda r: r.get("price_tier", 9999), reverse=False) #sort by price, low to high
 
 
