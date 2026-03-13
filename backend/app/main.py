@@ -1,10 +1,11 @@
 from fastapi import FastAPI
-from app.routers.total_price import router as total_price_router
+from app.routers import search, order_router #import the routers we need in our app
 
-app = FastAPI()
+app = FastAPI(title = "CrewSquad_310 Backend") #create our FastAPI app
+
+app.include_router(search.router) #include the search router in our app
+app.include_router(order_router.router) #include the order router in our app
 
 @app.get("/")
 def read_root(): #just getting the root endpoint to return a simple message
     return {"message": "Hello World!"}
-
-app.include_router(total_price_router)
