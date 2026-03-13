@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from typing import Optional             #import all the stuff we need for the router and the service
 from app.schemas.restaurant import SearchResponse
 from app.services.search_service import SearchService
+from app.schemas.restaurant_order import RestaurantOrder
 
 router = APIRouter(prefix="/search", tags=["Search"]) #make sure the router is setup
 search_service = SearchService()
@@ -11,7 +12,7 @@ def search_restaurants(
     name: Optional[str] = None,
     cuisine_type: Optional[str] = None,
     min_rating: Optional[float] = None,
-    sort_by: Optional[str] = None, #how we're gonna sort (price or rating)
+    sort_by: Optional[RestaurantOrder] = None, #how we're gonna sort (price or rating)
     limit: int = 10, #search return limit
     offset: int = 0 #search return offset 
     
