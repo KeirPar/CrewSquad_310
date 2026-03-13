@@ -27,5 +27,5 @@ def test_no_results():
     
     assert response.status_code == 200
 
-    assert response.json()["message"] == "No restaurants found matching your criteria."
+    assert response.json()["message"] == "No restaurants found matching your criteria." 
     assert len(response.json()["data"]) == 0

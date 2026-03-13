@@ -6,7 +6,8 @@
     "cuisine_type": "Mexican",
     "rating": 4.5,
     "is_open": true,
-    "phone_number": "250-555-1111"
+    "phone_number": "250-555-1111",
+    "price_tier": "1"               
   },
   {
     "id": 2,
@@ -15,7 +16,8 @@
     "cuisine_type": "American",
     "rating": 3.8,
     "is_open": true,
-    "phone_number": "250-555-1112"
+    "phone_number": "250-555-1112",
+    "price_tier": "2"
   },
   {
     "id": 3,
@@ -24,7 +26,8 @@
     "cuisine_type": "Japanese",
     "rating": 4.9,
     "is_open": true,
-    "phone_number": "250-555-1113"
+    "phone_number": "250-555-1113",
+    "price_tier": "3"
   },
   {
     "id": 4,
@@ -33,6 +36,7 @@
     "cuisine_type": "Italian",
     "rating": 4.2,
     "is_open": false,
-    "phone_number": "250-555-1114"
+    "phone_number": "250-555-1114",
+    "price_tier": "3"
   }
 ]
