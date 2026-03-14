@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone 
 from app.schemas.cart import Cart
 from app.schemas.order import Order
 
@@ -20,7 +20,7 @@ def create_order(order_id: int, cart: Cart) -> Order:
     validate_cart(cart)
     return Order(
         id=order_id,
-        created_at=datetime.utcnow(),
+        created_at=datetime.now(timezone.utc), #had to change this because .utcnow() was depreciated
         status="PENDING",
         restaurant_id=cart.menu_items[0].restaurant_id,
         items=cart.menu_items,
@@ -58,3 +58,16 @@ def calculate_total(cart: Cart) -> float:
     for item in cart.menu_items:
         total_price += item.price
     return total_price
+
+
+
+
+def update_order_status(order: Order, new_status: str) -> Order: #added for fr3
+  
+    new_status = new_status.upper() #Just make everything capital to avoid case sensitivity issues
+
+    if order.status in ["DELIVERED", "CANCELLED"]: #check if order is already delivered or cancelled, if so, we cant update the status anymore
+        raise ValueError(f"Order is locked and cannot be updated. Cant change the status from {order.status}") #return error
+  
+    order.status = new_status #otherwise, all good. Change the status and return the order
+    return order
