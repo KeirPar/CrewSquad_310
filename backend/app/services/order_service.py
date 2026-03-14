@@ -61,8 +61,12 @@ def calculate_total(cart: Cart) -> float:
 
 
 
-
-
+"I just want to write a comment explaining fully how the status changing works to avoid any confusion,"
+"so basically, once an order is created, it starts with the status PENDING. "
+"From there, it can either be changed to PREPARING or CANCELLED. If it is changed to PREPARING, "
+"then it can either be changed to DELIVERED or CANCELLED. Once an order is DELIVERED or CANCELLED, "
+"it is locked and cannot be changed anymore. So you cant change a DELIVERED order to CANCELLED or anything like that. "
+"This is just an example of how we can implement the status changing, we can change the valid transitions later if we want."
 
 
 def update_order_status(order: Order, new_status: str) -> Order: #added for fr3
