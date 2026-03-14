@@ -14,3 +14,16 @@ def test_update_status_locked_delivered():
     with pytest.raises(ValueError) as excinfo:
         update_order_status(order, "CANCELLED") #try to change the status to cancelled, should raise error because the order is locked
     assert "Order is locked" in str(excinfo.value)
+
+
+def test_forward_success():
+    order = create_dummy_order(status="PENDING") #make the status pending (not locked)
+    updated_order = update_order_status(order, "PREPARING") #try to change the status to preparing, should work because the order is not locked
+    assert updated_order.status == "PREPARING" #check that the status was updated correctly
+
+
+def test_invalid_transition():
+    order = create_dummy_order(status="PENDING") #make the status pending (not locked)
+    with pytest.raises(ValueError) as excinfo:
+        update_order_status(order, "DELIVERED") #try to change the status to delivered, should raise error because you cant do this
+    assert "Invalid status transition" in str(excinfo.value)
