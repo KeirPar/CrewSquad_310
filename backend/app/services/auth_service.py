@@ -1,10 +1,26 @@
+from passlib.context import CryptContext
+from fastapi import HTTPException, status
 import jwt
 from datetime import datetime, timedelta, timezone
 
 SECRET_KEY = "secret_crewsquad_key"
 ALGORITHM = "HS256"
 
+#Setup Bcrypt hashing enginge
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
 class AuthService:
+    @staticmethod
+    def hash_password(password: str) -> str:
+        """Turn plain text password into hash"""
+        return pwd_context.hash(password)
+    
+    @staticmethod
+    def verify_password(plain_password: str, hashed_password: str) -> bool:
+        """Checks if typed password matches hash"""
+        return pwd_context.verify(plain_password, hashed_password)
+
     @staticmethod
     def create_access_token(data: dict):
         """Creates a JWT token that expires in 1 hour."""
@@ -30,5 +46,4 @@ class AuthService:
             return payload.get("role")
         except jwt.PyJWTError:
             raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail = "Couldn't validate credentials")
-        
         
