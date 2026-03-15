@@ -87,6 +87,8 @@ def update_order_status(order: Order, new_status: str, current_user: User) -> Or
     
     elif isinstance(current_user, RestaurantManager):  # but if its a manager then its chill
         pass
+    else:
+        raise ValueError("Unauthorized user class.")
         
     valid_transitions = { #we have to make some valid status transitions. So orders can only go from PENDING to PREPARING or CANCELLED, and from PREPARING to DELIVERED or CANCELLED. This is just an example, we can change it later if we want
         "PENDING": ["PREPARING", "CANCELLED"],
