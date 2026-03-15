@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from app.schemas.cart import Cart
 from app.services.order_service import create_order
-from app.schemas.order import Order
+from app.schemas.order import Order, OrderStatus
 from app.schemas.customer import Customer
 from app.schemas.restaurant_manager import RestaurantManager
 from app.services.order_service import update_order_status, create_order
@@ -41,7 +41,7 @@ def place_order(cart: Cart):
 def change_order_status(
     order_id: int,
     order: Order, 
-    new_status: str, 
+    new_status: OrderStatus, 
     current_user: User = Depends(get_current_user) #fake user until we have feat1 setup
 ):
     try:
