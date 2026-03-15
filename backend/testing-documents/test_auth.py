@@ -70,3 +70,39 @@ def test_login_success():
     data = response.json()
     assert "access_token" in data
     assert data["token_type"] == "bearer"
+
+def test_menu_add_forbidden_for_customer():
+    """Test that a Customer is blocked from adding menu items (403)."""
+    #Register and Login as Customer
+    email = "customer@test.com"
+    password = "Password123!"
+    client.post("/auth/register", json={
+        "name": "Customer User", "email": email, "phone_number": "604-9722",
+        "password": password, "role": "Customer"
+    })
+    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    token = login_res.json()["access_token"]
+
+    #Try to access owner route
+    response = client.post("/menu/add", headers={"Authorization": f"Bearer {token}"})
+    
+    assert response.status_code == 403
+    assert "Access denied" in response.json()["detail"]
+
+def test_menu_add_allowed_for_owner():
+    """Test that a Restaurant Owner can successfully add menu items (200)."""
+    #Register and Login as Restaurant Owner
+    email = "owner@test.com"
+    password = "Password123!"
+    client.post("/auth/register", json={
+        "name": "Owner User", "email": email, "phone_number": "604-9722",
+        "password": password, "role": "Restaurant Owner"
+    })
+    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    token = login_res.json()["access_token"]
+
+    #Access owner only route
+    response = client.post("/menu/add", headers={"Authorization": f"Bearer {token}"})
+    
+    assert response.status_code == 200
+    assert response.json()["message"] == "Menu item added successfully!"
