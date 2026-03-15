@@ -17,7 +17,7 @@ def get_current_user() -> User: # because we dont have feat1 setup
         password_hash="hashthingy", 
         email="fake@gmail.com",
         phone_number="604-677-6767",
-        default_address="123 Fake St", #gonna have to change if this is a restaurant manager
+        default_address="123 Fake St", #gonna have to change if this is a restaurant manager, like for testing
     )
 
 @router.post("/orders")
