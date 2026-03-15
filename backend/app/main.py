@@ -5,7 +5,7 @@ app = FastAPI(title = "CrewSquad_310 Backend") #create our FastAPI app
 
 app.include_router(search.router) #include the search router in our app
 app.include_router(order_router.router) #include the order router in our app
-app.include_router(auth_router)#including authorization router in our app
+app.include_router(auth_router.router)#including authorization router in our app
 
 @app.get("/")
 def read_root(): #just getting the root endpoint to return a simple message
