@@ -21,3 +21,14 @@ class AuthService:
         Simulated check. Will update later for real hashing real hashing.
         """
         return hashed_password == plain_password + "_fake_hash"
+    
+    @staticmethod
+    def get_current_user_role(token: str):
+        """Decodes current JWT to find user's role."""
+        try: 
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            return payload.get("role")
+        except jwt.PyJWTError:
+            raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail = "Couldn't validate credentials")
+        
+        
