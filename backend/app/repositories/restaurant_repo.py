@@ -52,3 +52,30 @@ class RestaurantRepository:
                 self.save_all(restaurants)
                 return full_item
         return None
+    
+    def update_menu_item(self, restaurant_id: int, item_id: int, update_data: dict) -> dict:
+        """Finds a menu item within a restaurant and updates it."""
+        restaurants = self.load_all()
+        for r in restaurants:
+            if r["id"] == restaurant_id:
+                for item in r.get("menu", []):
+                    if item["id"] == item_id:
+                        #Apply said updates
+                        for key, value in update_data.items():
+                            item[key] = value
+                        self.save_all(restaurants)
+                        return item
+        return None
+
+    def delete_menu_item(self, restaurant_id: int, item_id: int) -> bool:
+        """Deletes a menu item from a restaurant's menu."""
+        restaurants = self.load_all()
+        for r in restaurants:
+            if r["id"] == restaurant_id:
+                initial_len = len(r.get("menu", []))
+                r["menu"] = [item for item in r["menu"] if item["id"] != item_id]
+                
+                if len(r["menu"]) < initial_len:
+                    self.save_all(restaurants)
+                    return True
+        return False
