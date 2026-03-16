@@ -1,3 +1,5 @@
+import bcrypt
+from fastapi import HTTPException, status
 import jwt
 from datetime import datetime, timedelta, timezone
 
@@ -5,6 +7,26 @@ SECRET_KEY = "secret_crewsquad_key"
 ALGORITHM = "HS256"
 
 class AuthService:
+    @staticmethod
+    def hash_password(password: str) -> str:
+        """Turn plain text password into Bcrypt hash"""
+        pwd_bytes = password.encode('utf-8')
+        salt = bcrypt.gensalt()
+        hashed = bcrypt.hashpw(pwd_bytes, salt)
+        #Return as a string so it can be stored in db
+        return hashed.decode('utf-8')
+    
+    @staticmethod
+    def verify_password(plain_password: str, hashed_password: str) -> bool:
+        """Checks if typed password matches Bcrypt hash"""
+        try:
+            return bcrypt.checkpw(
+                plain_password.encode('utf-8'), 
+                hashed_password.encode('utf-8')
+            )
+        except Exception:
+            return False
+
     @staticmethod
     def create_access_token(data: dict):
         """Creates a JWT token that expires in 1 hour."""
@@ -16,13 +38,6 @@ class AuthService:
         return encoded_jwt
 
     @staticmethod
-    def verify_password(plain_password: str, hashed_password: str):
-        """
-        Simulated check. Will update later for real hashing real hashing.
-        """
-        return hashed_password == plain_password + "_fake_hash"
-    
-    @staticmethod
     def get_current_user_role(token: str):
         """Decodes current JWT to find user's role."""
         try: 
@@ -30,5 +45,4 @@ class AuthService:
             return payload.get("role")
         except jwt.PyJWTError:
             raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail = "Couldn't validate credentials")
-        
         
