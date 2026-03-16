@@ -1,11 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Optional
 
 #creating base menu models for future by using base model found in menu_item.py
 class MenuItemBase(BaseModel):
     name: str
     description: str
-    price: float
+    price: float = Field(..., gt=0)
     category: str
     image_url: str
     is_available: bool = True
