@@ -3,9 +3,24 @@ from app.dependencies import verify_restaurant_owner
 from app.schemas.menu import MenuItem, MenuItemCreate, MenuItemUpdate
 from app.schemas.user import User
 from app.repositories.restaurant_repo import RestaurantRepository
+from typing import List
 
 router = APIRouter(prefix="/menu", tags=["Menu Management"])
 repo = RestaurantRepository()
+
+#Get function for menu
+@router.get("/{restaurant_id}", response_model=List[MenuItem])
+def get_restaurant_menu(restaurant_id: int):
+    """Allows viewing of the full menu of a restaurant."""
+    restaurants = repo.load_all()
+    target = next((r for r in restaurants if r["id"] == restaurant_id), None)
+    
+    #Exceptions if restaurant not found
+    if not target:
+        raise HTTPException(status_code=404, detail="Restaurant not found")
+    
+    #Return the menu or an empty list
+    return target.get("menu", [])
 
 #add function for menu
 @router.post("/{restaurant_id}/add", response_model=MenuItem, status_code=status.HTTP_201_CREATED)
