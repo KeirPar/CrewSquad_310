@@ -1,6 +1,9 @@
 from datetime import datetime, timezone 
 from app.schemas.cart import Cart
-from app.schemas.order import Order
+from app.schemas.order import Order, OrderStatus
+from app.schemas.user import User
+from app.schemas.customer import Customer
+from app.schemas.restaurant_manager import RestaurantManager
 
 def create_order(order_id: int, cart: Cart) -> Order:
     """
@@ -21,7 +24,7 @@ def create_order(order_id: int, cart: Cart) -> Order:
     return Order(
         id=order_id,
         created_at=datetime.now(timezone.utc), #had to change this because .utcnow() was depreciated
-        status="PENDING",
+        status=OrderStatus.PENDING,
         restaurant_id=cart.menu_items[0].restaurant_id,
         items=cart.menu_items,
         total_amount=calculate_total(cart)
@@ -69,16 +72,25 @@ def calculate_total(cart: Cart) -> float:
 "This is just an example of how we can implement the status changing, we can change the valid transitions later if we want."
 
 
-def update_order_status(order: Order, new_status: str) -> Order: #added for fr3
+def update_order_status(order: Order, new_status: OrderStatus, current_user: User) -> Order: #added for fr3
   
-    new_status = new_status.upper() #Just make everything capital to avoid case sensitivity issues
-
-    if order.status in ["DELIVERED", "CANCELLED"]: #check if order is already delivered or cancelled, if so, we cant update the status anymore
+    if order.status in [OrderStatus.DELIVERED, OrderStatus.CANCELLED]: #check if order is already delivered or cancelled, if so, we cant update the status anymore
         raise ValueError(f"Order is locked and cannot be updated. Cant change the status from {order.status}") #return error
     
+    if isinstance(current_user, Customer):  # if current user is a customer, they can only cancel order if its pending
+        if new_status != OrderStatus.CANCELLED:
+            raise ValueError("Customers can only cancel orders. Invalid status update.")
+        if order.status != OrderStatus.PENDING: 
+            raise ValueError("Order cannot be cancelled at this stage. Only pending orders can be cancelled.")
+    
+    elif isinstance(current_user, RestaurantManager):  # but if its a manager then its chill
+        pass
+    else:
+        raise ValueError("Unauthorized user class.")
+        
     valid_transitions = { #we have to make some valid status transitions. So orders can only go from PENDING to PREPARING or CANCELLED, and from PREPARING to DELIVERED or CANCELLED. This is just an example, we can change it later if we want
-        "PENDING": ["PREPARING", "CANCELLED"],
-        "PREPARING": ["DELIVERED", "CANCELLED"],
+        OrderStatus.PENDING: [OrderStatus.PREPARING, OrderStatus.CANCELLED],
+        OrderStatus.PREPARING: [OrderStatus.DELIVERED, OrderStatus.CANCELLED],
     }
 
     alowed_next_states = valid_transitions.get(order.status, []) #get the allowed next states for the current status of the order
