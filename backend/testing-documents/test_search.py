@@ -27,5 +27,5 @@ def test_no_results(): #made small change here
     
     assert response.status_code == 200
 
-    assert response.json()["message"] == "No restaurants found matching your search. Try adjuisting your filters or checking for typos." #made this same message in search_service
+    assert response.json()["message"] == "No restaurants found matching your search. Try adjusting your filters or checking for typos." #made this same message in search_service
     assert len(response.json()["data"]) == 0
