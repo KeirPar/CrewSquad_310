@@ -26,7 +26,8 @@ def register_user(user_in: UserCreate):
         password_hash = secure_hashed_password,
         role = user_in.role,
         address = user_in.address,
-        order_history = []
+        order_history = [],
+        cart = []
 
     )
     user_db.save(new_user)
@@ -56,3 +57,15 @@ def login(login_data: dict):
 def get_user_profile (user: User = Depends(AuthService.get_current_user)):
      """Returns current user profile """
      return user
+
+@router.get("/dashboard")
+def get_user_dashboard(user: User = Depends(AuthService.get_current_user)):
+    """Returns a summary for the user dashboard"""
+    return {
+        "message": f"Welcome back, {user.name}!",
+        "stats": {
+            "total_orders": len(user.order_history),
+            "items_in_cart": len(user.cart)
+        },
+        "recent_activity": "No recent orders" if not user.order_history else "View history"
+    }
