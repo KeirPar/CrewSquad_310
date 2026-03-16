@@ -18,3 +18,11 @@ class MenuItem(MenuItemBase):
     """The full model stored in JSON"""
     id: int
     restaurant_id: int
+#Made so you don't need to recreate everytime you want to update
+class MenuItemUpdate(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    price: Optional[float] = None
+    image_url: Optional[str] = None
+    is_available: Optional[bool] = None
+    add_ons: Optional[List[int]] = None
