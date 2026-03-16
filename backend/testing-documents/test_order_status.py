@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from app.schemas.order import Order, OrderStatus
 from app.services.order_service import update_order_status
 from app.schemas.customer import Customer
+from app.schemas.user import UserRole
 from app.schemas.restaurant_manager import RestaurantManager
 
 #Here we dont need to import fastAPI test client because we are testing the service function directly
@@ -10,13 +11,14 @@ from app.schemas.restaurant_manager import RestaurantManager
 
 
 fake_customer = Customer( #example customer
-        id=1,
-        name="Keir P",
-        password_hash="hashthingy", 
-        email="fake@gmail.com",
-        phone_number="604-677-6767",
-        default_address="123 Fake St",
-
+    id=1,
+    name="Keir P",
+    password_hash="hashthingy", 
+    email="fake@gmail.com",
+    phone_number="604-677-6767",
+    default_address="123 Fake St",
+    address="123 Fake St",
+    role=UserRole.CUSTOMER
 ) 
 
 fake_manager = RestaurantManager(
@@ -25,7 +27,9 @@ fake_manager = RestaurantManager(
     password_hash="hash123", 
     email="bob@restaurant.com", 
     phone_number="250-555-6767", 
-    restaurant_id=1
+    address="123 Fake St",
+    restaurant_id=1,
+    role=UserRole.OWNER
 )
 
 def create_dummy_order(status: OrderStatus) -> Order: #creating dummy order
