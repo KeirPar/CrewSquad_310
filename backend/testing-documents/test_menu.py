@@ -51,3 +51,76 @@ def test_add_multiple_menu_items():
     assert res2.status_code == 201
     assert res2.json()["id"] == 2  # This proves the +1 logic works
     assert res2.json()["name"] == "Big Burrito"
+
+def test_update_menu_item_partial():
+    """Verify that an owner can update without losing other data."""
+    email = "testowner@example.com"
+    password = "Password123!"
+    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    token = login_res.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    #Register a restaurant so we have a valid id for test
+    res_reg = client.post("/restaurants/register", headers=headers, json={
+        "name": "Update Test Kitchen",
+        "address": "456 Update St",
+        "cuisine_type": "Testing",
+        "phone_number": "250-555-2222",
+        "price_tier": 2
+    })
+    restaurant_id = res_reg.json()["id"]
+
+    #Add an item to specific restaurant
+    res = client.post(f"/menu/{restaurant_id}/add", headers=headers, json={
+        "name": "Original Pizza", 
+        "description": "Very Cheesy", 
+        "price": 10.0,
+        "image_url": "pizza.jpg", 
+        "is_available": True, 
+        "add_ons": []
+    })
+    item_id = res.json()["id"]
+
+    #Change price using the dynamic ids
+    update_res = client.patch(f"/menu/{restaurant_id}/{item_id}", headers=headers, json={
+        "price": 15.50
+    })
+
+    #Assertions
+    assert update_res.status_code == 200
+    assert update_res.json()["price"] == 15.50
+    assert update_res.json()["name"] == "Original Pizza"
+
+
+def test_delete_menu_item():
+    """Verify that an owner can delete an item and it no longer exists."""
+    email = "testowner@example.com"
+    password = "Password123!"
+    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    token = login_res.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    #Register a restaurant for test
+    res_reg = client.post("/restaurants/register", headers=headers, json={
+        "name": "Delete Test Kitchen",
+        "address": "789 Delete Ave",
+        "cuisine_type": "Testing",
+        "phone_number": "250-555-3333",
+        "price_tier": 1
+    })
+    restaurant_id = res_reg.json()["id"]
+
+    #Add item to specific restaurant
+    res = client.post(f"/menu/{restaurant_id}/add", headers=headers, json={
+        "name": "Delete Me", "description": "Bye", "price": 1.0,
+        "image_url": "none.jpg", "is_available": True, "add_ons": []
+    })
+    item_id = res.json()["id"]
+
+    #Delete using the dynamic ids
+    delete_res = client.delete(f"/menu/{restaurant_id}/{item_id}", headers=headers)
+    assert delete_res.status_code == 204
+
+    #Verify the deleted item is gone (should be 404)
+    verify_res = client.patch(f"/menu/{restaurant_id}/{item_id}", headers=headers, json={"price": 2.0})
+    assert verify_res.status_code == 404
