@@ -23,7 +23,7 @@ class MenuItem(MenuItemBase):
 class MenuItemUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
-    price: Optional[float] = None
+    price: Optional[float] = Field(None, gt=0)
     category: Optional[str] = None
     image_url: Optional[str] = None
     is_available: Optional[bool] = None
