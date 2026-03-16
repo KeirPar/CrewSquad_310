@@ -74,3 +74,36 @@ def test_invalid_cuisine_enum_validation():
     })
 
     assert response.status_code == 422
+
+def test_referential_integrity_cascade():
+    """Verify that deleting a restaurant also wipes its menu items."""
+    headers = get_auth_headers()
+
+    #Register a new restaurant
+    reg_res = client.post("/restaurants/register", headers=headers, json={
+        "name": "Cool Eatery",
+        "address": "789 asdfasdf Way",
+        "cuisine_type": "Italian",
+        "phone_number": "250-555-4444",
+        "price_tier": 2
+    })
+    restaurant_id = reg_res.json()["id"]
+
+    #Add an item to that restaurant's menu
+    client.post(f"/menu/{restaurant_id}/add", headers=headers, json={
+        "name": "Fettucini Alfredo",
+        "description": "Will disappear soon",
+        "price": 15.00,
+        "category": "Main",
+        "image_url": "pasta.jpg",
+        "is_available": True,
+        "add_ons": []
+    })
+
+    #Try deleting the restaurant
+    del_res = client.delete(f"/restaurants/{restaurant_id}", headers=headers)
+    assert del_res.status_code == 204
+
+    #Verify the menu is gone should get a 404
+    menu_res = client.get(f"/menu/{restaurant_id}")
+    assert menu_res.status_code == 404
