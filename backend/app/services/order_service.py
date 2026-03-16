@@ -61,6 +61,13 @@ def calculate_total(cart: Cart) -> float:
 
 
 
+"I just want to write a comment explaining fully how the status changing works to avoid any confusion,"
+"so basically, once an order is created, it starts with the status PENDING. "
+"From there, it can either be changed to PREPARING or CANCELLED. If it is changed to PREPARING, "
+"then it can either be changed to DELIVERED or CANCELLED. Once an order is DELIVERED or CANCELLED, "
+"it is locked and cannot be changed anymore. So you cant change a DELIVERED order to CANCELLED or anything like that. "
+"This is just an example of how we can implement the status changing, we can change the valid transitions later if we want."
+
 
 def update_order_status(order: Order, new_status: str) -> Order: #added for fr3
   
@@ -68,6 +75,15 @@ def update_order_status(order: Order, new_status: str) -> Order: #added for fr3
 
     if order.status in ["DELIVERED", "CANCELLED"]: #check if order is already delivered or cancelled, if so, we cant update the status anymore
         raise ValueError(f"Order is locked and cannot be updated. Cant change the status from {order.status}") #return error
-  
+    
+    valid_transitions = { #we have to make some valid status transitions. So orders can only go from PENDING to PREPARING or CANCELLED, and from PREPARING to DELIVERED or CANCELLED. This is just an example, we can change it later if we want
+        "PENDING": ["PREPARING", "CANCELLED"],
+        "PREPARING": ["DELIVERED", "CANCELLED"],
+    }
+
+    alowed_next_states = valid_transitions.get(order.status, []) #get the allowed next states for the current status of the order
+    if new_status not in alowed_next_states: #if the new status is not in the allowed next states, return an error. So like if we try to change the status from PENDING to DELIVERED, it will return an error because that is not a valid transition
+        raise ValueError(f"Invalid status transition from {order.status} to {new_status}. Allowed transitions: {alowed_next_states}")
+
     order.status = new_status #otherwise, all good. Change the status and return the order
     return order
