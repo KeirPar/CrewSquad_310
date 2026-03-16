@@ -54,6 +54,7 @@ def test_customer_cancel_pending():
     order = create_dummy_order(status=OrderStatus.PENDING) #make the status pending (not locked)
     updated_order = update_order_status(order, OrderStatus.CANCELLED, fake_customer) 
     assert updated_order.status == OrderStatus.CANCELLED 
+    
 def test_customer_cancel_preparing():
     order = create_dummy_order(status=OrderStatus.PREPARING) #make the status preparing (not locked)
     with pytest.raises(ValueError) as excinfo:
