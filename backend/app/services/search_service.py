@@ -28,7 +28,7 @@ class SearchService: #make our SearchService class
 
         if len(paginated_restaurants) == 0: 
             return { #if the list is empty, return a message saying no restaurants found matching criteria, and an empty list for data
-                "message": "No restaurants found matching your criteria.", 
+                "message": "No restaurants found matching your search. Try adjusting your filters or checking for typos.",  #I just made a small change to this message to make it a bit more helpful
                 "data": []
             }
 

@@ -21,11 +21,11 @@ def test_by_min_rating(): #this should return all the restaurants that have a ra
             for restaurant in data:
                 assert restaurant["rating"] >= 4.0 #the rating threshold could be changed to whatever we want
 
-def test_no_results():
+def test_no_results(): #made small change here
     # Search for something that definitely doesn't exist
-    response = client.get("/search/restaurants?cuisine_type=AlienFood")
+    response = client.get("/search/restaurants?cuisine_type=RandomNonExistentCuisine")
     
     assert response.status_code == 200
 
-    assert response.json()["message"] == "No restaurants found matching your criteria." 
+    assert response.json()["message"] == "No restaurants found matching your search. Try adjusting your filters or checking for typos." #made this same message in search_service
     assert len(response.json()["data"]) == 0
