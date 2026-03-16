@@ -3,6 +3,7 @@ from app.schemas.restaurant import Restaurant, restaurantCreate, RestaurantUpdat
 from app.schemas.user import User
 from app.dependencies import verify_restaurant_owner
 from app.repositories.restaurant_repo import RestaurantRepository
+from typing import List 
 
 #Initialize router with a prefix so all routes start with /restaurants
 router = APIRouter(prefix="/restaurants", tags=["Restaurant Management"])
