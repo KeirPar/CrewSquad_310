@@ -1,10 +1,15 @@
 import bcrypt
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, Depends
 import jwt
 from datetime import datetime, timedelta, timezone
+from fastapi.security import OAuth2PasswordBearer
+from app.repositories.user_repository import user_db
+from app.schemas.user import User
 
 SECRET_KEY = "secret_crewsquad_key"
 ALGORITHM = "HS256"
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 class AuthService:
     @staticmethod
@@ -36,6 +41,24 @@ class AuthService:
         to_encode.update({"exp": expire})
         encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
         return encoded_jwt
+
+    @staticmethod
+    def get_current_user(token: str = Depends(oauth2_scheme)) -> User:
+        """Decodes token and gets User object for /me profile endpoint"""
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            email: str = payload.get("sub")
+            if email is None:
+                raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+        except jwt.PyJWTError:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials")
+
+        user = user_db.find_by_email(email)
+        if user is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+        return user
+
+
 
     @staticmethod
     def get_current_user_role(token: str):
