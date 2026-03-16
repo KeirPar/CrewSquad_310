@@ -58,3 +58,13 @@ def update_restaurant(
 
     repo.save_all(restaurants)
     return target
+
+@router.get("/my-restaurant", response_model=List[Restaurant])
+def get_my_restaurant(owner: User = Depends(verify_restaurant_owner)):
+    """Allows an owner to view all businesses registered using their id."""
+    restaurants = repo.load_all()
+    
+    #Filter the list to only show shops belonging to the respective owner
+    my_shops = [r for r in restaurants if r.get("owner_id") == owner.id]
+    
+    return my_shops
