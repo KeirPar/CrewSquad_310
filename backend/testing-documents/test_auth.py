@@ -113,7 +113,7 @@ def test_menu_add_forbidden_for_customer():
     token = login_res.json()["access_token"]
 
     #Try to access owner route
-    response = client.post("/menu/add", headers={"Authorization": f"Bearer {token}"})
+    response = client.post("/menu/1/add", headers={"Authorization": f"Bearer {token}"})
     
     assert response.status_code == 403
     assert "Access denied" in response.json()["detail"]
@@ -130,11 +130,38 @@ def test_menu_add_allowed_for_owner():
     login_res = client.post("/auth/login", json={"email": email, "password": password})
     token = login_res.json()["access_token"]
 
+    rest_response = client.post( #make a fake restaurant so we have a valid restaurant id to add menu items to
+        "/restaurants/register", 
+        headers={"Authorization": f"Bearer {token}"},
+        json={
+            "name": "Taco Stand", 
+            "address": "123 Taco St", 
+            "phone_number": "555-1234",
+            "cuisine_type": "Mexican",
+            "price_tier": 1
+        }
+    )
+
+    assert rest_response.status_code == 201, rest_response.json() #Created status code means it worked and we created the item
+
+    new_rest_id = rest_response.json()["id"] #get id of restaurant
+
     #Access owner only route
-    response = client.post("/menu/add", headers={"Authorization": f"Bearer {token}"})
+    response = client.post(f"/menu/{new_rest_id}/add", headers={"Authorization": f"Bearer {token}"},  #was causing error with test
+                           json = {"name": "Test Item",
+                                   "description": "A delicious test item",
+                                   "price": 9.99,
+                                   "category": "Test Category",
+                                    "image_url": "http://example.com/test_item.jpg"
+                                   }) 
     
-    assert response.status_code == 200
-    assert response.json()["message"] == "Menu item added successfully!"
+    assert response.status_code == 201, rest_response.json() #Created status code means it worked and we created the item
+
+    response_data = response.json()
+    assert response_data["name"] == "Test Item" #make sure the item we added is the one we get back
+    assert response_data["price"] == 9.99
+    assert response_data["category"] == "Test Category"
+
 
 def test_dashboard_and_cart_flow():
     """Verify that a user can add items to a cart and see them on their personal dashboard"""

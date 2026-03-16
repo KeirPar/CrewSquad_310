@@ -6,7 +6,7 @@ from fastapi.security import OAuth2PasswordBearer
 from app.repositories.user_repository import user_db
 from app.schemas.user import User
 
-SECRET_KEY = "secret_crewsquad_key"
+SECRET_KEY = "secret_crewsquad_key_make_it_longer_cuz_if_under_32_characters_it_gives_a_warning" #had to make longer, tests give warnings
 ALGORITHM = "HS256"
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
