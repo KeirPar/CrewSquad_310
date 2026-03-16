@@ -27,3 +27,28 @@ class RestaurantRepository:
                 json.dump(items, f, ensure_ascii=False, indent=2)
                 
             os.replace(tmp, self.data_path)         #this should just replace the old file with the new file, also its atomic :)
+
+
+    def add_menu_item(self, restaurant_id: int, item_data: dict) -> dict:
+        """Finds the restaurant, creates a new dish, and persists to JSON."""
+        restaurants = self.load_all()
+        for r in restaurants:
+            if r["id"] == restaurant_id:
+                #Check if the menu list exists
+                if "menu" not in r:
+                    r["menu"] = []
+                
+                #Get a unique ID for the dish
+                new_id = len(r["menu"]) + 1
+                
+                #Merge the IDs with the user data
+                full_item = {
+                    "id": new_id,
+                    "restaurant_id": restaurant_id,
+                    **item_data
+                }
+                
+                r["menu"].append(full_item)
+                self.save_all(restaurants)
+                return full_item
+        return None
