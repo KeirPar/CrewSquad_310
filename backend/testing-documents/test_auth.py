@@ -42,3 +42,31 @@ def test_register_duplicate_email():
     assert response.status_code == 400
     #We should get the exact error detail message in auth_router
     assert response.json()["detail"] == "Email has already been registered"
+
+def test_login_success():
+    """Test that a registered user can log in and gets a JWT."""
+    #Example with new user
+    email = "login_test@example.com"
+    password = "Password123!"
+    
+    client.post(
+        "/auth/register",
+        json={
+            "name": "Login Tester",
+            "email": email,
+            "phone_number": "604-9722",
+            "password": password,
+            "role": "Customer"
+        }
+    )
+
+    #Trying login
+    response = client.post(
+        "/auth/login",
+        json={"email": email, "password": password}
+    )
+    #Assertions
+    assert response.status_code == 200
+    data = response.json()
+    assert "access_token" in data
+    assert data["token_type"] == "bearer"

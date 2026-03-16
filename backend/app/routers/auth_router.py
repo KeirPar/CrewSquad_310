@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, status
 from app.schemas.user import UserCreate, User
+from app.services.auth_service import AuthService
 
 
 #Using temporary database until we have one fully functional (think its me over next few days?)
@@ -15,7 +16,7 @@ def register_user(user_in: UserCreate):
             raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail="Email has already been registered")
         
     #Hashing simulated password to check if works for now
-    simulated_hashed_password = user_in.password + "_securely_hashed"
+    simulated_hashed_password = user_in.password + "_fake_hash"
 
     #Create new User object that will be added to the database
     new_user = User(
@@ -28,4 +29,28 @@ def register_user(user_in: UserCreate):
     )
     temp_user_db.append(new_user)
     return new_user
+
+#creating new login endpoint within auth router to work with auth service
+@router.post("/login")
+def login(login_data: dict):
+    #Finding user
+    user = None
+    for u in temp_user_db:
+        if u.email == login_data.get("email"):
+            user = u
+            break
+            
+    #If user doesn't exist or password doesn't match
+    if not user or not AuthService.verify_password(login_data.get("password"), user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail="Invalid email or password"
+        )
+
+    #Generate JWT
+    token = AuthService.create_access_token(
+        data={"sub": user.email, "role": user.role}
+    )
+
+    return {"access_token": token, "token_type": "bearer"}
 
