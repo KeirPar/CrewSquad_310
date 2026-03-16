@@ -1,16 +1,18 @@
 [
   {
     "id": 1,
+    "owner_id": 1,
     "name": "Spicy Taco Supreme",
     "address": "123 Kelowna Street",
     "cuisine_type": "Mexican",
     "rating": 4.5,
     "is_open": true,
     "phone_number": "250-555-1111",
-    "price_tier": "1"               
+    "price_tier": "1"
   },
   {
     "id": 2,
+    "owner_id": 2,
     "name": "Burger Joint Ohio",
     "address": "456 Okanagan Ave",
     "cuisine_type": "American",
@@ -21,6 +23,7 @@
   },
   {
     "id": 3,
+    "owner_id": 3,
     "name": "Sushi World",
     "address": "789 Lakeview Blvd",
     "cuisine_type": "Japanese",
@@ -31,6 +34,7 @@
   },
   {
     "id": 4,
+    "owner_id": 4,
     "name": "Mario & Luigi's Pasta",
     "address": "101 Bernard Ave",
     "cuisine_type": "Italian",
@@ -38,5 +42,16 @@
     "is_open": false,
     "phone_number": "250-555-1114",
     "price_tier": "3"
+  },
+  {
+    "id": 5,
+    "owner_id": 1,
+    "name": "Test Bistro",
+    "address": "456 Test Ave",
+    "cuisine_type": "French",
+    "phone_number": "250-999-9999",
+    "price_tier": 3,
+    "rating": 0.0,
+    "is_open": true
   }
 ]
