@@ -1,45 +1,43 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 from app.schemas.user import UserCreate, User
 from app.services.auth_service import AuthService
+from app.repositories.user_repository import user_db
 
 
 #Using temporary database until we have one fully functional (think its me over next few days?)
 router = APIRouter(prefix="/auth", tags = ["Authentication"])
-temp_user_db = []
 
 #Using router and checking if email is unique/correct or not
 @router.post("/register", response_model=User, status_code=status.HTTP_201_CREATED)
 def register_user(user_in: UserCreate):
 
-    for existing_user in temp_user_db:
-        if existing_user.email == user_in.email:
+    if user_db.find_by_email(user_in.email):
             raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail="Email has already been registered")
         
     #Hashing simulated password to check if works for now
-    simulated_hashed_password = user_in.password + "_fake_hash"
+    secure_hashed_password = AuthService.hash_password(user_in.password)
 
     #Create new User object that will be added to the database
     new_user = User(
-        id = len(temp_user_db) + 1,
+        id = len(user_db.get_all()) + 1,
         name = user_in.name,
         email = user_in.email,
         phone_number = user_in.phone_number,
-        password_hash = simulated_hashed_password,
-        role = user_in.role
+        password_hash = secure_hashed_password,
+        role = user_in.role,
+        address = user_in.address,
+        order_history = []
+
     )
-    temp_user_db.append(new_user)
+    user_db.save(new_user)
     return new_user
 
 #creating new login endpoint within auth router to work with auth service
 @router.post("/login")
 def login(login_data: dict):
     #Finding user
-    user = None
-    for u in temp_user_db:
-        if u.email == login_data.get("email"):
-            user = u
-            break
-            
+    user = user_db.find_by_email(login_data.get("email"))
+      
     #If user doesn't exist or password doesn't match
     if not user or not AuthService.verify_password(login_data.get("password"), user.password_hash):
         raise HTTPException(
@@ -54,3 +52,7 @@ def login(login_data: dict):
 
     return {"access_token": token, "token_type": "bearer"}
 
+@router.get("/me", response_model = User)
+def get_user_profile (user: User = Depends(AuthService.get_current_user)):
+     """Returns current user profile """
+     return user

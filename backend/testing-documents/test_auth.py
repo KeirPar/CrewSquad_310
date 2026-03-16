@@ -13,7 +13,8 @@ def test_register_user_success():
             "email": "new_user@example.com",
             "phone_number": "604-9722",
             "password": "BrandenSkoupas123!",
-            "role": "Customer"
+            "role": "Customer",
+            "address": "123 Kelowna Way"
         }
     )
     
@@ -21,6 +22,8 @@ def test_register_user_success():
     assert response.status_code == 201
     #We should have the database returning our email
     assert response.json()["email"] == "new_user@example.com"
+    #We should get the database returning our address
+    assert response.json()["address"] == "123 Kelowna Way"
     #We should get the database generating an id
     assert "id" in response.json()
 
@@ -34,7 +37,8 @@ def test_register_duplicate_email():
             "email": "new_user@example.com", 
             "phone_number": "604-9722",
             "password": "BrandenSkoupas123!",
-            "role": "Restaurant Owner"
+            "role": "Restaurant Owner",
+            "address": "456 Fake Street"
         }
     )
     
@@ -56,7 +60,8 @@ def test_login_success():
             "email": email,
             "phone_number": "604-9722",
             "password": password,
-            "role": "Customer"
+            "role": "Customer",
+            "address": "789 Test Ave"
         }
     )
 
@@ -71,6 +76,30 @@ def test_login_success():
     assert "access_token" in data
     assert data["token_type"] == "bearer"
 
+def test_get_me_success():
+    """Test the profile endpoint"""
+    email = "me_test@example.com"
+    password = "Password123!"
+    address = "123 Test Lane"
+    
+    #Register
+    client.post("/auth/register", json={
+        "name": "Me Tester", "email": email, "phone_number": "604-0000",
+        "password": password, "role": "Customer", "address": address
+    })
+    #Login
+    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    token = login_res.json()["access_token"]
+    
+    #Get /me
+    response = client.get("/auth/me", headers={"Authorization": f"Bearer {token}"})
+    
+    assert response.status_code == 200
+    assert response.json()["email"] == email
+    assert response.json()["address"] == address
+
+
+
 def test_menu_add_forbidden_for_customer():
     """Test that a Customer is blocked from adding menu items (403)."""
     #Register and Login as Customer
@@ -78,7 +107,7 @@ def test_menu_add_forbidden_for_customer():
     password = "Password123!"
     client.post("/auth/register", json={
         "name": "Customer User", "email": email, "phone_number": "604-9722",
-        "password": password, "role": "Customer"
+        "password": password, "role": "Customer", "address": "111 Brookside Way"
     })
     login_res = client.post("/auth/login", json={"email": email, "password": password})
     token = login_res.json()["access_token"]
@@ -96,7 +125,7 @@ def test_menu_add_allowed_for_owner():
     password = "Password123!"
     client.post("/auth/register", json={
         "name": "Owner User", "email": email, "phone_number": "604-9722",
-        "password": password, "role": "Restaurant Owner"
+        "password": password, "role": "Restaurant Owner", "address": "333 branden street"
     })
     login_res = client.post("/auth/login", json={"email": email, "password": password})
     token = login_res.json()["access_token"]
