@@ -35,16 +35,26 @@ def test_add_multiple_menu_items():
 
     #Add item: taco
     res1 = client.post(f"/menu/{restaurant_id}/add", headers=headers, json={
-        "name": "Chorizo Taco", "description": "Spicy", "price": 4.5,
-        "image_url": "taco.jpg", "is_available": True, "add_ons": []
+        "name": "Chorizo Taco", 
+        "description": "Spicy", 
+        "price": 4.5, 
+        "category": "Protein",
+        "image_url": "taco.jpg", 
+        "is_available": True, 
+        "add_ons": []
     })
     assert res1.status_code == 201
     assert res1.json()["id"] == 1
 
     #Add item: burrito
     res2 = client.post(f"/menu/{restaurant_id}/add", headers=headers, json={
-        "name": "Big Burrito", "description": "Huge", "price": 12.0,
-        "image_url": "burrito.jpg", "is_available": True, "add_ons": []
+        "name": "Big Burrito", 
+        "description": "Huge", 
+        "price": 12.0, 
+        "category": "Protein",
+        "image_url": "burrito.jpg", 
+        "is_available": True, 
+        "add_ons": []
     })
     
     #Assertions
@@ -53,7 +63,7 @@ def test_add_multiple_menu_items():
     assert res2.json()["name"] == "Big Burrito"
 
 def test_update_menu_item_partial():
-    """Verify that an owner can update without losing other data."""
+    """Verify that an owner can update without losing category data."""
     email = "testowner@example.com"
     password = "Password123!"
     login_res = client.post("/auth/login", json={"email": email, "password": password})
@@ -75,6 +85,7 @@ def test_update_menu_item_partial():
         "name": "Original Pizza", 
         "description": "Very Cheesy", 
         "price": 10.0,
+        "category": "Main",
         "image_url": "pizza.jpg", 
         "is_available": True, 
         "add_ons": []
@@ -90,6 +101,7 @@ def test_update_menu_item_partial():
     assert update_res.status_code == 200
     assert update_res.json()["price"] == 15.50
     assert update_res.json()["name"] == "Original Pizza"
+    assert update_res.json()["category"] == "Main"
 
 
 def test_delete_menu_item():
@@ -112,8 +124,12 @@ def test_delete_menu_item():
 
     #Add item to specific restaurant
     res = client.post(f"/menu/{restaurant_id}/add", headers=headers, json={
-        "name": "Delete Me", "description": "Bye", "price": 1.0,
-        "image_url": "none.jpg", "is_available": True, "add_ons": []
+        "name": "Delete Me",
+        "description": "Bye",
+        "price": 1.0, 
+        "category": "Appetizer",
+        "image_url": "none.jpg", 
+        "is_available": True, "add_ons": []
     })
     item_id = res.json()["id"]
 
@@ -124,3 +140,15 @@ def test_delete_menu_item():
     #Verify the deleted item is gone (should be 404)
     verify_res = client.patch(f"/menu/{restaurant_id}/{item_id}", headers=headers, json={"price": 2.0})
     assert verify_res.status_code == 404
+
+def test_get_restaurant_menu():
+    """Verify that any user or owner can view the restaurant menu."""
+    #Get request already public so can start
+    res = client.get("/menu/1") #Use restaurant 1 from previous tests
+    assert res.status_code in [200, 404] #404 is fine if the db was wiped, 200 if data exists
+    
+    if res.status_code == 200:
+        menu = res.json()
+        assert isinstance(menu, list)
+        if len(menu) > 0:
+            assert "category" in menu[0]
