@@ -9,28 +9,14 @@ from typing import List
 router = APIRouter(prefix="/restaurants", tags=["Restaurant Management"])
 repo = RestaurantRepository()
 
-@router.post("/register", response_model=Restaurant, status_code=status.HTTP_201_CREATED)
+@router.post("/register", response_model=Restaurant, status_code=status.HTTP_201_CREATED) #CHANGED THIS WHOLE FUNCTION TO UPDATED REPO ONE
 def register_restaurant(restaurant_in: restaurantCreate, owner: User = Depends(verify_restaurant_owner)):
-    """Registers a new restaurant and links it to the logged in owner"""
-    restaurants = repo.load_all()
+    """Registers a new restaurant using the Repository method."""
+    #pass the owner_id manually to ensure the link is secure
+    data = restaurant_in.model_dump()
+    data["owner_id"] = owner.id
     
-    #Creating new restaurant 
-    new_restaurant = {
-        "id": len(restaurants) + 1,
-        "owner_id": owner.id, # Crucial: Link the business to the owner
-        "name": restaurant_in.name,
-        "address": restaurant_in.address,
-        "cuisine_type": restaurant_in.cuisine_type,
-        "phone_number": restaurant_in.phone_number,
-        "price_tier": restaurant_in.price_tier,
-        "rating": 0.0,
-        "is_open": True
-    }
-    
-    #Add new one to list and save/return it
-    restaurants.append(new_restaurant)
-    repo.save_all(restaurants)
-    return new_restaurant
+    return repo.create_restaurant(data)
 
 @router.patch("/{restaurant_id}", response_model=Restaurant)
 def update_restaurant(
@@ -50,22 +36,33 @@ def update_restaurant(
     if target["owner_id"] != owner.id:
         raise HTTPException(status_code=403, detail="You do not own this restaurant")
 
-    #Only update fields that were actually provided
-    update_dict = update_data.model_dump(exclude_unset=True)
-    
-    #Loop and do again
-    for key, value in update_dict.items():
-        target[key] = value
-
-    repo.save_all(restaurants)
-    return target
+    #update using new repo method calling the functions
+    updated = repo.update_restaurant(restaurant_id, update_data.model_dump(exclude_unset=True))
+    return updated
 
 @router.get("/my-restaurant", response_model=List[Restaurant])
 def get_my_restaurant(owner: User = Depends(verify_restaurant_owner)):
-    """Allows an owner to view all businesses registered using their id."""
+    """View all businesses registered using their id."""
     restaurants = repo.load_all()
-    
     #Filter the list to only show shops belonging to the respective owner
-    my_shops = [r for r in restaurants if r.get("owner_id") == owner.id]
+    return [r for r in restaurants if r.get("owner_id") == owner.id] #cleaned this up some more
+
+#delete function added using updated repo features
+@router.delete("/{restaurant_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_restaurant(
+    restaurant_id: int, 
+    owner: User = Depends(verify_restaurant_owner)
+):
+    """Deletes a restaurant and its entire menu (Cascading Delete)."""
+    restaurants = repo.load_all()
+    target = next((r for r in restaurants if r["id"] == restaurant_id), None)
     
-    return my_shops
+    if not target:
+        raise HTTPException(status_code=404, detail="Restaurant not found")
+    
+    if target["owner_id"] != owner.id:
+        raise HTTPException(status_code=403, detail="You do not own this restaurant")
+
+    #This triggers the cascade I made in the restaurant repo
+    repo.delete_restaurant(restaurant_id)
+    return None
