@@ -25,4 +25,5 @@ class User(BaseModel):
     role: UserRole
     address: str
     order_history: list[int] = [] #stores order id
+    cart: list[int] = [] #stores cart id
 

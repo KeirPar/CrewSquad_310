@@ -135,3 +135,30 @@ def test_menu_add_allowed_for_owner():
     
     assert response.status_code == 200
     assert response.json()["message"] == "Menu item added successfully!"
+
+def test_dashboard_and_cart_flow():
+    """Verify that a user can add items to a cart and see them on their personal dashboard"""
+    email = "us2_tester@example.com"
+    password = "Password123!"
+    
+    #Register and Login
+    client.post("/auth/register", json={
+        "name": "US2 User", "email": email, "phone_number": "555-0000",
+        "password": password, "role": "Customer", "address": "123 Dashboard St"
+    })
+    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    token = login_res.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    #Add an item to the cart (test id = 99)
+    client.post("/cart/add/99", headers=headers)
+
+    #Check the dashboard to see if item in cart
+    dash_res = client.get("/auth/dashboard", headers=headers)
+    assert dash_res.status_code == 200
+    assert dash_res.json()["stats"]["items_in_cart"] == 1
+    assert "Welcome back" in dash_res.json()["message"]
+
+    #Check the Cart endpoint
+    cart_res = client.get("/cart", headers=headers)
+    assert 99 in cart_res.json()["cart_items"]

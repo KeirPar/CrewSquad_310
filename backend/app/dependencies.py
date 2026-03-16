@@ -4,6 +4,7 @@ from app.services.auth_service import AuthService
 
 security = HTTPBearer()
 
+#Dependency set up for restaurant owner
 def verify_restaurant_owner(auth: HTTPAuthorizationCredentials = Security(security)):
     """The Gatekeeper: decodes token and check if user = owner"""
 
