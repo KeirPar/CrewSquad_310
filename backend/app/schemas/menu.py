@@ -1,11 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Optional
 
 #creating base menu models for future by using base model found in menu_item.py
 class MenuItemBase(BaseModel):
     name: str
     description: str
-    price: float
+    price: float = Field(..., gt=0)
     category: str
     image_url: str
     is_available: bool = True
@@ -23,7 +23,7 @@ class MenuItem(MenuItemBase):
 class MenuItemUpdate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
-    price: Optional[float] = None
+    price: Optional[float] = Field(None, gt=0)
     category: Optional[str] = None
     image_url: Optional[str] = None
     is_available: Optional[bool] = None
