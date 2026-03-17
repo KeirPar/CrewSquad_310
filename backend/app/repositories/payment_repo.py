@@ -1,5 +1,5 @@
 from typing import List, Optional
-from app.schemas.payment import PaymentAttempt
+from app.schemas.payment import PaymentAttempt, PaymentStatus
 
 
 class PaymentRepository:
@@ -19,6 +19,14 @@ class PaymentRepository:
     def get_all(self) -> List[PaymentAttempt]:
         """Returns all stored payment attempts."""
         return self._payments
+    
+    def update_status(self, order_id: int, status: PaymentStatus, reason=None):
+        payment = self.find_by_order_id(order_id)
+        if not payment:
+            return None
+        payment.status = status
+        payment.reason = reason
+        return payment
 
 
 payment_db = PaymentRepository()

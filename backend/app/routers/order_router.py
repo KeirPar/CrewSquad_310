@@ -7,6 +7,7 @@ from app.schemas.restaurant_manager import RestaurantManager
 from app.services.order_service import update_order_status, create_order
 from app.schemas.user import User
 from app.services.payment_service import create_payment_attempt
+from app.repositories.order_repo import order_db
 
 router = APIRouter()
 
@@ -35,7 +36,8 @@ def place_order(cart: Cart):
         - PaymentAttempt: A PaymentAttempt object representing the payment for the order
     """
     try:
-        order = create_order(order_id=1, cart=cart)
+        order = create_order(order_id = order_db.next_id(), cart=cart)
+        order_db.save(order)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     
