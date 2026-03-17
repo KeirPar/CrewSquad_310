@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 from datetime import datetime, timezone
 from enum import Enum
@@ -15,3 +16,8 @@ class PaymentAttempt(BaseModel):
     amount: float
     status: PaymentStatus
     created_at: datetime
+    reason: Optional[str] = None
+
+class PaymentDecision(BaseModel):
+    decision: PaymentStatus
+    reason: Optional[str] = None
