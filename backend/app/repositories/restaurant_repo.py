@@ -39,7 +39,7 @@ class RestaurantRepository:
                     r["menu"] = []
                 
                 #Get a unique ID for the dish
-                new_id = len(r["menu"]) + 1
+                new_id = max([item["id"] for item in r["menu"]], default=0) + 1 #updated this to make sure primary key integrity is upheld
                 
                 #Merge the IDs with the user data
                 full_item = {
@@ -78,4 +78,49 @@ class RestaurantRepository:
                 if len(r["menu"]) < initial_len:
                     self.save_all(restaurants)
                     return True
+        return False
+    #create new restaurant
+    def create_restaurant(self, restaurant_data: dict) -> dict:
+        """Assigns a unique ID and saves a new restaurant to the JSON file."""
+        restaurants = self.load_all()
+        
+        #Ensure we don't have id collisions
+        new_id = max([r["id"] for r in restaurants], default=0) + 1
+        
+        #Create with an empty menu to put in later
+        new_restaurant = {
+            "id": new_id,
+            "menu": [],
+            **restaurant_data
+        }
+        
+        restaurants.append(new_restaurant)
+        self.save_all(restaurants)
+        return new_restaurant
+    
+    #makes it so we can update the restaurant that we have created
+    def update_restaurant(self, restaurant_id: int, update_data: dict) -> dict:
+        """Updates restaurant metadata while keeping the menu intact."""
+        restaurants = self.load_all()
+        for r in restaurants:
+            if r["id"] == restaurant_id:
+                for key, value in update_data.items():
+                    if key not in ["id", "menu"]:
+                        r[key] = value
+                self.save_all(restaurants)
+                return r
+        return None
+    
+#deletes restaurant and cascades making sure nothing else is left behind, done for Feat2-FR4
+    def delete_restaurant(self, restaurant_id: int) -> bool:
+        """Deletes a restaurant and its entire nested menu (Cascade Delete)."""
+        restaurants = self.load_all()
+        initial_len = len(restaurants)
+        
+        #Filter out the target restaurant, this deletes data as its nested
+        restaurants = [r for r in restaurants if r["id"] != restaurant_id]
+        
+        if len(restaurants) < initial_len:
+            self.save_all(restaurants)
+            return True
         return False
