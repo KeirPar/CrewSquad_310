@@ -23,7 +23,7 @@ def test_by_min_rating(): #this should return all the restaurants that have a ra
 
 def test_no_results(): #made small change here
     # Search for something that definitely doesn't exist
-    response = client.get("/search/restaurants?cuisine_type=RandomNonExistentCuisine")
+    response = client.get("/search/restaurants?cuisine_type=Other&min_rating=5.0") #this should return no results
     
     assert response.status_code == 200
 

@@ -1,4 +1,6 @@
-from datetime import datetime, timezone 
+from datetime import datetime, timezone
+
+from fastapi import HTTPException 
 from app.schemas.cart import Cart
 from app.schemas.order import Order, OrderStatus
 from app.schemas.user import User
@@ -75,18 +77,18 @@ def calculate_total(cart: Cart) -> float:
 def update_order_status(order: Order, new_status: OrderStatus, current_user: User) -> Order: #added for fr3
   
     if order.status in [OrderStatus.DELIVERED, OrderStatus.CANCELLED]: #check if order is already delivered or cancelled, if so, we cant update the status anymore
-        raise ValueError(f"Order is locked and cannot be updated. Cant change the status from {order.status}") #return error
+        raise HTTPException(status_code=400, detail=f"Order is locked and cannot be updated. Cant change the status from {order.status}") #return error
     
     if isinstance(current_user, Customer):  # if current user is a customer, they can only cancel order if its pending
         if new_status != OrderStatus.CANCELLED:
-            raise ValueError("Customers can only cancel orders. Invalid status update.")
+            raise HTTPException(status_code=400, detail="Customers can only cancel orders. Invalid status update.")
         if order.status != OrderStatus.PENDING: 
-            raise ValueError("Order cannot be cancelled at this stage. Only pending orders can be cancelled.")
+            raise HTTPException(status_code=400, detail="Order cannot be cancelled at this stage. Only pending orders can be cancelled.")
     
     elif isinstance(current_user, RestaurantManager):  # but if its a manager then its chill
         pass
     else:
-        raise ValueError("Unauthorized user class.")
+        raise HTTPException(status_code=403, detail="Unauthorized user class.")
         
     valid_transitions = { #we have to make some valid status transitions. So orders can only go from PENDING to PREPARING or CANCELLED, and from PREPARING to DELIVERED or CANCELLED. This is just an example, we can change it later if we want
         OrderStatus.PENDING: [OrderStatus.PREPARING, OrderStatus.CANCELLED],
@@ -95,7 +97,7 @@ def update_order_status(order: Order, new_status: OrderStatus, current_user: Use
 
     alowed_next_states = valid_transitions.get(order.status, []) #get the allowed next states for the current status of the order
     if new_status not in alowed_next_states: #if the new status is not in the allowed next states, return an error. So like if we try to change the status from PENDING to DELIVERED, it will return an error because that is not a valid transition
-        raise ValueError(f"Invalid status transition from {order.status} to {new_status}. Allowed transitions: {alowed_next_states}")
+        raise HTTPException(status_code=400, detail=f"Invalid status transition from {order.status} to {new_status}. Allowed transitions: {alowed_next_states}")
 
     order.status = new_status #otherwise, all good. Change the status and return the order
     return order

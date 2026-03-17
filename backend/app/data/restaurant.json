@@ -48,7 +48,7 @@
     "owner_id": 1,
     "name": "Test Bistro",
     "address": "456 Test Ave",
-    "cuisine_type": "French",
+    "cuisine_type": "Indian",
     "phone_number": "250-999-9999",
     "price_tier": 3,
     "rating": 0.0,

@@ -21,7 +21,7 @@ def test_restaurant_lifecycle_and_security():
     reg_res = client.post("/restaurants/register", headers=headers, json={
         "name": "Test Bistro",
         "address": "456 Test Ave",
-        "cuisine_type": "French",
+        "cuisine_type": "Other", #same change
         "phone_number": "250-111-2222",
         "price_tier": 3
     })
