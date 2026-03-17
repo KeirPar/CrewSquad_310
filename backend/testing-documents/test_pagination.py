@@ -19,4 +19,4 @@ def test_pagination_offset_out_of_bounds():
     data = response.json()["data"]
     
     assert len(data) == 0 #make sure it doesnt crash, but just returns an empty list
-    assert response.json()["message"] == "No restaurants found matching your criteria."
+    assert response.json()["message"] == "No restaurants found matching your search. Try adjusting your filters or checking for typos." #message now matches in search_service and test_search

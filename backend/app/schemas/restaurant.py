@@ -23,7 +23,7 @@ class RestaurantBase(BaseModel):
     price_tier: int = Field(..., ge=1, le=4) #for feat3-fr1, im gonna add this for our searching by price tier feature, this will be an integer from 1 to 4, with 1 being the cheapest and 4 being the most expensive
 #Edit to the above comment from keir, I updated this to do so in Feat2-FR3
 
-#create and update models inherit from the base model, but the update model has all fields optional so we can update only certain fields without having to provide all of them
+#create and update models inherit from the base model
 class restaurantCreate(RestaurantBase):
     pass
     
