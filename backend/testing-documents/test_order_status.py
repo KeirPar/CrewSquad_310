@@ -5,6 +5,7 @@ from app.services.order_service import update_order_status
 from app.schemas.customer import Customer
 from app.schemas.user import UserRole
 from app.schemas.restaurant_manager import RestaurantManager
+from fastapi import HTTPException
 
 #Here we dont need to import fastAPI test client because we are testing the service function directly
 #we talk about this in slide 16 of the testing lab, its a unit test not an intergration test.
@@ -37,7 +38,7 @@ def create_dummy_order(status: OrderStatus) -> Order: #creating dummy order
 
 def test_update_status_locked_delivered():
     order = create_dummy_order(status=OrderStatus.DELIVERED) #make the status delivered (locked)
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(HTTPException) as excinfo:
         update_order_status(order, OrderStatus.CANCELLED, fake_customer) #try to change the status to cancelled, should raise error because the order is locked
     assert "Order is locked" in str(excinfo.value)
 
@@ -50,7 +51,7 @@ def test_forward_success():
 
 def test_invalid_transition():
     order = create_dummy_order(status=OrderStatus.PENDING) #make the status pending (not locked)
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(HTTPException) as excinfo:
         update_order_status(order, OrderStatus.DELIVERED, fake_manager) #try to change the status to delivered, should raise error because you cant do this
     assert "Invalid status transition" in str(excinfo.value)
 
@@ -60,13 +61,13 @@ def test_customer_cancel_pending():
     assert updated_order.status == OrderStatus.CANCELLED 
 def test_customer_cancel_preparing():
     order = create_dummy_order(status=OrderStatus.PREPARING) #make the status preparing (not locked)
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(HTTPException) as excinfo:
         update_order_status(order, OrderStatus.CANCELLED, fake_customer) #try to change the status to cancelled, should raise error because you can only cancel pending orders
     assert "Order cannot be cancelled at this stage" in str(excinfo.value)
 
 def test_customer_cannot_accept_order():
     order = create_dummy_order(status=OrderStatus.PENDING) #make the status pending (not locked)
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(HTTPException) as excinfo:
         update_order_status(order, OrderStatus.PREPARING, fake_customer) #try to change the status to preparing, should raise error because customers can only cancel orders
     assert "Customers can only cancel orders" in str(excinfo.value)
 
@@ -75,7 +76,7 @@ def test_unauthorized_user():
     class UnauthorizedUser:
         pass
     fake_user = UnauthorizedUser()
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(HTTPException) as excinfo:
         update_order_status(order, OrderStatus.PREPARING, fake_user) #try to change the status to preparing, should raise error because the user class is unauthorized
     assert "Unauthorized user class" in str(excinfo.value)
 
