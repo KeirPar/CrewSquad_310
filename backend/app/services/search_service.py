@@ -21,7 +21,7 @@ class SearchService: #make our SearchService class
         if sort_by == RestaurantSortOrder.RATING_DESC:
             restaurants.sort(key=lambda r: r.get("rating", 0.0), reverse=True) #sort by rating, high to low
         elif sort_by == RestaurantSortOrder.PRICE_ASC:
-            restaurants.sort(key=lambda r: r.get("price_tier", 9999), reverse=False) #sort by price, low to high
+            restaurants.sort(key=lambda r: float(r.get("price_tier", 9999)), reverse=False) #sort by price, low to high
 
 
         paginated_restaurants = restaurants[offset:offset + limit] 
