@@ -27,7 +27,7 @@ def test_add_multiple_menu_items():
     res_reg = client.post("/restaurants/register", headers=headers, json={
         "name": "Test Kitchen",
         "address": "123 Skoupas Lane",
-        "cuisine_type": "Testing",
+        "cuisine_type": "Other",
         "phone_number": "250-555-1111",
         "price_tier": 2
     })
@@ -74,7 +74,7 @@ def test_update_menu_item_partial():
     res_reg = client.post("/restaurants/register", headers=headers, json={
         "name": "Update Test Kitchen",
         "address": "456 Update St",
-        "cuisine_type": "Testing",
+        "cuisine_type": "Other", #had to change this to other (we made the cuisine types enum not string)
         "phone_number": "250-555-2222",
         "price_tier": 2
     })
@@ -116,7 +116,7 @@ def test_delete_menu_item():
     res_reg = client.post("/restaurants/register", headers=headers, json={
         "name": "Delete Test Kitchen",
         "address": "789 Delete Ave",
-        "cuisine_type": "Testing",
+        "cuisine_type": "Other", # same here
         "phone_number": "250-555-3333",
         "price_tier": 1
     })
