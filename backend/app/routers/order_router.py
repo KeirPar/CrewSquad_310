@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from app.schemas.cart import Cart
-from app.services.order_service import create_order
+from app.services.order_service import create_order, get_pending_queue
 from app.schemas.order import Order, OrderStatus
 from app.schemas.customer import Customer
 from app.schemas.restaurant_manager import RestaurantManager
@@ -58,3 +58,14 @@ def change_order_status(
         return {"message": "Order status updated successfully", "data": updated_order}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/orders/queue")
+def get_pending_orders(current_user: User = Depends(get_current_user)):
+    
+    if not isinstance(current_user, RestaurantManager): #make sure user is a manager
+        raise HTTPException(status_code=403, detail="Only restaurant managers can access the pending orders queue.")
+    
+    pending_queue = get_pending_queue(current_user.restaurant_id) #otherwise, search by restaurant id
+    return {"pending_orders": pending_queue}
+
+   
