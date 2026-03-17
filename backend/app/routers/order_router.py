@@ -1,11 +1,14 @@
+import queue
 from fastapi import APIRouter, Depends, HTTPException
+from app.services import order_service
+from app.services.auth_service import AuthService
 from app.schemas.cart import Cart
-from app.services.order_service import create_order
+from app.services.order_service import create_order, get_pending_queue
 from app.schemas.order import Order, OrderStatus
 from app.schemas.customer import Customer
 from app.schemas.restaurant_manager import RestaurantManager
 from app.services.order_service import update_order_status, create_order
-from app.schemas.user import User
+from app.schemas.user import User, UserRole
 from app.services.payment_service import create_payment_attempt
 
 router = APIRouter()
@@ -58,3 +61,18 @@ def change_order_status(
         return {"message": "Order status updated successfully", "data": updated_order}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/orders/queue")
+def get_pending_orders(current_user: User = Depends(AuthService.get_current_user)):
+    
+    if current_user.role != UserRole.OWNER: #make sure user is a manager/owner
+        raise HTTPException(status_code=403, detail="Only restaurant managers can access the pending orders queue.")
+    
+    rest_id = getattr(current_user, "restaurant_id", 1) #get restaurant id from user, defaulting to 1 cuz we dont have a db
+    
+    pending_queue = order_service.get_pending_queue(rest_id) #otherwise, search by restaurant id
+
+    return {
+        "message": "Kitchen queue retrieved successfully",
+        "pending_orders": pending_queue
+    }
