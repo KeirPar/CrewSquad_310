@@ -6,6 +6,7 @@ from app.schemas.customer import Customer
 from app.schemas.restaurant_manager import RestaurantManager
 from app.services.order_service import update_order_status, create_order
 from app.schemas.user import User
+from app.services.payment_service import create_payment_attempt
 
 router = APIRouter()
 
@@ -23,19 +24,23 @@ def get_current_user() -> User: # because we dont have feat1 setup
 @router.post("/orders")
 def place_order(cart: Cart):
     """
-    Endpoint to place an order based on the given cart.
+    Endpoint to place an order based on the given cart. 
+    Validates the cart and creates an order along with a payment attempt.
     Rules:
         - Must contain at least 1 Item
         - All items must be from the same restaurant
     Args:
         - cart (Cart): The Cart object containing the menu items to be ordered
     Returns:
-        - Order: An Order object containing the order details
+        - PaymentAttempt: A PaymentAttempt object representing the payment for the order
     """
     try:
-        return create_order(order_id=1, cart=cart)
+        order = create_order(order_id=1, cart=cart)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    
+    payment = create_payment_attempt(order)  # new
+    return {**order.model_dump(), "payment": payment}  
 
 @router.patch("/orders/{order_id}/status")
 def change_order_status(
