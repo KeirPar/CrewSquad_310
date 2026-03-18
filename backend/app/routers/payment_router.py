@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from app.schemas.payment import PaymentDecision, PaymentStatus
-from app.services.payment_service import process_payment
+from app.services.payment_service import process_payment, simulate_payment
 
 
 router = APIRouter(prefix="/payments", tags=["Payments"])
@@ -28,6 +28,15 @@ def decide_payment(order_id: int, body: PaymentDecision):
             reason = body.reason
         )
 
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    
+    return result
+
+@router.post("/{order_id}/simulate")
+def simulate_payment_outcome(order_id: int):
+    try:
+        result = simulate_payment(order_id=order_id)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     

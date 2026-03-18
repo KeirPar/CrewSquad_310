@@ -20,12 +20,13 @@ class PaymentRepository:
         """Returns all stored payment attempts."""
         return self._payments
     
-    def update_status(self, order_id: int, status: PaymentStatus, reason=None):
+    def update_status(self, order_id: int, status: PaymentStatus, reason=None, resolved_at=None) -> Optional[PaymentAttempt]:
         payment = self.find_by_order_id(order_id)
         if not payment:
             return None
         payment.status = status
         payment.reason = reason
+        payment.resolved_at = resolved_at
         return payment
 
 
