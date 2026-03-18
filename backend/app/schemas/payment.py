@@ -16,6 +16,7 @@ class PaymentAttempt(BaseModel):
     amount: float
     status: PaymentStatus
     created_at: datetime
+    resolved_at: Optional[datetime] = None
     reason: Optional[str] = None
 
 class PaymentDecision(BaseModel):

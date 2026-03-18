@@ -1,8 +1,17 @@
 from datetime import datetime, timezone
+import random
 from app.schemas.order import Order, OrderStatus
 from app.schemas.payment import PaymentAttempt, PaymentStatus
 from app.repositories.payment_repo import payment_db
 from app.repositories.order_repo import order_db
+
+REJECTION_REASONS = [
+    "Insufficient funds",
+    "Card declined by issuer",
+    "Invalid card details",
+    "Suspected fraud activity",
+    "Payment gateway error"
+]
 
 def create_payment_attempt(order: Order) -> PaymentAttempt:
     """
@@ -57,6 +66,37 @@ def process_payment(order_id: int, decision: PaymentStatus, reason: str = None) 
     order_db.save(order)
 
     return {
+        "payment": updated_payment,
+        "order": order
+    }
+
+def simulate_payment(order_id: int) -> dict:
+    payment = payment_db.find_by_order_id(order_id)
+    if not payment:
+        raise ValueError(f"No payment attempt found for order ID {order_id}.")  
+        
+    if payment.status != PaymentStatus.PENDING:
+        raise ValueError(f"Payment attempt for order ID {order_id} is not in PENDING status.")
+        
+    order = order_db.find_by_id(order_id)
+    if not order:
+        raise ValueError(f"No order found with ID {order_id}.")
+        
+    # Simulate a random payment decision
+    decision = random.choices([PaymentStatus.ACCEPTED, PaymentStatus.REJECTED], 
+                                 weights=[70, 30]) [0] 
+    reason = random.choice(REJECTION_REASONS) if decision == PaymentStatus.REJECTED else None
+    resolved_at = datetime.now(timezone.utc)
+
+    updated_payment = payment_db.update_status(order_id, decision, reason, resolved_at)  
+
+    if decision == PaymentStatus.ACCEPTED:
+        order.status = OrderStatus.PREPARING
+    else:
+        order.status = OrderStatus.CANCELLED    
+        
+    return {
+        "simulated": True,
         "payment": updated_payment,
         "order": order
     }
