@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from CrewSquad_310.backend.app.services import menu_service
+from app.services.menu_service import menu_service
 from app.dependencies import verify_restaurant_owner
 from app.schemas.menu import MenuItem, MenuItemCreate, MenuItemUpdate, SelectMenuResponse
 from app.schemas.user import User
