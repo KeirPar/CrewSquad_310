@@ -28,3 +28,10 @@ class MenuItemUpdate(BaseModel):
     image_url: Optional[str] = None
     is_available: Optional[bool] = None
     add_ons: Optional[List[int]] = None
+
+
+class SelectMenuResponse(BaseModel): #for returning certain amount of menu items at a time
+    total_items: int
+    limit: int
+    offset: int
+    items: List[MenuItem]
