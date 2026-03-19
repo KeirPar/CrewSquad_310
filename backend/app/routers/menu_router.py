@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
+from app.services.menu_service import menu_service
 from app.dependencies import verify_restaurant_owner
-from app.schemas.menu import MenuItem, MenuItemCreate, MenuItemUpdate
+from app.schemas.menu import MenuItem, MenuItemCreate, MenuItemUpdate, SelectMenuResponse
 from app.schemas.user import User
 from app.repositories.restaurant_repo import RestaurantRepository
 from typing import List
@@ -92,3 +93,10 @@ def delete_menu_item(
         raise HTTPException(status_code=404, detail="Menu item not found")
     
     return None
+
+#returning menus with limit and offset, not searching by ID
+@router.get("", response_model=SelectMenuResponse)
+def get_all_menus(limit: int = 10, offset: int = 0):
+    # Pass the parameters straight down to the service layer!
+    return menu_service.get_menu_items(limit=limit, offset=offset)
+

@@ -152,3 +152,43 @@ def test_get_restaurant_menu():
         assert isinstance(menu, list)
         if len(menu) > 0:
             assert "category" in menu[0]
+
+
+def test_global_menu_feed_default_pagination():
+    res = client.get("/menu")
+    
+    assert res.status_code == 200
+    data = res.json()
+    
+    assert data["limit"] == 10
+    assert data["offset"] == 0 #making sure our defaults (10, and 0) are working
+    assert "total_items" in data
+    assert "items" in data
+    assert isinstance(data["items"], list)
+    assert len(data["items"]) <= 10
+
+def test_global_menu_feed_custom_limit():
+
+    res = client.get("/menu?limit=1") #make sure the limit is working
+    
+    assert res.status_code == 200
+    data = res.json()
+    
+    assert data["limit"] == 1
+    assert len(data["items"]) <= 1
+
+def test_global_menu_feed_offset():
+
+    res1 = client.get("/menu?limit=1&offset=0") #gets first item
+    assert res1.status_code == 200
+    data1 = res1.json()
+    
+    res2 = client.get("/menu?limit=1&offset=1") #get second
+    assert res2.status_code == 200
+    data2 = res2.json()
+    
+    if data1["total_items"] >= 2: # only if more than 2 items
+        item1 = data1["items"][0]
+        item2 = data2["items"][0]
+        
+    assert item1["name"] != item2["name"]
