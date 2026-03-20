@@ -1,8 +1,8 @@
 import pytest
-from app.services.fees_calculator.get_province_tax import get_province_tax
-from app.services.fees_calculator.tax_type import TaxType
-from app.services.fees_calculator.province_tax import ProvinceTax
-from app.services.fees_calculator.get_container_recycling_fee import get_container_recycling_fee
+from app.services.fees.get_province_tax import get_province_tax
+from app.services.fees.tax_type import TaxType
+from app.services.fees.province_tax import ProvinceTax
+from app.services.fees.get_container_recycling_fee import get_container_recycling_fee
 
 #   Test getting the total tax rate and separate tax rates by a valid province code.
 def test_tax_rates():
