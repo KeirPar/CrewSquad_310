@@ -1,3 +1,4 @@
+#   Get delivery fee based on distance between the restaurant and delivery address.
 def get_delivery_fee(distanceInKilometers: float) -> float:
     if distanceInKilometers > 20:
         return 5.99
