@@ -11,6 +11,7 @@ from app.services.order_service import update_order_status, create_order
 from app.schemas.user import User, UserRole
 from app.services.payment_service import create_payment_attempt
 from app.repositories.order_repo import order_db
+from app.repositories.payment_repo import payment_db
 
 router = APIRouter()
 
@@ -45,7 +46,32 @@ def place_order(cart: Cart):
         raise HTTPException(status_code=400, detail=str(e))
     
     payment = create_payment_attempt(order)  # new
-    return {**order.model_dump(), "payment": payment}  
+    return {**order.model_dump(), "payment": payment}
+
+@router.get("/orders/queue")
+def get_pending_orders(current_user: User = Depends(AuthService.get_current_user)):
+    
+    if current_user.role != UserRole.OWNER: #make sure user is a manager/owner
+        raise HTTPException(status_code=403, detail="Only restaurant managers can access the pending orders queue.")
+    
+    rest_id = getattr(current_user, "restaurant_id", 1) #get restaurant id from user, defaulting to 1 cuz we dont have a db
+    
+    pending_queue = order_service.get_pending_queue(rest_id) #otherwise, search by restaurant id
+
+    return {
+        "message": "Kitchen queue retrieved successfully",
+        "pending_orders": pending_queue
+    }
+
+
+@router.get("/orders/{order_id}")
+def get_order_status(order_id: int):
+    order = order_db.find_by_id(order_id)
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    
+    payment = payment_db.find_by_order_id(order_id)
+    return {"order": order, "payment": payment}
 
 @router.patch("/orders/{order_id}/status")
 def change_order_status(
@@ -63,18 +89,3 @@ def change_order_status(
         return {"message": "Order status updated successfully", "data": updated_order}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-
-@router.get("/orders/queue")
-def get_pending_orders(current_user: User = Depends(AuthService.get_current_user)):
-    
-    if current_user.role != UserRole.OWNER: #make sure user is a manager/owner
-        raise HTTPException(status_code=403, detail="Only restaurant managers can access the pending orders queue.")
-    
-    rest_id = getattr(current_user, "restaurant_id", 1) #get restaurant id from user, defaulting to 1 cuz we dont have a db
-    
-    pending_queue = order_service.get_pending_queue(rest_id) #otherwise, search by restaurant id
-
-    return {
-        "message": "Kitchen queue retrieved successfully",
-        "pending_orders": pending_queue
-    }
