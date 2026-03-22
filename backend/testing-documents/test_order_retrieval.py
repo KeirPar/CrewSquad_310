@@ -1,6 +1,7 @@
 from urllib import response
 from fastapi.testclient import TestClient
 from app.main import app
+from app.helpers.testing_data import TestingData
 
 successful_status = 200
 failed_status = 400
@@ -8,33 +9,11 @@ invalid_status = 422
 missing_status = 404
 
 client = TestClient(app)
+testing_data = TestingData()
 
 # reusable valid cart (same pattern as test_order.py)
-def make_cart(restaurant_id=5):
-    return {
-        "menu_items": [
-            {
-                "id": 1,
-                "name": "Burger",
-                "description": "A juicy burger",
-                "price": 10,
-                "image_url": "http://example.com/burger.jpg",
-                "add_ons": [],
-                "is_available": True,
-                "restaurant_id": restaurant_id
-            },
-            {
-                "id": 2,
-                "name": "Fries",
-                "description": "Crispy fries",
-                "price": 5,
-                "image_url": "http://example.com/fries.jpg",
-                "add_ons": [],
-                "is_available": True,
-                "restaurant_id": restaurant_id
-            }
-        ]
-    }
+def make_cart():
+    return testing_data.cart.model_dump()
 
 def test_get_order_status():
     """Verify that retrieving an order returns a 200 response."""

@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 from app.main import app
+from app.helpers.testing_data import TestingData
 
 client = TestClient(app)
 
@@ -7,34 +8,10 @@ successful_status = 200
 failed_status = 400
 invalid_status = 422
 
-
+testing_data = TestingData()
 # reusable valid cart
-def make_cart(restaurant_id = 5):
-    return {
-        "menu_items": [
-            {
-                "id": 1,
-                "name": "Burger",
-                "description": "A juicy burger",
-                "price": 10,
-                "image_url": "http://example.com/burger.jpg",
-                "add_ons": [],
-                "is_available": True,
-                "restaurant_id": restaurant_id
-            },
-            {
-                "id": 2,
-                "name": "Fries",
-                "description": "Crispy fries",
-                "price": 5,
-                "image_url": "http://example.com/fries.jpg",
-                "add_ons": [],
-                "is_available": True,
-                "restaurant_id": restaurant_id
-            }
-        ]
-    }
-
+def make_cart():
+    return testing_data.cart.model_dump()
 
 def test_create_order_success():
     response = client.post("/orders", json=make_cart())
@@ -42,7 +19,7 @@ def test_create_order_success():
     data = response.json()
     assert data["restaurant_id"] == 5
     assert len(data["items"]) == 2
-    assert data["total_amount"] == 15
+    assert data["total_amount"] == 22.79
 
 
 def test_create_order_status_is_pending():
@@ -54,7 +31,7 @@ def test_create_order_status_is_pending():
 def test_create_order_correct_total():
     response = client.post("/orders", json=make_cart())
     assert response.status_code == successful_status
-    assert response.json()["total_amount"] == 15.0
+    assert response.json()["total_amount"] == 22.79
 
 
 def test_create_order_correct_item_count():
@@ -64,7 +41,7 @@ def test_create_order_correct_item_count():
 
 
 def test_create_order_empty_cart():
-    empty_cart = {"menu_items": []}
+    empty_cart = {"id": 0,"menu_items": []}
     response = client.post("/orders", json=empty_cart)
     assert response.status_code == failed_status  # ValueError: No items in Cart
 
@@ -86,7 +63,6 @@ def test_create_order_has_required_fields():
     assert "restaurant_id" in data
     assert "items" in data
     assert "total_amount" in data
-
 
 def test_create_order_invalid_menu_items():
     response = client.post("/orders", json={"menu_items": "not a list"})

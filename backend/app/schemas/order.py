@@ -1,7 +1,9 @@
 from pydantic import BaseModel
 from datetime import datetime
 from app.schemas.menu_item import MenuItem
+from .bill import Bill
 from enum import Enum
+from app.packages.geo.coordinate import Coordinate
 
 
 class OrderStatus(str, Enum):
@@ -18,3 +20,5 @@ class Order(BaseModel):
     restaurant_id: int
     items: list[MenuItem]
     total_amount: float
+    delivery_address: str
+    bill: Bill

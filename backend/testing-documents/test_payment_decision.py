@@ -3,6 +3,7 @@ from urllib import response
 from fastapi.testclient import TestClient
 from app.main import app
 from app.schemas.payment import PaymentStatus
+from app.helpers.testing_data import TestingData
 
 successful_status = 200
 failed_status = 400
@@ -11,33 +12,12 @@ missing_status = 404
 
 client = TestClient(app)
 
-# reusable valid cart (same pattern as test_order.py)
-def make_cart(restaurant_id=5):
-    return {
-        "menu_items": [
-            {
-                "id": 1,
-                "name": "Burger",
-                "description": "A juicy burger",
-                "price": 10,
-                "image_url": "http://example.com/burger.jpg",
-                "add_ons": [],
-                "is_available": True,
-                "restaurant_id": restaurant_id
-            },
-            {
-                "id": 2,
-                "name": "Fries",
-                "description": "Crispy fries",
-                "price": 5,
-                "image_url": "http://example.com/fries.jpg",
-                "add_ons": [],
-                "is_available": True,
-                "restaurant_id": restaurant_id
-            }
-        ]
-    }
+testing_data = TestingData()
+user = testing_data.customer
 
+# reusable valid cart (same pattern as test_order.py)
+def make_cart():
+    return testing_data.cart.model_dump()
 
 def test_accept_payment_status_is_accepted():
     """Verify that after accepting, the payment status is ACCEPTED."""

@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr, Field
 from enum import Enum
+from app.packages.geo.coordinate import Coordinate
 
 #Making roles with enforcing of being a Customer or Owner exclusively
 class UserRole(str, Enum):
@@ -23,7 +24,8 @@ class User(BaseModel):
     email: EmailStr
     phone_number: str
     role: UserRole
+    #   TODO: Maybe we should move the address, coordinate to Customer & Restaurant, order_history&cart to Customer, unless all users (RestaurantManager, Admin) needs an address and other properties.
     address: str
+    coordinate: Coordinate = Coordinate(49.94290035633633, -119.39555529342739)
     order_history: list[int] = [] #stores order id
     cart: list[int] = [] #stores cart id
-

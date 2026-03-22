@@ -3,6 +3,7 @@ from urllib import response
 from fastapi.testclient import TestClient
 from app.main import app
 from app.schemas.payment import PaymentStatus
+from app.helpers.testing_data import TestingData
 
 successful_status = 200
 failed_status = 400
@@ -10,33 +11,11 @@ invalid_status = 422
 missing_status = 404
 
 client = TestClient(app)
+testing_data = TestingData()
 
 # reusable valid cart (same pattern as test_order.py)
-def make_cart(restaurant_id=5):
-    return {
-        "menu_items": [
-            {
-                "id": 1,
-                "name": "Burger",
-                "description": "A juicy burger",
-                "price": 10,
-                "image_url": "http://example.com/burger.jpg",
-                "add_ons": [],
-                "is_available": True,
-                "restaurant_id": restaurant_id
-            },
-            {
-                "id": 2,
-                "name": "Fries",
-                "description": "Crispy fries",
-                "price": 5,
-                "image_url": "http://example.com/fries.jpg",
-                "add_ons": [],
-                "is_available": True,
-                "restaurant_id": restaurant_id
-            }
-        ]
-    }
+def make_cart():
+    return testing_data.cart.model_dump()
 
 
 def test_payment_attempt_exists_in_response():
@@ -94,7 +73,10 @@ def test_payment_attempt_has_timestamp():
 
 def test_payment_attempt_correct_amount_single_item():
     """Verify the payment amount is correct for a single item cart."""
+    cart_id = 1
+    testing_data.customer.cart.append(cart_id)
     single_item_cart = {
+        "id": cart_id,
         "menu_items": [
             {
                 "id": 1,
@@ -111,11 +93,11 @@ def test_payment_attempt_correct_amount_single_item():
     response = client.post("/orders", json=single_item_cart)
     assert response.status_code == successful_status
     data = response.json()
-    assert data["payment"]["amount"] == 20.0
+    assert data["payment"]["amount"] == 28.39
 
 def test_no_payment_attempt_on_empty_cart():
     """Verify that a failed order (empty cart) does not create a payment attempt."""
-    response = client.post("/orders", json={"menu_items": []})
+    response = client.post("/orders", json={"id": 2, "menu_items": []})
     assert response.status_code == failed_status
     assert "payment" not in response.json()
 
@@ -139,5 +121,5 @@ def test_order_fields_still_intact_after_payment_added():
     assert "items" in data
     assert "total_amount" in data
     assert data["status"] == "PENDING"
-    assert data["total_amount"] == 15.0
+    assert data["total_amount"] == 22.79
     assert data["restaurant_id"] == 5
