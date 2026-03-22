@@ -27,7 +27,7 @@ def create_payment_attempt(order: Order) -> PaymentAttempt:
     payment = PaymentAttempt(
         id=len(payment_db.get_all()) + 1,
         order_id=order.id,
-        amount=order.total_amount,
+        amount=order.bill.total,
         status=PaymentStatus.PENDING,
         created_at=datetime.now(timezone.utc)
     )

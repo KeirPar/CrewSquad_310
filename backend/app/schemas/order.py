@@ -19,6 +19,5 @@ class Order(BaseModel):
     status: OrderStatus
     restaurant_id: int
     items: list[MenuItem]
-    total_amount: float
     delivery_address: str
     bill: Bill

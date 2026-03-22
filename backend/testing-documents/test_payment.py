@@ -4,6 +4,7 @@ from fastapi.testclient import TestClient
 from app.main import app
 from app.schemas.payment import PaymentStatus
 from app.helpers.testing_data import TestingData
+from app.schemas.bill import Bill
 
 successful_status = 200
 failed_status = 400
@@ -36,7 +37,7 @@ def test_payment_attempt_amount_matches_order_total():
     response = client.post("/orders", json=make_cart())
     assert response.status_code == successful_status
     data = response.json()
-    assert data["payment"]["amount"] == data["total_amount"]
+    assert data["payment"]["amount"] == Bill(**data["bill"]).total
 
 def test_payment_attempt_order_id_matches_order():
     """Verify the payment attempt is linked to the correct order via order_id."""
@@ -119,7 +120,7 @@ def test_order_fields_still_intact_after_payment_added():
     assert "status" in data
     assert "restaurant_id" in data
     assert "items" in data
-    assert "total_amount" in data
+    assert "bill" in data
     assert data["status"] == "PENDING"
-    assert data["total_amount"] == 22.79
+    assert data["bill"]["items_subtotal"] == 15
     assert data["restaurant_id"] == 5

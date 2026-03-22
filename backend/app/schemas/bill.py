@@ -14,7 +14,8 @@ class Bill(BaseModel):
             total_tax += tax[1]
         return total_tax
 
-    def get_total(self) -> float:
+    @property
+    def total(self) -> float:
         return self.items_subtotal + self.get_total_tax() + self.delivery_fee
     
     @classmethod

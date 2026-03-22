@@ -45,7 +45,6 @@ def create_order(order_id: int, cart: Cart) -> Order:
         status=OrderStatus.PENDING,
         restaurant_id=restaurant_id,
         items=cart.menu_items,
-        total_amount=bill.get_total(),
         delivery_address=user.address,
         bill=bill
     )
