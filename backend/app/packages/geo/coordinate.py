@@ -1,5 +1,6 @@
 from math import radians, cos, sin, asin, sqrt
-from dataclasses import dataclass
+from pydantic import Field
+from pydantic.dataclasses import dataclass
 
 #   From: https://gist.github.com/amalgjose/6d760a7b963aaa64f734
 def get_distance(lon1, lat1, lon2, lat2) -> float:
@@ -17,8 +18,12 @@ def get_distance(lon1, lat1, lon2, lat2) -> float:
 
 @dataclass
 class Coordinate:
-    latitude: float
-    longitude: float
+    latitude: float = Field(ge=-90, le=90)
+    longitude: float = Field(ge=-180, le=180)
+
+    def __init__(self, latitude: float, longitude: float):
+        self.latitude = latitude
+        self.longitude = longitude
 
     def get_kilometer_distance_to(self, other) -> float:
         return get_distance(

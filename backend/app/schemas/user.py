@@ -15,6 +15,8 @@ class UserCreate(BaseModel):
     password: str = Field(..., min_length=8)
     role: UserRole
     address: str = Field(..., description="Required for US1 delivery history")
+    coordinate: Coordinate = Coordinate(49.94290035633633, -119.39555529342739)
+
 
 #Storing the user data internally
 class User(BaseModel):
