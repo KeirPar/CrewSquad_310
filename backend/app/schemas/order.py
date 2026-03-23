@@ -4,7 +4,7 @@ from app.schemas.menu_item import MenuItem
 from .bill import Bill
 from enum import Enum
 from app.packages.geo.coordinate import Coordinate
-
+from .cart import Cart
 
 class OrderStatus(str, Enum):
     PENDING = "PENDING"
@@ -12,6 +12,9 @@ class OrderStatus(str, Enum):
     DELIVERED = "DELIVERED"
     CANCELLED = "CANCELLED"
 
+class OrderCreate(BaseModel):
+    user_id: int
+    cart: Cart
 
 class Order(BaseModel):
     id: int

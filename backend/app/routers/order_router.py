@@ -1,4 +1,5 @@
 import queue
+from pydantic import BaseModel
 from fastapi import APIRouter, Depends, HTTPException
 from app.services import order_service
 from app.services.auth_service import AuthService
@@ -9,9 +10,11 @@ from app.schemas.customer import Customer
 from app.schemas.restaurant_manager import RestaurantManager
 from app.services.order_service import update_order_status, create_order
 from app.schemas.user import User, UserRole
+from app.schemas.order import OrderCreate
 from app.services.payment_service import create_payment_attempt
 from app.repositories.order_repo import order_db
 from app.repositories.payment_repo import payment_db
+from app.services.auth_service import AuthService
 
 router = APIRouter()
 
@@ -26,8 +29,12 @@ def get_current_user() -> User: # because we dont have feat1 setup
         default_address="123 Fake St", #gonna have to change if this is a restaurant manager, like for testing
     )
 
+@router.get("/orders")
+def get_orders(user: User = Depends(AuthService.get_current_user)) -> list[Order]:
+    return order_db.find_all_by_user_id(user.id)
+
 @router.post("/orders")
-def place_order(cart: Cart):
+def place_order(orderCreate: OrderCreate):
     """
     Endpoint to place an order based on the given cart. 
     Validates the cart and creates an order along with a payment attempt.
@@ -35,12 +42,12 @@ def place_order(cart: Cart):
         - Must contain at least 1 Item
         - All items must be from the same restaurant
     Args:
-        - cart (Cart): The Cart object containing the menu items to be ordered
+        - orderCreate (OrderCreate): User id and the Cart object containing the menu items to be ordered
     Returns:
         - PaymentAttempt: A PaymentAttempt object representing the payment for the order
     """
     try:
-        order = create_order(order_id = order_db.next_id(), cart=cart)
+        order = create_order(order_id = order_db.next_id(), user_id=orderCreate.user_id, cart=orderCreate.cart)
         order_db.save(order)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))

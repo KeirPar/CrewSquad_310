@@ -1,7 +1,9 @@
 from urllib import response
 from fastapi.testclient import TestClient
 from app.main import app
+from app.schemas.order import OrderCreate
 from app.helpers.testing_data import TestingData
+
 
 successful_status = 200
 failed_status = 400
@@ -12,18 +14,21 @@ client = TestClient(app)
 testing_data = TestingData()
 
 # reusable valid cart (same pattern as test_order.py)
-def make_cart():
-    return testing_data.cart.model_dump()
+def make_order_create():
+    return OrderCreate(
+        user_id=testing_data.customer.id,
+        cart=testing_data.cart
+    ).model_dump()
 
 def test_get_order_status():
     """Verify that retrieving an order returns a 200 response."""
-    order_id = client.post("/orders", json=make_cart()).json()["id"]
+    order_id = client.post("/orders", json=make_order_create()).json()["id"]
     response = client.get(f"/orders/{order_id}")
     assert response.status_code == successful_status
 
 def test_get_order_status_has_order_and_payment():
     """Verify the response contains both the order and payment."""
-    order_id = client.post("/orders", json=make_cart()).json()["id"]
+    order_id = client.post("/orders", json=make_order_create()).json()["id"]
     response = client.get(f"/orders/{order_id}")
     assert response.status_code == successful_status
     assert "order" in response.json()
@@ -31,7 +36,7 @@ def test_get_order_status_has_order_and_payment():
 
 def test_get_order_status_reflects_payment_decision():
     """Verify the order status updates correctly after a payment decision."""
-    order_id = client.post("/orders", json=make_cart()).json()["id"]
+    order_id = client.post("/orders", json=make_order_create()).json()["id"]
     client.post(f"/payments/{order_id}", json={"decision": "ACCEPTED"})
     response = client.get(f"/orders/{order_id}")
     assert response.status_code == successful_status
@@ -40,7 +45,7 @@ def test_get_order_status_reflects_payment_decision():
 
 def test_get_order_status_reflects_rejection():
     """Verify the order status updates correctly after a rejection."""
-    order_id = client.post("/orders", json=make_cart()).json()["id"]
+    order_id = client.post("/orders", json=make_order_create()).json()["id"]
     client.post(f"/payments/{order_id}", json={"decision": "REJECTED", "reason": "Too busy"})
     response = client.get(f"/orders/{order_id}")
     assert response.status_code == successful_status

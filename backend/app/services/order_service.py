@@ -16,7 +16,7 @@ from .fees.get_province_tax import get_province_tax
 from .fees.get_delivery_fee import get_delivery_fee
 
 
-def create_order(order_id: int, cart: Cart) -> Order:
+def create_order(order_id: int, user_id: int, cart: Cart) -> Order:
     """
     checks if the cart is valid and creates an order with the given cart
     Rules:
@@ -33,7 +33,9 @@ def create_order(order_id: int, cart: Cart) -> Order:
         raise ValueError("No items in Cart")
     validate_cart(cart)
 
-    user = user_db.find_by_cart_id(cart_id=cart.id)
+    user = user_db.find_by_user_id(user_id)
+    user.order_history.append(order_id)
+
     if user is None:
         raise ValueError("Cart does not belongs to any user")
         
