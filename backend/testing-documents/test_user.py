@@ -79,7 +79,7 @@ def test_update_user_with_invalid_location():
         'address': 'NEWADDRESS', 
         'coordinate': {
             'latitude': -999999999999.99999,    #   This is an invalid latitude
-            'longitude': -99999.999 #   This is an invalid latitude
+            'longitude': -99999.999 #   This is an invalid longitude
         }
     }
     
