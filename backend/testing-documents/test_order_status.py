@@ -2,9 +2,11 @@ import pytest
 from datetime import datetime, timezone
 from app.schemas.order import Order, OrderStatus
 from app.services.order_service import update_order_status
+from app.schemas.bill import Bill
 from app.schemas.customer import Customer
 from app.schemas.user import UserRole
 from app.schemas.restaurant_manager import RestaurantManager
+from app.packages.geo.coordinate import Coordinate
 from fastapi import HTTPException
 
 #Here we dont need to import fastAPI test client because we are testing the service function directly
@@ -19,6 +21,7 @@ fake_customer = Customer( #example customer
     phone_number="604-677-6767",
     default_address="123 Fake St",
     address="123 Fake St",
+    coordinate=Coordinate(10.6767, 4.76767),
     role=UserRole.CUSTOMER
 ) 
 
@@ -30,11 +33,20 @@ fake_manager = RestaurantManager(
     phone_number="250-555-6767", 
     restaurant_id=1,
     address="123 Fake St",
+    coordinate=Coordinate(6.6767, 8.6767),
     role=UserRole.OWNER
 )
 
 def create_dummy_order(status: OrderStatus) -> Order: #creating dummy order
-    return Order(id=1, created_at=datetime.now(timezone.utc), status=status, restaurant_id=1, items=[], total_amount=67.67) #.utcnow() was depreciated
+    return Order(
+        id=1, 
+        created_at=datetime.now(timezone.utc), 
+        status=status, 
+        restaurant_id=1, 
+        items=[], 
+        delivery_address="",
+        bill=Bill.empty()
+    ) #.utcnow() was depreciated
 
 def test_update_status_locked_delivered():
     order = create_dummy_order(status=OrderStatus.DELIVERED) #make the status delivered (locked)

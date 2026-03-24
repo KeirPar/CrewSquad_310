@@ -6,8 +6,17 @@ from app.schemas.order import Order, OrderStatus
 from app.schemas.user import User
 from app.schemas.customer import Customer
 from app.schemas.restaurant_manager import RestaurantManager
+from app.schemas.bill import Bill
+from app.services.auth_service import AuthService
+from app.repositories.user_repository import user_db
+from app.services.fees.tax_type import TaxType
+from app.repositories.restaurant_repo import RestaurantRepository
+from app.schemas.restaurant import Restaurant
+from .fees.get_province_tax import get_province_tax
+from .fees.get_delivery_fee import get_delivery_fee
 
-def create_order(order_id: int, cart: Cart) -> Order:
+
+def create_order(order_id: int, user_id: int, cart: Cart) -> Order:
     """
     checks if the cart is valid and creates an order with the given cart
     Rules:
@@ -19,18 +28,30 @@ def create_order(order_id: int, cart: Cart) -> Order:
     Returns:
         - Order: An Order object containing the order details
     """
-
+    
     if not cart.menu_items:
         raise ValueError("No items in Cart")
     validate_cart(cart)
-    return Order(
+
+    user = user_db.find_by_user_id(user_id)
+    user.order_history.append(order_id)
+
+    if user is None:
+        raise ValueError("Cart does not belongs to any user")
+        
+    restaurant_id=cart.menu_items[0].restaurant_id
+    bill = get_bill(cart, user=user, restaurant_id=restaurant_id)
+    order = Order(
         id=order_id,
         created_at=datetime.now(timezone.utc), #had to change this because .utcnow() was depreciated
         status=OrderStatus.PENDING,
-        restaurant_id=cart.menu_items[0].restaurant_id,
+        restaurant_id=restaurant_id,
         items=cart.menu_items,
-        total_amount=calculate_total(cart)
+        delivery_address=user.address,
+        bill=bill
     )
+
+    return order
 
 def validate_cart(cart: Cart):
     """
@@ -47,8 +68,24 @@ def validate_cart(cart: Cart):
     for item in cart.menu_items:
         if item.restaurant_id != first_restaurant:
             raise ValueError("Pick Items from one restaurant only")
+        
+def get_bill(cart: Cart, user: User, restaurant_id: int) -> Bill:
+    province_tax = get_province_tax("BC")   #   TODO: Use `User.address.province` instead
+    items_subtotal = calculate_items_subtotal(cart)
+    tax_rates: list[(TaxType, float)] = province_tax.tax_rates
 
-def calculate_total(cart: Cart) -> float:
+    taxes: list[(TaxType, float)] = [(tax_rate[0], tax_rate[1] * items_subtotal) for tax_rate in tax_rates] #   Convert a list of tax rates to tax by multiplying with item subtotal
+    restuarant_repo = RestaurantRepository()
+    restuarant: Restaurant = restuarant_repo.find_by_id(restaurant_id)
+    distanceInKilometer: float = user.coordinate.get_kilometer_distance_to(restuarant.coordinate)
+
+    return Bill(
+        items_subtotal=items_subtotal,
+        taxes=taxes,
+        delivery_fee=get_delivery_fee(distanceInKilometers=distanceInKilometer)
+    )
+
+def calculate_items_subtotal(cart: Cart) -> float:
     """
     Calculates the total amount for the given cart.
     Rules:
