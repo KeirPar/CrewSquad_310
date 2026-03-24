@@ -1,6 +1,7 @@
 import queue
 from pydantic import BaseModel
 from fastapi import APIRouter, Depends, HTTPException
+from app.services.notification_service import create_order_notification
 from app.services import order_service
 from app.services.auth_service import AuthService
 from app.schemas.cart import Cart
@@ -10,8 +11,8 @@ from app.schemas.customer import Customer
 from app.schemas.restaurant_manager import RestaurantManager
 from app.services.order_service import update_order_status, create_order
 from app.schemas.user import User, UserRole
+from app.services.payment_service import create_payment_attempt, simulate_payment
 from app.schemas.order import OrderCreate
-from app.services.payment_service import create_payment_attempt
 from app.repositories.order_repo import order_db
 from app.repositories.payment_repo import payment_db
 from app.services.auth_service import AuthService
@@ -52,7 +53,8 @@ def place_order(orderCreate: OrderCreate):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     
-    payment = create_payment_attempt(order)  # new
+    payment = create_payment_attempt(order) 
+    create_order_notification(order) 
     return {**order.model_dump(), "payment": payment}
 
 @router.get("/orders/queue")
