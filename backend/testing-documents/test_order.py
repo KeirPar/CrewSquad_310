@@ -1,5 +1,11 @@
 from fastapi.testclient import TestClient
 from app.main import app
+from app.helpers.testing_data import TestingData
+from app.schemas.user import User
+from app.schemas.order import Order, OrderCreate
+from app.schemas.cart import Cart
+from app.schemas.menu_item import MenuItem
+
 
 client = TestClient(app)
 
@@ -7,77 +13,68 @@ successful_status = 200
 failed_status = 400
 invalid_status = 422
 
-
+testing_data = TestingData()
 # reusable valid cart
-def make_cart(restaurant_id = 5):
-    return {
-        "menu_items": [
-            {
-                "id": 1,
-                "name": "Burger",
-                "description": "A juicy burger",
-                "price": 10,
-                "image_url": "http://example.com/burger.jpg",
-                "add_ons": [],
-                "is_available": True,
-                "restaurant_id": restaurant_id
-            },
-            {
-                "id": 2,
-                "name": "Fries",
-                "description": "Crispy fries",
-                "price": 5,
-                "image_url": "http://example.com/fries.jpg",
-                "add_ons": [],
-                "is_available": True,
-                "restaurant_id": restaurant_id
-            }
-        ]
-    }
-
+def make_order_create():
+    return OrderCreate(
+        user_id=testing_data.customer.id,
+        cart=testing_data.cart
+    ).model_dump()
 
 def test_create_order_success():
-    response = client.post("/orders", json=make_cart())
+    response = client.post("/orders", json=make_order_create())
     assert response.status_code == successful_status
     data = response.json()
     assert data["restaurant_id"] == 5
     assert len(data["items"]) == 2
-    assert data["total_amount"] == 15
+    assert data["bill"]["items_subtotal"] == 15
 
 
 def test_create_order_status_is_pending():
-    response = client.post("/orders", json=make_cart())
+    response = client.post("/orders", json=make_order_create())
     assert response.status_code == successful_status
     assert response.json()["status"] == "PENDING"
 
 
 def test_create_order_correct_total():
-    response = client.post("/orders", json=make_cart())
+    response = client.post("/orders", json=make_order_create())
     assert response.status_code == successful_status
-    assert response.json()["total_amount"] == 15.0
+    assert response.json()["bill"]["items_subtotal"] == 15
 
 
 def test_create_order_correct_item_count():
-    response = client.post("/orders", json=make_cart())
+    response = client.post("/orders", json=make_order_create())
     assert response.status_code == successful_status
     assert len(response.json()["items"]) == 2
 
 
 def test_create_order_empty_cart():
-    empty_cart = {"menu_items": []}
-    response = client.post("/orders", json=empty_cart)
+    empty_order_create = OrderCreate(
+        user_id=testing_data.customer.id,
+        cart=Cart(
+            id=10,
+            menu_items=[]
+        )
+    )
+    response = client.post("/orders", json=empty_order_create.model_dump())
     assert response.status_code == failed_status  # ValueError: No items in Cart
 
 
 def test_create_order_mixed_restaurants():
-    mixed_cart = make_cart()
-    mixed_cart["menu_items"][1]["restaurant_id"] = 99  # different restaurant
-    response = client.post("/orders", json=mixed_cart)
+    order_create = OrderCreate(
+        user_id=testing_data.customer.id,
+        cart=Cart(
+            id=10,
+            menu_items=[menu_item.model_copy() for menu_item in testing_data.cart.menu_items]
+        )
+    )
+    order_create.cart.menu_items[0].restaurant_id = 99  # different restaurant
+    response = client.post("/orders", json=order_create.model_dump())
     assert response.status_code == failed_status  # ValueError: Pick Items from one restaurant only
 
 
 def test_create_order_has_required_fields():
-    response = client.post("/orders", json=make_cart())
+    response = client.post("/orders", json=make_order_create())
     assert response.status_code == successful_status
     data = response.json()
     assert "id" in data
@@ -85,9 +82,52 @@ def test_create_order_has_required_fields():
     assert "status" in data
     assert "restaurant_id" in data
     assert "items" in data
-    assert "total_amount" in data
-
+    assert "bill" in data
 
 def test_create_order_invalid_menu_items():
     response = client.post("/orders", json={"menu_items": "not a list"})
     assert response.status_code == invalid_status
+
+def test_get_orders():
+    #   Example with new user
+    email = "login_test@example.com"
+    password = "Password123!"
+    
+    client.post(
+        "/auth/register",
+        json={
+            "name": "Login Tester",
+            "email": email,
+            "phone_number": "604-9722",
+            "password": password,
+            "role": "Customer",
+            "address": "789 Test Ave"
+        }
+    )
+
+    #   Trying login
+    login_response = client.post(
+        "/auth/login",
+        json={"email": email, "password": password}
+    )
+
+    assert login_response.status_code == 200
+    login_token = login_response.json()["access_token"]
+
+    #   Get Current User
+    get_user_response = client.get("/auth/me", headers={"Authorization": f"Bearer {login_token}"})
+    current_user: User = User(**get_user_response.json())
+
+    #   Get all orders
+    get_orders_response = client.get("/orders", headers={"Authorization": f"Bearer {login_token}"})
+    assert get_orders_response.status_code == 200
+    assert get_orders_response.json() == []
+    
+    #   Order something
+    create_order_response = client.post("/orders", json={ "user_id": current_user.id, "cart": testing_data.cart.model_dump() })
+
+    #   Get all orders
+    get_orders_response = client.get("/orders", headers={"Authorization": f"Bearer {login_token}"})
+    assert get_orders_response.status_code == 200
+    retrieved_orders: list[Order] = [Order(**order) for order in get_orders_response.json()]
+    assert retrieved_orders[0].items == testing_data.cart.menu_items

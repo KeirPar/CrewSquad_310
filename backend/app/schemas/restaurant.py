@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from enum import Enum
+from app.packages.geo.coordinate import Coordinate
 
 
 #Putting first as was getting errors when not specified first
@@ -18,6 +19,7 @@ class CuisineType(str, Enum):
 class RestaurantBase(BaseModel):
     name: str
     address: str
+    coordinate: Coordinate=Coordinate(49.94290035633633, -119.39555529342739)
     cuisine_type: CuisineType #validated with enum
     phone_number: str
     price_tier: int = Field(..., ge=1, le=4) #for feat3-fr1, im gonna add this for our searching by price tier feature, this will be an integer from 1 to 4, with 1 being the cheapest and 4 being the most expensive

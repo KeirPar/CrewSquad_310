@@ -1,6 +1,7 @@
 from pathlib import Path
 import json, os
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
+from app.schemas.restaurant import Restaurant
 
 #had to change this file from what is originally in the repo because I wanted to have a more robust way of handling the data, and I also wanted to be able to update only certain fields without having to provide all of them, so I made all fields optional in the update model
 class RestaurantRepository:
@@ -27,6 +28,15 @@ class RestaurantRepository:
                 json.dump(items, f, ensure_ascii=False, indent=2)
                 
             os.replace(tmp, self.data_path)         #this should just replace the old file with the new file, also its atomic :)
+
+    
+    def find_by_id(self, restaurant_id: int) -> Optional[Restaurant]:
+        restaurants = self.load_all()
+
+        for restaurant in restaurants:
+            if restaurant_id == restaurant["id"]:
+                return Restaurant(**restaurant)
+        return None
 
 
     def add_menu_item(self, restaurant_id: int, item_data: dict) -> dict:
