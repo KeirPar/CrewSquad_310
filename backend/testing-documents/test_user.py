@@ -34,7 +34,8 @@ def test_update_user():
         phone_number=current_user.phone_number,
         password="NEWPASSWORD",
         role=current_user.role,
-        address="NEWADDRESS"
+        address="NEWADDRESS",
+        delivery_note="ABC"
     )
     
     user_update_response = client.post("/user/update", json=updated_user_data.model_dump(), headers={"Authorization": f"Bearer {user_test_helper.login_token}"})
@@ -42,6 +43,7 @@ def test_update_user():
     #   Test if the user address field is updaed
     current_user: User = user_test_helper.get_current_user()
     assert current_user.address == updated_user_data.address
+    assert current_user.delivery_note == updated_user_data.delivery_note
 
 def test_update_user_with_invalid_location():
     #   Update the password and address

@@ -50,6 +50,7 @@ def create_order(order_id: int, user_id: int, cart: Cart) -> Order:
         restaurant_id=restaurant_id,
         items=cart.menu_items,
         delivery_address=user.address,
+        delivery_note=user.delivery_note,
         coordinate=user.coordinate,
         bill=bill
     )
@@ -159,5 +160,11 @@ def get_orders_by_distance(from_coordinate: Coordinate, max_kilometer_distance: 
         order: Order = order
         if order.coordinate.get_kilometer_distance_to(from_coordinate) < max_kilometer_distance:
             orders_in_distance.append(order)
+
+    
+    orders_in_distance.sort(
+        key=lambda order: float(order.coordinate.get_kilometer_distance_to(from_coordinate)) if order.coordinate is not None else 9999999999999,
+        reverse=False
+    )
 
     return orders_in_distance

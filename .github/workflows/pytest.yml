@@ -22,4 +22,5 @@ jobs:
           pip install -r ./backend/requirements.txt
       - name: Testing the code with Pytest
         run: |
-          pytest $(git ls-files '*.py')
+          cd ./backend/
+          python -m pytest -s testing-documents
