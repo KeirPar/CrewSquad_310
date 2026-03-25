@@ -50,6 +50,7 @@ def build_order_body(order: dict) -> dict:
         "restaurant_id": order["restaurant_id"],
         "items": order["items"],
         "delivery_address": order.get("delivery_address", "123 Test St"),
+        "coordinate": order["coordinate"],
         "bill": order["bill"]
     }
 

@@ -160,4 +160,10 @@ def get_orders_by_distance(from_coordinate: Coordinate, max_kilometer_distance: 
         if order.coordinate.get_kilometer_distance_to(from_coordinate) < max_kilometer_distance:
             orders_in_distance.append(order)
 
+    
+    orders_in_distance.sort(
+        key=lambda order: float(order.coordinate.get_kilometer_distance_to(from_coordinate)) if order.coordinate is not None else 9999999999999,
+        reverse=False
+    )
+
     return orders_in_distance

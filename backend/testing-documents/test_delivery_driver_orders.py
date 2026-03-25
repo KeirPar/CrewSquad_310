@@ -92,3 +92,26 @@ def test_get_long_distance_orders():
     response = client.get("/driver/orders?max_km=99999999999.676767")
     orders: list[dict] = response.json()
     assert len(orders) == 3
+
+def test_distance_sort():
+    #   Create users, where coordinates are unordered
+    order_at_coordinate(Coordinate(0, 0.01))
+    order_at_coordinate(Coordinate(45, 90))
+    order_at_coordinate(Coordinate(0.01, 0.02))
+
+
+    #   Create delivery driver
+    user_create = user_test_helper.test_user_create.model_copy()
+    user_create.coordinate = Coordinate(0, 0)
+    user_create.role = UserRole.DELIVERY_DRIVER
+    delivery_driver = user_test_helper.register_and_login_user(user=user_create)
+
+    response = client.get("/driver/orders?max_km=99999999999.676767")
+    orders: list[dict] = response.json()
+    
+    sorted_orders = sorted(
+        orders,
+        key=lambda order: float(Coordinate(**order.get("coordinate")).get_kilometer_distance_to(user_create.coordinate)),
+        reverse=False
+    )
+    assert orders == sorted_orders
