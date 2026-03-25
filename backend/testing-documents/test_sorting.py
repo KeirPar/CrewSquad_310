@@ -33,8 +33,8 @@ def test_sort_by_distance_asc():
     
     if len(restaurants) > 1: #if we have more than 1 restaurant, we can check the sorting, otherwise we can't really say if it's sorted or not
         sorted_restaurants = sorted(
-            restaurants, 
-            key=lambda r: float(Coordinate(**r.get("coordinate")).get_kilometer_distance_to(user_create.coordinate)), 
+            restaurants,
+            key=lambda r: float(Coordinate(**r.get("coordinate")).get_kilometer_distance_to(user_create.coordinate)),
             reverse=False
         )
         assert restaurants == sorted_restaurants
