@@ -27,10 +27,10 @@ def test_sort_by_distance_asc():
     user_create.coordinate = Coordinate(0, 0)
     user_test_helper.register_and_login_user(user=user_create)
     
-    response = client.get("/search/restaurants?sort_by=distance_asc")
+    response = client.get("/search/restaurants?sort_by=distance_asc", headers={"Authorization": f"Bearer {user_test_helper.login_token}"})
     assert response.status_code == 200
     restaurants = response.json()["data"]
-
+    
     if len(restaurants) > 1: #if we have more than 1 restaurant, we can check the sorting, otherwise we can't really say if it's sorted or not
         sorted_restaurants = sorted(
             restaurants, 

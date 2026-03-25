@@ -28,7 +28,7 @@ class SearchService: #make our SearchService class
             
         if min_rating is not None: #rating filter
             restaurants = [r for r in restaurants if r.get("rating", 0.0) >= min_rating]
-
+        
         sort_error_message = ""
         #added for sorting, we can sort by rating or price
         if sort_by == RestaurantSortOrder.RATING_DESC:
