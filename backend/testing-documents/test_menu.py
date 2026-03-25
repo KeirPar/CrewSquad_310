@@ -190,5 +190,4 @@ def test_global_menu_feed_offset():
     if data1["total_items"] >= 2: # only if more than 2 items
         item1 = data1["items"][0]
         item2 = data2["items"][0]
-        
-    assert item1["name"] != item2["name"]
+        assert item1["name"] != item2["name"]

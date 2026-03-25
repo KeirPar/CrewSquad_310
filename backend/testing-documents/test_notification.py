@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from app.main import app
 from app.repositories.notification_repo import notification_db
-
+import random
 successful_status = 200
 failed_status = 400
 
@@ -9,7 +9,23 @@ client = TestClient(app)
 
 
 def make_cart(restaurant_id=5):
+
+    random_num = random.randint(1, 1000) #random number for random email
+    res = client.post("/auth/register", json={ #make fake user
+        "name": "Notification User",
+        "email": f"notif_user_{random_num}@example.com",
+        "password": "Password123!",
+        "phone_number": "676-676-7676",
+        "role": "Customer",
+        "address": "123 Test St"
+    })
+
+    real_id = res.json().get("id", None) #get id from fake user
+
     return {
+        "user_id": real_id,
+        "cart": {
+        "id": 1, #had to add some fields (userID, cart, id inside of menu list), tests were not running without them.
         "menu_items": [
             {
                 "id": 1,
@@ -32,13 +48,14 @@ def make_cart(restaurant_id=5):
                 "restaurant_id": restaurant_id
             }
         ]
+        }
     }
 
 
 def test_notification_created_on_order():
     """Verify that placing an order creates a notification in the repository."""
     before = len(notification_db.get_all())
-    client.post("/orders", json=make_cart())
+    response = client.post("/orders", json=make_cart())
     after = len(notification_db.get_all())
     assert after == before + 1
 
@@ -107,7 +124,7 @@ def test_no_notification_on_mixed_restaurant_cart():
     """Verify that a failed order (mixed restaurants) does not create a notification."""
     before = len(notification_db.get_all())
     mixed_cart = make_cart()
-    mixed_cart["menu_items"][1]["restaurant_id"] = 99
+    mixed_cart["cart"]["menu_items"][1]["restaurant_id"] = 99
     client.post("/orders", json=mixed_cart)
     after = len(notification_db.get_all())
     assert after == before
