@@ -97,6 +97,6 @@ def delete_menu_item(
 #returning menus with limit and offset, not searching by ID
 @router.get("", response_model=SelectMenuResponse)
 def get_all_menus(limit: int = 10, offset: int = 0):
-    # Pass the parameters straight down to the service layer!
+    # Pass the parameters down to the service layer, which will handle the logic of fetching the appropriate menu items based on the limit and offset.
     return menu_service.get_menu_items(limit=limit, offset=offset)
 
