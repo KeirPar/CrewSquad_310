@@ -1,4 +1,6 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from app.schemas.user import User
+from app.services.auth_service import AuthService
 from app.schemas.payment import PaymentDecision, PaymentStatus
 from app.services.payment_service import process_payment, simulate_payment
 
@@ -7,7 +9,7 @@ router = APIRouter(prefix="/payments", tags=["Payments"])
 
 
 @router.post("/{order_id}")
-def decide_payment(order_id: int, body: PaymentDecision):
+def decide_payment(order_id: int, body: PaymentDecision, current_user: User = Depends(AuthService.get_current_user)):
     """
     Endpoint to process a payment decision for a given order.
 
@@ -25,6 +27,7 @@ def decide_payment(order_id: int, body: PaymentDecision):
         result = process_payment(
             order_id = order_id,
             decision = body.decision,
+            user_id = current_user.id,
             reason = body.reason
         )
 
@@ -34,9 +37,11 @@ def decide_payment(order_id: int, body: PaymentDecision):
     return result
 
 @router.post("/{order_id}/simulate")
-def simulate_payment_outcome(order_id: int):
+def simulate_payment_outcome(order_id: int, current_user: User = Depends(AuthService.get_current_user)):
     try:
-        result = simulate_payment(order_id=order_id)
+        result = simulate_payment(
+            order_id=order_id, 
+            user_id=current_user.id)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     

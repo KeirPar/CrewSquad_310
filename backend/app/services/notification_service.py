@@ -4,7 +4,7 @@ from app.schemas.user import User
 from app.schemas.order import Order, OrderStatus
 from app.schemas.notification import Notification, NotificationType
 from app.repositories.notification_repo import notification_db
-
+from app.schemas.payment import PaymentStatus
 
 def create_order_notification(order: Order) -> Notification:
     """Creates a notification for a new order."""
@@ -70,3 +70,27 @@ def create_status_change_notifications(order: Order, new_status: OrderStatus, cu
         created.append(restaurant_notification)
  
     return created
+
+def create_payment_notification(order_id: int, restaurant_id: int, user_id: int, payment_status: PaymentStatus) -> Notification:
+    
+    notification_type = (
+        NotificationType.PAYMENT_ACCEPTED
+        if payment_status == PaymentStatus.ACCEPTED
+        else NotificationType.PAYMENT_REJECTED
+    )
+    content = (
+        f"Payment for order #{order_id} has been accepted."
+        if payment_status == PaymentStatus.ACCEPTED
+        else f"Payment for order #{order_id} has been rejected."
+    )
+    notification = Notification(
+        id=len(notification_db.get_all()) + 1,
+        content=content,
+        timestamp=datetime.now(),
+        is_read=False,
+        notification_type=notification_type,
+        order_id=order_id,
+        restaurant_id=restaurant_id,
+        recipient_id=user_id
+    )
+    return notification_db.save(notification)

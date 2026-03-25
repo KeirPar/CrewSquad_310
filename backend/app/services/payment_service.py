@@ -4,6 +4,7 @@ from app.schemas.order import Order, OrderStatus
 from app.schemas.payment import PaymentAttempt, PaymentStatus
 from app.repositories.payment_repo import payment_db
 from app.repositories.order_repo import order_db
+from app.services.notification_service import create_payment_notification
 
 REJECTION_REASONS = [
     "Insufficient funds",
@@ -33,13 +34,14 @@ def create_payment_attempt(order: Order) -> PaymentAttempt:
     )
     return payment_db.save(payment)
 
-def process_payment(order_id: int, decision: PaymentStatus, reason: str = None) -> dict:
+def process_payment(order_id: int, decision: PaymentStatus, user_id: int, reason: str = None) -> dict:
     """
     Updates the payment attempt for a given order with the provided decision and reason.
 
     Args:
         order_id (int): The ID of the order whose payment attempt is to be updated.
         decision (PaymentStatus): The new status for the payment attempt (ACCEPTED or REJECTED).
+        user_id (int): The ID of the user initiating the payment update.
         reason (str, optional): An optional reason for the decision.
 
     Returns:
@@ -65,12 +67,14 @@ def process_payment(order_id: int, decision: PaymentStatus, reason: str = None) 
         order.status = OrderStatus.CANCELLED
     order_db.save(order)
 
+    create_payment_notification(order_id, order.restaurant_id, user_id, decision)
+
     return {
         "payment": updated_payment,
         "order": order
     }
 
-def simulate_payment(order_id: int) -> dict:
+def simulate_payment(order_id: int, user_id: int) -> dict:
     payment = payment_db.find_by_order_id(order_id)
     if not payment:
         raise ValueError(f"No payment attempt found for order ID {order_id}.")  
@@ -93,7 +97,9 @@ def simulate_payment(order_id: int) -> dict:
     if decision == PaymentStatus.ACCEPTED:
         order.status = OrderStatus.PREPARING
     else:
-        order.status = OrderStatus.CANCELLED    
+        order.status = OrderStatus.CANCELLED  
+
+    create_payment_notification(order_id, order.restaurant_id, user_id, decision)  
         
     return {
         "simulated": True,

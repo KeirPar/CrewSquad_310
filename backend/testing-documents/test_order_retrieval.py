@@ -3,6 +3,8 @@ from fastapi.testclient import TestClient
 from app.main import app
 from app.schemas.order import OrderCreate
 from app.helpers.testing_data import TestingData
+from app.helpers.user_test_helper import UserTestHelper
+
 
 
 successful_status = 200
@@ -12,7 +14,14 @@ missing_status = 404
 
 client = TestClient(app)
 testing_data = TestingData()
+user_helper = UserTestHelper(client=client)
 
+def get_auth_headers():
+    user_create = user_helper.test_user_create.model_copy()
+    user_helper.register_and_login_user(user=user_create)
+    return {"Authorization": f"Bearer {user_helper.login_token}"}
+
+headers = get_auth_headers()
 # reusable valid cart (same pattern as test_order.py)
 def make_order_create():
     return OrderCreate(
@@ -37,7 +46,7 @@ def test_get_order_status_has_order_and_payment():
 def test_get_order_status_reflects_payment_decision():
     """Verify the order status updates correctly after a payment decision."""
     order_id = client.post("/orders", json=make_order_create()).json()["id"]
-    client.post(f"/payments/{order_id}", json={"decision": "ACCEPTED"})
+    client.post(f"/payments/{order_id}", json={"decision": "ACCEPTED"}, headers=headers)
     response = client.get(f"/orders/{order_id}")
     assert response.status_code == successful_status
     assert response.json()["order"]["status"] == "PREPARING"
@@ -46,7 +55,7 @@ def test_get_order_status_reflects_payment_decision():
 def test_get_order_status_reflects_rejection():
     """Verify the order status updates correctly after a rejection."""
     order_id = client.post("/orders", json=make_order_create()).json()["id"]
-    client.post(f"/payments/{order_id}", json={"decision": "REJECTED", "reason": "Too busy"})
+    client.post(f"/payments/{order_id}", json={"decision": "REJECTED", "reason": "Too busy"}, headers=headers)
     response = client.get(f"/orders/{order_id}")
     assert response.status_code == successful_status
     assert response.json()["order"]["status"] == "CANCELLED"
@@ -54,5 +63,5 @@ def test_get_order_status_reflects_rejection():
 
 def test_get_order_nonexistent():
     """Verify that retrieving a non-existent order returns 404."""
-    response = client.get("/orders/99999")
+    response = client.get("/orders/99999", headers=headers)
     assert response.status_code == missing_status
