@@ -1,23 +1,24 @@
 import pytest
 from fastapi.testclient import TestClient
-from app.main import app
+from app.main import create_app
 from app.helpers.user_test_helper import UserTestHelper
 from app.helpers.testing_data import TestingData
 from app.packages.geo.coordinate import Coordinate
 from app.schemas.user import UserCreate
 from app.schemas.user import UserRole
 from app.repositories.order_repo import order_db
+from app.repositories.helpers.repository_manager import RepositoryManager
 
-client = TestClient(app)
+client = TestClient(create_app())
 user_test_helper = UserTestHelper(client=client)
 testing_data = TestingData()
 
 user_count: int = 0
 
-#   Clear database before testing each function, to ensure data is independent.
+#   Clear database before testing each function, to ensure data is independent between functions. (Results won't affect each other)
 @pytest.fixture(scope="function", autouse=True)
 def clean_up():
-    order_db._orders = []
+    RepositoryManager.reset_all_repositories()
 
 def order_at_coordinate(coordinate: Coordinate):
     global user_count
