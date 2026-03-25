@@ -19,6 +19,13 @@ class NotificationRepository:
         """Finds all notifications for a specific recipient (e.g. user or restaurant)."""
         return [n for n in self.notifications if n.recipient_id == recipient_id]
     
+    def find_by_order_and_recipient(self, order_id: int, recipient_id: int) -> List[Notification]:
+        matching = [
+            n for n in self.notifications
+            if n.order_id == order_id and n.recipient_id == recipient_id
+        ]
+        return sorted(matching, key = lambda n: n.timestamp)
+    
     def get_all(self) -> List[Notification]:
         """Returns all notifications in the repository."""
         return self.notifications
