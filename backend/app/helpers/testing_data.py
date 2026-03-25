@@ -29,6 +29,7 @@ class TestingData:
             default_address="123 Fake St",
             address="123 Fake St",
             coordinate=Coordinate(6.6767, 8.6767),
+            # delivery_note="This door password is 678912", #   FIXME: applying this will cause an error when running all tests, but it's fine when running test one by one
             role=UserRole.CUSTOMER,
             cart=[cart_id]
         )

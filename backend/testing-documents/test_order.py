@@ -28,6 +28,7 @@ def test_create_order_success():
     assert data["restaurant_id"] == 5
     assert len(data["items"]) == 2
     assert data["bill"]["items_subtotal"] == 15
+    assert data["delivery_note"] == testing_data.customer.delivery_note
 
 
 def test_create_order_status_is_pending():
@@ -83,6 +84,9 @@ def test_create_order_has_required_fields():
     assert "restaurant_id" in data
     assert "items" in data
     assert "bill" in data
+    assert "delivery_note" in data
+    assert "delivery_address" in data
+    assert "coordinate" in data
 
 def test_create_order_invalid_menu_items():
     response = client.post("/orders", json={"menu_items": "not a list"})

@@ -50,6 +50,7 @@ def create_order(order_id: int, user_id: int, cart: Cart) -> Order:
         restaurant_id=restaurant_id,
         items=cart.menu_items,
         delivery_address=user.address,
+        delivery_note=user.delivery_note,
         coordinate=user.coordinate,
         bill=bill
     )
