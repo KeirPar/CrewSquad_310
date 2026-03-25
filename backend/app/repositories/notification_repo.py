@@ -1,7 +1,6 @@
 from typing import List
 from app.schemas.notification import Notification
 
-
 class NotificationRepository:
 
     def __init__(self):
@@ -15,6 +14,10 @@ class NotificationRepository:
     def find_by_order_id(self, order_id: int) -> List[Notification]:
         """Finds all notifications associated with a specific order ID."""
         return [n for n in self.notifications if n.order_id == order_id]
+    
+    def find_by_recipient_id(self, recipient_id: int) -> List[Notification]:
+        """Finds all notifications for a specific recipient (e.g. user or restaurant)."""
+        return [n for n in self.notifications if n.recipient_id == recipient_id]
     
     def get_all(self) -> List[Notification]:
         """Returns all notifications in the repository."""

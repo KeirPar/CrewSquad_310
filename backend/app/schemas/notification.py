@@ -16,3 +16,4 @@ class Notification(BaseModel):
     notification_type: NotificationType
     order_id: int
     restaurant_id: int
+    recipient_id: int
