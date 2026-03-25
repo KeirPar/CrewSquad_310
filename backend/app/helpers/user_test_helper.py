@@ -33,13 +33,15 @@ class UserTestHelper:
         assert login_response.status_code == 200
         self.login_token = login_response.json()["access_token"]
 
+        self.client.headers["Authorization"] = f"Bearer {self.login_token}"
+
         #   Get Current User
-        get_user_response = self.client.get("/auth/me", headers={"Authorization": f"Bearer {self.login_token}"})
+        get_user_response = self.client.get("/auth/me")
         current_user: User = User(**get_user_response.json())
 
         return current_user
 
     def get_current_user(self) -> User:
-        get_user_response = self.client.get("/auth/me", headers={"Authorization": f"Bearer {self.login_token}"})
+        get_user_response = self.client.get("/auth/me")
         current_user: User = User(**get_user_response.json())
         return current_user

@@ -1,6 +1,7 @@
 from app.schemas.order import Order
 from .user_repository import user_db
 
+#   TODO: add types
 class OrderRepository:
     """
     A simple in-memory repository for storing orders.

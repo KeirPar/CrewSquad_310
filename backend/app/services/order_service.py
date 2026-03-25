@@ -9,11 +9,13 @@ from app.schemas.restaurant_manager import RestaurantManager
 from app.schemas.bill import Bill
 from app.services.auth_service import AuthService
 from app.repositories.user_repository import user_db
+from app.repositories.order_repo import order_db
 from app.services.fees.tax_type import TaxType
 from app.repositories.restaurant_repo import RestaurantRepository
 from app.schemas.restaurant import Restaurant
 from .fees.get_province_tax import get_province_tax
 from .fees.get_delivery_fee import get_delivery_fee
+from app.packages.geo.coordinate import Coordinate
 
 
 def create_order(order_id: int, user_id: int, cart: Cart) -> Order:
@@ -48,6 +50,7 @@ def create_order(order_id: int, user_id: int, cart: Cart) -> Order:
         restaurant_id=restaurant_id,
         items=cart.menu_items,
         delivery_address=user.address,
+        coordinate=user.coordinate,
         bill=bill
     )
 
@@ -139,7 +142,7 @@ def update_order_status(order: Order, new_status: OrderStatus, current_user: Use
     order.status = new_status #otherwise, all good. Change the status and return the order
     return order
 
-
+#   TOOO: this is returning empty list currently.
 def get_pending_queue(restaurant_id: int) -> list[Order]: #added for us3
     #returns a list of all pending orders for a restaurant, sorted by oldest first
 
@@ -148,3 +151,13 @@ def get_pending_queue(restaurant_id: int) -> list[Order]: #added for us3
     pending_queue = [order for order in all_orders if order.restaurant_id == restaurant_id and order.status == OrderStatus.PENDING] 
     pending_queue.sort(key=lambda x: x.created_at) 
     return pending_queue
+
+def get_orders_by_distance(from_coordinate: Coordinate, max_kilometer_distance: float) -> list[Order]:
+    orders_in_distance = []
+
+    for order in order_db._orders:
+        order: Order = order
+        if order.coordinate.get_kilometer_distance_to(from_coordinate) < max_kilometer_distance:
+            orders_in_distance.append(order)
+
+    return orders_in_distance

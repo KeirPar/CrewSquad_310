@@ -45,6 +45,7 @@ def create_dummy_order(status: OrderStatus) -> Order: #creating dummy order
         restaurant_id=1, 
         items=[], 
         delivery_address="",
+        coordinate=Coordinate(0, 0),
         bill=Bill.empty()
     ) #.utcnow() was depreciated
 
