@@ -23,4 +23,5 @@ class Order(BaseModel):
     restaurant_id: int
     items: list[MenuItem]
     delivery_address: str
+    coordinate: Coordinate
     bill: Bill

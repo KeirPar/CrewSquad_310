@@ -1,10 +1,15 @@
 from fastapi.testclient import TestClient
 from app.main import app
+from app.helpers.user_test_helper import UserTestHelper
+from app.packages.geo.coordinate import Coordinate
 
 successful_status = 200
 failed_status = 400
 
 client = TestClient(app)
+
+user_test_helper = UserTestHelper(client)
+user_test_helper.register_and_login_user(user=user_test_helper.test_user_create)
 
 
 def make_cart(restaurant_id=5):
@@ -52,6 +57,7 @@ def build_order_body(order: dict) -> dict:
         "restaurant_id": order["restaurant_id"],
         "items": order["items"],
         "delivery_address": order.get("delivery_address", "123 Test St"),
+        "coordinate": order["coordinate"],
         "bill": order["bill"]
     }
 
