@@ -24,4 +24,4 @@ class MenuService:
             "items": selected_items
         }
 
-menu_service = MenuService()
+menu_service = MenuService() #create an instance of the service to be used in the router

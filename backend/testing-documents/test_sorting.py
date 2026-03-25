@@ -37,4 +37,8 @@ def test_sort_by_distance_asc():
             key=lambda r: float(Coordinate(**r.get("coordinate")).get_kilometer_distance_to(user_create.coordinate)),
             reverse=False
         )
+
+        print("\nAPI Order:", [r["name"] for r in restaurants])
+        print("Test Order:", [r["name"] for r in sorted_restaurants])
+
         assert restaurants == sorted_restaurants

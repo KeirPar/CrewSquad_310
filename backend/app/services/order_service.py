@@ -112,8 +112,6 @@ def calculate_items_subtotal(cart: Cart) -> float:
 "From there, it can either be changed to PREPARING or CANCELLED. If it is changed to PREPARING, "
 "then it can either be changed to DELIVERED or CANCELLED. Once an order is DELIVERED or CANCELLED, "
 "it is locked and cannot be changed anymore. So you cant change a DELIVERED order to CANCELLED or anything like that. "
-"This is just an example of how we can implement the status changing, we can change the valid transitions later if we want."
-
 
 def update_order_status(order: Order, new_status: OrderStatus, current_user: User) -> Order: #added for fr3
   
@@ -143,11 +141,10 @@ def update_order_status(order: Order, new_status: OrderStatus, current_user: Use
     order.status = new_status #otherwise, all good. Change the status and return the order
     return order
 
-#   TOOO: this is returning empty list currently.
 def get_pending_queue(restaurant_id: int) -> list[Order]: #added for us3
     #returns a list of all pending orders for a restaurant, sorted by oldest first
 
-    all_orders = [] #this would be like fetching all orders from the db
+    all_orders = [] #this would be like fetching all orders from the db, however we dont have any orders in a db
 
     pending_queue = [order for order in all_orders if order.restaurant_id == restaurant_id and order.status == OrderStatus.PENDING] 
     pending_queue.sort(key=lambda x: x.created_at) 

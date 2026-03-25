@@ -7,7 +7,7 @@ from typing import Optional
 class SearchService: #make our SearchService class
 
     def __init__(self):
-        self.repo = RestaurantRepository()
+        self.repo = RestaurantRepository() #make the repository so we can grab the data from the json
 
     def filter_restaurants(
         self, 
@@ -42,9 +42,9 @@ class SearchService: #make our SearchService class
                 restaurants.sort(
                     key=lambda r: float(Coordinate(**r.get("coordinate")).get_kilometer_distance_to(from_coordinate)) if r.get("coordinate") is not None else 9999999999999,
                     reverse=False
-                ) #sort by price, low to high
+                ) 
 
-        paginated_restaurants = restaurants[offset:offset + limit] 
+        paginated_restaurants = restaurants[offset:offset + limit] #add the pagination (offset and limit)
 
         if len(paginated_restaurants) == 0: 
             return { #if the list is empty, return a message saying no restaurants found matching criteria, and an empty list for data

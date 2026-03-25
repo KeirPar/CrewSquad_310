@@ -17,9 +17,9 @@ from app.repositories.order_repo import order_db
 from app.repositories.payment_repo import payment_db
 from app.services.auth_service import AuthService
 
-router = APIRouter()
+router = APIRouter(prefix="/orders", tags=["Orders"])
 
-def get_current_user() -> User: # because we dont have feat1 setup
+def get_current_user() -> User: #make fake user
     # same as the fake user from the test file
     return Customer( #change this to a restaurant manager if you want to test that instead
         id=1,
@@ -27,11 +27,11 @@ def get_current_user() -> User: # because we dont have feat1 setup
         password_hash="hashthingy", 
         email="fake@gmail.com",
         phone_number="604-677-6767",
-        role=UserRole.CUSTOMER,
-        default_address="123 Fake St", #gonna have to change if this is a restaurant manager, like for testing
+        role=UserRole.CUSTOMER,     
+        default_address="123 Fake St", 
     )
 
-def get_current_manager() -> RestaurantManager:
+def get_current_manager() -> RestaurantManager: #make fake manager
     return RestaurantManager(
         id=2,
         name="Bob Manager",
@@ -43,11 +43,11 @@ def get_current_manager() -> RestaurantManager:
         restaurant_id=5,
     )
 
-@router.get("/orders")
+@router.get("/")
 def get_orders(user: User = Depends(AuthService.get_current_user)) -> list[Order]:
     return order_db.find_all_by_user_id(user.id)
 
-@router.post("/orders")
+@router.post("/")
 def place_order(orderCreate: OrderCreate):
     """
     Endpoint to place an order based on the given cart. 
@@ -70,7 +70,7 @@ def place_order(orderCreate: OrderCreate):
     create_order_notification(order) 
     return {**order.model_dump(), "payment": payment}
 
-@router.get("/orders/queue")
+@router.get("/queue")
 def get_pending_orders(current_user: User = Depends(AuthService.get_current_user)):
     
     if current_user.role != UserRole.OWNER: #make sure user is a manager/owner
@@ -86,7 +86,7 @@ def get_pending_orders(current_user: User = Depends(AuthService.get_current_user
     }
 
 
-@router.get("/orders/{order_id}")
+@router.get("/{order_id}")
 def get_order_status(order_id: int):
     order = order_db.find_by_id(order_id)
     if not order:
@@ -95,7 +95,7 @@ def get_order_status(order_id: int):
     payment = payment_db.find_by_order_id(order_id)
     return {"order": order, "payment": payment}
 
-@router.patch("/orders/{order_id}/status")
+@router.patch("/{order_id}/status")
 def change_order_status(
     order_id: int,
     order: Order, 

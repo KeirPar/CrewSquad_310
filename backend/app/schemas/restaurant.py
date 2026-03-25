@@ -37,6 +37,7 @@ class RestaurantUpdate(BaseModel):
     phone_number: Optional[str] = None
     is_open: Optional[bool] = None
     price_tier: Optional[int] = Field(None, ge=1, le=4) #changed this price tier 
+    
 #for reading
 class Restaurant(RestaurantBase):
     id: int
