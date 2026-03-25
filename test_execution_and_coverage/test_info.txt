@@ -1,0 +1,9 @@
+Throughout our tests, we have used a variety of different methods to ensure our code is reliable and works.
+For our integration tests, we use FastAPI's TestClient to simulate the API responses and real HTTP requests.
+We also have used unit tests to ensure our core logic works and our schemas are used properly,
+for instance making sure order statuses can only go through a strict order. (pending -> preparing etc)
+
+Our tests use temporary and isolated data that often if required simulates registering and logging in a new user, and then creating say a fake menu or other restaurant info.
+This simulates complex edge cases without affecting real data.
+
+Lastly I checked our test coverage using pytest-cov, and we have an average of 90%.
