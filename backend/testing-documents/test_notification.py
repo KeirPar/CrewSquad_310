@@ -63,79 +63,79 @@ def test_notification_created_on_order():
 def test_notification_type_is_new_order():
     """Verify the notification type is NEW_ORDER."""
     client.post("/orders", json=make_cart())
-    notification = notification_db.get_all()[-1]
-    assert notification.notification_type == "NEW_ORDER"
+    notification = client.get("/notifications").json()["notifications"][-1]
+    assert notification["notification_type"] == "NEW_ORDER"
 
 
 def test_notification_order_id_matches():
     """Verify the notification stores the correct order ID."""
     response = client.post("/orders", json=make_cart())
     order_id = response.json()["id"]
-    notification = notification_db.get_all()[-1]
-    assert notification.order_id == order_id
+    notification = client.get("/notifications").json()["notifications"][-1]
+    assert notification["order_id"] == order_id
 
 
 def test_notification_restaurant_id_matches():
     """Verify the notification stores the correct restaurant ID."""
     response = client.post("/orders", json=make_cart(restaurant_id=5))
-    notification = notification_db.get_all()[-1]
-    assert notification.restaurant_id == 5
+    notification = client.get("/notifications").json()["notifications"][-1]
+    assert notification["restaurant_id"] == 5
 
 
 def test_notification_has_timestamp():
     """Verify the notification has a timestamp."""
     client.post("/orders", json=make_cart())
-    notification = notification_db.get_all()[-1]
-    assert notification.timestamp is not None
+    notification = client.get("/notifications").json()["notifications"][-1]
+    assert notification["timestamp"] is not None
 
 
 def test_notification_is_unread_on_creation():
     """Verify the notification starts as unread."""
     client.post("/orders", json=make_cart())
-    notification = notification_db.get_all()[-1]
-    assert notification.is_read == False
+    notification = client.get("/notifications").json()["notifications"][-1]
+    assert notification["is_read"] == False
 
 
 def test_notification_has_content():
     """Verify the notification has a non-empty content message."""
     client.post("/orders", json=make_cart())
-    notification = notification_db.get_all()[-1]
-    assert notification.content is not None
-    assert len(notification.content) > 0
+    notification = client.get("/notifications").json()["notifications"][-1]
+    assert notification["content"] is not None
+    assert len(notification["content"]) > 0
 
 
 def test_notification_has_valid_id():
     """Verify the notification has a positive integer ID."""
     client.post("/orders", json=make_cart())
-    notification = notification_db.get_all()[-1]
-    assert isinstance(notification.id, int)
-    assert notification.id > 0
+    notification = client.get("/notifications").json()["notifications"][-1]
+    assert isinstance(notification["id"], int)
+    assert notification["id"] > 0
 
 
 def test_no_notification_on_empty_cart():
     """Verify that a failed order does not create a notification."""
-    before = len(notification_db.get_all())
+    before = len(client.get("/notifications").json()["notifications"])
     client.post("/orders", json={"menu_items": []})
-    after = len(notification_db.get_all())
+    after = len(client.get("/notifications").json()["notifications"])
     assert after == before
 
 
 def test_no_notification_on_mixed_restaurant_cart():
     """Verify that a failed order (mixed restaurants) does not create a notification."""
-    before = len(notification_db.get_all())
+    before = len(client.get("/notifications").json()["notifications"])
     mixed_cart = make_cart()
     mixed_cart["cart"]["menu_items"][1]["restaurant_id"] = 99
     client.post("/orders", json=mixed_cart)
-    after = len(notification_db.get_all())
+    after = len(client.get("/notifications").json()["notifications"])
     assert after == before
 
 
 def test_multiple_orders_create_multiple_notifications():
     """Verify that each order creates its own separate notification."""
-    before = len(notification_db.get_all())
+    before = len(client.get("/notifications").json()["notifications"])
     client.post("/orders", json=make_cart())
     client.post("/orders", json=make_cart())
-    after = len(notification_db.get_all())
+    after = len(client.get("/notifications").json()["notifications"])
     assert after == before + 2
 
 

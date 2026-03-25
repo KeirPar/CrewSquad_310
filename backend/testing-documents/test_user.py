@@ -1,6 +1,7 @@
 from fastapi.testclient import TestClient
 from app.main import app
 from app.helpers.testing_data import TestingData
+from app.helpers.user_test_helper import UserTestHelper
 from app.schemas.user import User, UserCreate
 from app.schemas.order import Order, OrderCreate
 from app.schemas.cart import Cart
@@ -9,6 +10,7 @@ from app.packages.geo.coordinate import Coordinate
 
 client = TestClient(app)
 testing_data = TestingData()
+user_test_helper = UserTestHelper(client)
 
 successful_status = 200
 failed_status = 400
@@ -18,36 +20,13 @@ invalid_status = 422
 email = "login_test@example.com"
 password = "Password123!"
 
-client.post(
-    "/auth/register",
-    json={
-        "name": "Login Tester",
-        "email": email,
-        "phone_number": "604-9722",
-        "password": password,
-        "role": "Customer",
-        "address": "789 Test Ave",
-        "coordinate": {
-            "latitude": 23,
-            "longitude": 3
-        }
-    }
-)
-
-#   Trying login
-login_response = client.post(
-    "/auth/login",
-    json={"email": email, "password": password}
-)
-
-assert login_response.status_code == 200
-login_token = login_response.json()["access_token"]
+test_user_create: UserCreate = user_test_helper.test_user_create.model_copy()
+test_user_create.email = email
+test_user_create.password = password
 
 
 def test_update_user():
-    #   Get Current User
-    get_user_response = client.get("/auth/me", headers={"Authorization": f"Bearer {login_token}"})
-    current_user: User = User(**get_user_response.json())
+    current_user = user_test_helper.register_and_login_user(user=test_user_create)
     #   Update the password and address
     updated_user_data: UserCreate = UserCreate(
         name=current_user.name,
@@ -58,17 +37,13 @@ def test_update_user():
         address="NEWADDRESS"
     )
     
-    user_update_response = client.post("/user/update", json=updated_user_data.model_dump(), headers={"Authorization": f"Bearer {login_token}"})
+    user_update_response = client.post("/user/update", json=updated_user_data.model_dump(), headers={"Authorization": f"Bearer {user_test_helper.login_token}"})
 
     #   Test if the user address field is updaed
-    get_user_response = client.get("/auth/me", headers={"Authorization": f"Bearer {login_token}"})
-    current_user: User = User(**get_user_response.json())
+    current_user: User = user_test_helper.get_current_user()
     assert current_user.address == updated_user_data.address
 
 def test_update_user_with_invalid_location():
-    #   Get Current User
-    get_user_response = client.get("/auth/me", headers={"Authorization": f"Bearer {login_token}"})
-    current_user: User = User(**get_user_response.json())
     #   Update the password and address
     updated_user_data_json = {
         'name': 'Login Tester', 
@@ -83,6 +58,6 @@ def test_update_user_with_invalid_location():
         }
     }
     
-    user_update_response = client.post("/user/update", json=updated_user_data_json, headers={"Authorization": f"Bearer {login_token}"})
+    user_update_response = client.post("/user/update", json=updated_user_data_json, headers={"Authorization": f"Bearer {user_test_helper.login_token}"})
 
     assert user_update_response.status_code == invalid_status
