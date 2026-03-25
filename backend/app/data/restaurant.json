@@ -4,6 +4,10 @@
     "owner_id": 1,
     "name": "Spicy Taco Supreme",
     "address": "123 Kelowna Street",
+    "coordinate": {
+      "latitude": 45,
+      "longitude": 45
+    },
     "cuisine_type": "Mexican",
     "rating": 4.5,
     "is_open": true,
@@ -15,6 +19,10 @@
     "owner_id": 2,
     "name": "Burger Joint Ohio",
     "address": "456 Okanagan Ave",
+    "coordinate": {
+      "latitude": 42,
+      "longitude": 43
+    },
     "cuisine_type": "American",
     "rating": 3.8,
     "is_open": true,
@@ -26,6 +34,10 @@
     "owner_id": 3,
     "name": "Sushi World",
     "address": "789 Lakeview Blvd",
+    "coordinate": {
+      "latitude": 15,
+      "longitude": 15
+    },
     "cuisine_type": "Japanese",
     "rating": 4.9,
     "is_open": true,
@@ -37,6 +49,10 @@
     "owner_id": 4,
     "name": "Mario & Luigi's Pasta",
     "address": "101 Bernard Ave",
+    "coordinate": {
+      "latitude": 85,
+      "longitude": 105
+    },
     "cuisine_type": "Italian",
     "rating": 4.2,
     "is_open": false,
@@ -48,6 +64,10 @@
     "owner_id": 1,
     "name": "Test Bistro",
     "address": "456 Test Ave",
+    "coordinate": {
+      "latitude": 35,
+      "longitude": 25
+    },
     "cuisine_type": "Indian",
     "phone_number": "250-999-9999",
     "price_tier": 3,

@@ -26,6 +26,7 @@ def register_user(user_in: UserCreate):
         password_hash = secure_hashed_password,
         role = user_in.role,
         address = user_in.address,
+        coordinate = user_in.coordinate,
         order_history = [],
         cart = []
 
