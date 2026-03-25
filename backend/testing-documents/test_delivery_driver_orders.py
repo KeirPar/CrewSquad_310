@@ -4,7 +4,7 @@ from app.main import create_app
 from app.helpers.user_test_helper import UserTestHelper
 from app.helpers.testing_data import TestingData
 from app.packages.geo.coordinate import Coordinate
-from app.schemas.user import UserCreate
+from app.schemas.order import Order
 from app.schemas.user import UserRole
 from app.repositories.order_repo import order_db
 from app.repositories.helpers.repository_manager import RepositoryManager
@@ -14,6 +14,7 @@ user_test_helper = UserTestHelper(client=client)
 testing_data = TestingData()
 
 user_count: int = 0
+DELIVERY_NOTE = "The door password is 675267"
 
 #   Clear database before testing each function, to ensure data is independent between functions. (Results won't affect each other)
 @pytest.fixture(scope="function", autouse=True)
@@ -26,6 +27,7 @@ def order_at_coordinate(coordinate: Coordinate):
     user_create = user_test_helper.test_user_create.model_copy()
     user_create.email = "91241204" + str(user_count) + "@example.com"
     user_create.coordinate = coordinate
+    user_create.delivery_note = DELIVERY_NOTE
     user = user_test_helper.register_and_login_user(user=user_create)
 
     create_order_response = client.post("/orders", json={ 
@@ -59,6 +61,9 @@ def test_get_nearby_orders():
 
     response = client.get("/driver/orders?max_km=100")
     orders: list[dict] = response.json()
+    for raw_order in orders:
+        order = Order(**raw_order)
+        order.delivery_note = DELIVERY_NOTE
     assert len(orders) == 2 #   Only the first two order that is close to the driver coordinate will be retrieved.
 
 def test_get_impossible_distance_orders():

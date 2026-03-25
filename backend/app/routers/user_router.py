@@ -12,3 +12,4 @@ def update_user(updated_user_data: UserCreate, user: User = Depends(AuthService.
     user.password_hash = AuthService.hash_password(updated_user_data.password)
     user.role = updated_user_data.role
     user.address = updated_user_data.address
+    user.delivery_note = updated_user_data.delivery_note

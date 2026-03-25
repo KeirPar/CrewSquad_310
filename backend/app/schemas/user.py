@@ -17,6 +17,7 @@ class UserCreate(BaseModel):
     role: UserRole
     address: str = Field(..., description="Required for US1 delivery history")
     coordinate: Coordinate = Coordinate(49.94290035633633, -119.39555529342739)
+    delivery_note: str = ""
 
 
 #Storing the user data internally
@@ -30,5 +31,6 @@ class User(BaseModel):
     #   TODO: Maybe we should move the address, coordinate to Customer & Restaurant, order_history&cart to Customer, unless all users (RestaurantManager, Admin) needs an address and other properties.
     address: str
     coordinate: Coordinate = Coordinate(49.94290035633633, -119.39555529342739)
+    delivery_note: str = ""
     order_history: list[int] = [] #stores order id
     cart: list[int] = [] #stores cart id

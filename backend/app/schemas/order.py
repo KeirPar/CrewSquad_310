@@ -24,4 +24,5 @@ class Order(BaseModel):
     items: list[MenuItem]
     delivery_address: str
     coordinate: Coordinate
+    delivery_note: str = ""
     bill: Bill
