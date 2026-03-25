@@ -1,7 +1,7 @@
 import queue
 from pydantic import BaseModel
 from fastapi import APIRouter, Depends, HTTPException
-from app.services.notification_service import create_order_notification
+from app.services.notification_service import create_order_notification, create_status_change_notifications
 from app.services import order_service
 from app.services.auth_service import AuthService
 from app.schemas.cart import Cart
@@ -27,7 +27,20 @@ def get_current_user() -> User: # because we dont have feat1 setup
         password_hash="hashthingy", 
         email="fake@gmail.com",
         phone_number="604-677-6767",
+        role=UserRole.CUSTOMER,
         default_address="123 Fake St", #gonna have to change if this is a restaurant manager, like for testing
+    )
+
+def get_current_manager() -> RestaurantManager:
+    return RestaurantManager(
+        id=2,
+        name="Bob Manager",
+        password_hash="hashthingy",
+        email="manager@gmail.com",
+        phone_number="604-777-7777",
+        role=UserRole.OWNER,
+        address="456 Manager St",
+        restaurant_id=5,
     )
 
 @router.get("/orders")
@@ -87,7 +100,7 @@ def change_order_status(
     order_id: int,
     order: Order, 
     new_status: OrderStatus, 
-    current_user: User = Depends(get_current_user) #fake user until we have feat1 setup
+    current_user: User = Depends(get_current_manager) #fake user until we have feat1 setup
 ):
     try:
         updated_order = update_order_status(
@@ -95,6 +108,7 @@ def change_order_status(
             new_status=new_status, 
             current_user=current_user
         )
+        create_status_change_notifications(updated_order, new_status, current_user) 
         return {"message": "Order status updated successfully", "data": updated_order}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
