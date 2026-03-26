@@ -7,8 +7,8 @@ class MenuItem(BaseModel):
     id: int
     name: str
     description: str
-    base_price: float = Field(alias="price")
-    percentage_discount: float = 0
+    base_price: float = Field(alias="price", ge=0)
+    percentage_discount: float = Field(default=0, ge=0, le=1)
     image_url: str
     add_ons: List[int]  #   add-ons' id
     is_available: bool
