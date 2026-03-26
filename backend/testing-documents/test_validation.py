@@ -1,3 +1,4 @@
+from fastapi import status
 from fastapi.testclient import TestClient
 from app.main import app
 
@@ -102,8 +103,8 @@ def test_referential_integrity_cascade():
 
     #Try deleting the restaurant
     del_res = client.delete(f"/restaurants/{restaurant_id}", headers=headers)
-    assert del_res.status_code == 204
+    assert del_res.status_code == status.HTTP_204_NO_CONTENT
 
     #Verify the menu is gone should get a 404
     menu_res = client.get(f"/menu/{restaurant_id}")
-    assert menu_res.status_code == 404
+    assert menu_res.status_code == status.HTTP_404_NOT_FOUND

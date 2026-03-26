@@ -1,4 +1,5 @@
 import pytest
+from fastapi import status
 from fastapi.testclient import TestClient
 from app.main import create_app
 from app.helpers.user_test_helper import UserTestHelper
@@ -44,7 +45,7 @@ def test_customer_get_orders():
     user_test_helper.register_and_login_user(user=user_create)
 
     response = client.get("/driver/orders?max_km=100")
-    assert response.status_code == 403  #   It failed because only driver can get other orders
+    assert response.status_code == status.HTTP_403_FORBIDDEN  #   It failed because only driver can get other orders
 
 
 def test_get_nearby_orders():

@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 from app.main import app
+from fastapi import status
 
 client = TestClient(app)
 
@@ -25,7 +26,7 @@ def test_restaurant_lifecycle_and_security():
         "phone_number": "250-111-2222",
         "price_tier": 3
     })
-    assert reg_res.status_code == 201
+    assert reg_res.status_code == status.HTTP_201_CREATED
     restaurant_id = reg_res.json()["id"]
 
     #Update the phone number
@@ -34,7 +35,7 @@ def test_restaurant_lifecycle_and_security():
         headers=headers,
         json={"phone_number": "250-999-9999"}
     )
-    assert patch_res.status_code == 200
+    assert patch_res.status_code == status.HTTP_200_OK
     assert patch_res.json()["phone_number"] == "250-999-9999"
 
     #Try to update Restaurant #2 (not yours)
@@ -43,5 +44,5 @@ def test_restaurant_lifecycle_and_security():
         headers=headers,
         json={"name": "I don't own this"}
     )
-    assert forbidden_res.status_code == 403
+    assert forbidden_res.status_code == status.HTTP_403_FORBIDDEN
     assert "You do not own this restaurant" in forbidden_res.json()["detail"]

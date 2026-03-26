@@ -2,13 +2,14 @@ from fastapi.testclient import TestClient
 from app.main import app
 from app.helpers.user_test_helper import UserTestHelper
 from app.packages.geo.coordinate import Coordinate
+from fastapi import status
 
 client = TestClient(app)
 user_test_helper = UserTestHelper(client=client)
 
 def test_sort_by_rating_desc():
     response = client.get("/search/restaurants?sort_by=rating_desc")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     data = response.json()["data"] 
 
     if len(data) > 1: #if we have more than 1 restaurant, we can check the sorting, otherwise we can't really say if it's sorted or not
@@ -16,7 +17,7 @@ def test_sort_by_rating_desc():
 
 def test_sort_by_price_asc():
     response = client.get("/search/restaurants?sort_by=price_asc")
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     data = response.json()["data"]
 
     if len(data) > 1: #here we check if the price is sorted low to high, but again only if we have more than 1 restaurant in the results
@@ -28,7 +29,7 @@ def test_sort_by_distance_asc():
     user_test_helper.register_and_login_user(user=user_create)
     
     response = client.get("/search/restaurants?sort_by=distance_asc", headers={"Authorization": f"Bearer {user_test_helper.login_token}"})
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     restaurants = response.json()["data"]
     
     if len(restaurants) > 1: #if we have more than 1 restaurant, we can check the sorting, otherwise we can't really say if it's sorted or not

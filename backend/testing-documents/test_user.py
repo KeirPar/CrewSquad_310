@@ -7,13 +7,14 @@ from app.schemas.order import Order, OrderCreate
 from app.schemas.cart import Cart
 from app.schemas.menu_item import MenuItem
 from app.packages.geo.coordinate import Coordinate
+from fastapi import status
 
 client = TestClient(app)
 testing_data = TestingData()
 user_test_helper = UserTestHelper(client)
 
-successful_status = 200
-failed_status = 400
+successful_status = status.HTTP_200_OK
+failed_status = status.HTTP_400_BAD_REQUEST
 invalid_status = 422
 
 #   Example with new user

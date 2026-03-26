@@ -2,6 +2,7 @@ import pytest
 from fastapi.testclient import TestClient
 from app.main import app
 from app.schemas.order import Order, OrderStatus
+from fastapi import status
 
 client = TestClient(app)
 
@@ -25,7 +26,7 @@ def test_queue_access_forbidden_for_customers():
         headers={"Authorization": f"Bearer {customer_token}"}
     )
     
-    assert response.status_code == 403 #make sure we got kicked out bc we are a customer, not manager
+    assert response.status_code == status.HTTP_403_FORBIDDEN #make sure we got kicked out bc we are a customer, not manager
     assert "Only restaurant managers" in response.json()["detail"]
 
 
@@ -45,7 +46,7 @@ def test_manager_can_view_pending_queue():
         headers={"Authorization": f"Bearer {manager_token}"}
     )
     
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     data = response.json() #should work
     assert data["message"] == "Kitchen queue retrieved successfully"
     assert type(data["pending_orders"]) == list
@@ -66,7 +67,7 @@ def test_queue_filters_out_completed_orders():
         headers={"Authorization": f"Bearer {manager_token}"}
     )
     
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     pending_orders = response.json()["pending_orders"]
     
     for order in pending_orders: #looping through the order to make sure all are pending
