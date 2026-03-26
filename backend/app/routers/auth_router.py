@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from app.schemas.user import UserCreate, User
 from app.services.auth_service import AuthService
 from app.repositories.user_repository import user_db
+from app.schemas.user import UserRole
 
 
 #Using temporary database until we have one fully functional (think its me over next few days?)
@@ -10,6 +11,8 @@ router = APIRouter(prefix="/auth", tags = ["Authentication"])
 #Using router and checking if email is unique/correct or not
 @router.post("/register", response_model=User, status_code=status.HTTP_201_CREATED)
 def register_user(user_in: UserCreate):
+    if user_in.role == UserRole.ADMIN:  #   Admin users are pre-defined in `AdminService`, can't create an admin.
+         raise HTTPException(status_code = status.HTTP_403_FORBIDDEN, detail="You cannot create a admin user.")
 
     if user_db.find_by_email(user_in.email):
             raise HTTPException(status_code = status.HTTP_400_BAD_REQUEST, detail="Email has already been registered")

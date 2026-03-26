@@ -1,0 +1,3 @@
+from app.schemas.delivery_system_configuration import DeliverySystemConfiguration
+
+delivery_system_configuration = DeliverySystemConfiguration(delivery_fee_multiplier=1)

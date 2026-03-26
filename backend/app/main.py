@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from app.routers import search_router, restaurant_router, payment_router, notification_router
-from app.routers import order_router, auth_router, menu_router, cart_router, user_router, driver_router #import the routers we need in our app
+from app.routers import order_router, auth_router, menu_router, cart_router, user_router, driver_router, admin_router #import the routers we need in our app
+from app.services.admin_service import AdminService
 
 def create_app():
     app = FastAPI(title = "CrewSquad_310 Backend") #create our FastAPI app
@@ -15,6 +16,9 @@ def create_app():
     app.include_router(user_router.router)  #include user router in our app
     app.include_router(driver_router.router)    #include delivery driver router in our app
     app.include_router(notification_router.router) #include notification router in our app
+    app.include_router(admin_router.router) #include admin router in our app
+
+    AdminService.create_admins()    #   Add admin accounts to the app.
 
     return app
 

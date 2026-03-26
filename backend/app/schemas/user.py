@@ -7,6 +7,7 @@ class UserRole(str, Enum):
     CUSTOMER = "Customer"
     OWNER = "Restaurant Owner"
     DELIVERY_DRIVER = "Delivery Driver"
+    ADMIN = "Admin"
 
 #Using basemodel this is what users will be filling out on a creation/registration form
 class UserCreate(BaseModel):
