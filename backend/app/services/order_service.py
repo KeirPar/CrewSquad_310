@@ -15,6 +15,7 @@ from app.repositories.restaurant_repo import RestaurantRepository
 from app.schemas.restaurant import Restaurant
 from .fees.get_province_tax import get_province_tax
 from .fees.get_delivery_fee import get_delivery_fee
+from app.repositories.delivery_system_configuration_repo import delivery_system_configuration
 from app.packages.geo.coordinate import Coordinate
 
 
@@ -83,10 +84,12 @@ def get_bill(cart: Cart, user: User, restaurant_id: int) -> Bill:
     restuarant: Restaurant = restuarant_repo.find_by_id(restaurant_id)
     distanceInKilometer: float = user.coordinate.get_kilometer_distance_to(restuarant.coordinate)
 
+    delivery_fee = get_delivery_fee(distanceInKilometers=distanceInKilometer) * delivery_system_configuration.delivery_fee_multiplier
+
     return Bill(
         items_subtotal=items_subtotal,
         taxes=taxes,
-        delivery_fee=get_delivery_fee(distanceInKilometers=distanceInKilometer)
+        delivery_fee=delivery_fee
     )
 
 def calculate_items_subtotal(cart: Cart) -> float:

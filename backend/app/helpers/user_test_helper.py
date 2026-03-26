@@ -25,15 +25,7 @@ class UserTestHelper:
         )
 
         #   Trying login
-        login_response = self.client.post(
-            "/auth/login",
-            json={"email": user.email, "password": user.password}
-        )
-
-        assert login_response.status_code == 200
-        self.login_token = login_response.json()["access_token"]
-
-        self.client.headers["Authorization"] = f"Bearer {self.login_token}"
+        self.login(email=user.email, password=user.password)
 
         #   Get Current User
         get_user_response = self.client.get("/auth/me")
@@ -45,3 +37,16 @@ class UserTestHelper:
         get_user_response = self.client.get("/auth/me")
         current_user: User = User(**get_user_response.json())
         return current_user
+    
+    def login(self, email: str, password: str) -> str:
+        login_response = self.client.post(
+            "/auth/login",
+            json={ "email": email, "password": password }
+        )
+
+        assert login_response.status_code == 200
+        login_token = login_response.json()["access_token"]
+        self.login_token = login_token
+        self.client.headers["Authorization"] = f"Bearer {login_token}"
+        
+        return login_token
