@@ -16,6 +16,7 @@ from app.schemas.order import OrderCreate
 from app.repositories.order_repo import order_db
 from app.repositories.payment_repo import payment_db
 from app.services.auth_service import AuthService
+from fastapi import status
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
 
@@ -64,7 +65,7 @@ def place_order(orderCreate: OrderCreate):
         order = create_order(order_id = order_db.next_id(), user_id=orderCreate.user_id, cart=orderCreate.cart)
         order_db.save(order)
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
     
     payment = create_payment_attempt(order) 
     create_order_notification(order) 
@@ -111,4 +112,4 @@ def change_order_status(
         create_status_change_notifications(updated_order, new_status, current_user) 
         return {"message": "Order status updated successfully", "data": updated_order}
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))

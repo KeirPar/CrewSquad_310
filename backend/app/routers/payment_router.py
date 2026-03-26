@@ -3,6 +3,7 @@ from app.schemas.user import User
 from app.services.auth_service import AuthService
 from app.schemas.payment import PaymentDecision, PaymentStatus
 from app.services.payment_service import process_payment, simulate_payment
+from fastapi import status
 
 
 router = APIRouter(prefix="/payments", tags=["Payments"])
@@ -21,7 +22,7 @@ def decide_payment(order_id: int, body: PaymentDecision, current_user: User = De
         dict: A dictionary containing the updated payment attempt and order details after processing the decision.
     """
     if body.decision == PaymentStatus.PENDING:
-        raise HTTPException(status_code=400, detail="Payment decision cannot be PENDING.")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Payment decision cannot be PENDING.")
     
     try:
         result = process_payment(

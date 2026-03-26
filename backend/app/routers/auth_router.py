@@ -3,6 +3,7 @@ from app.schemas.user import UserCreate, User
 from app.services.auth_service import AuthService
 from app.repositories.user_repository import user_db
 from app.schemas.user import UserRole
+from fastapi import status
 
 
 #Using temporary database until we have one fully functional (think its me over next few days?)

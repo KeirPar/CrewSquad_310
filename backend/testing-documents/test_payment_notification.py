@@ -4,8 +4,9 @@ from app.helpers.testing_data import TestingData
 from app.helpers.user_test_helper import UserTestHelper
 from app.schemas.order import OrderCreate
 from app.packages.geo.coordinate import Coordinate
+from fastapi import status
 
-successful_status = 200
+successful_status = status.HTTP_200_OK
 missing_status = 404
 
 client = TestClient(app)

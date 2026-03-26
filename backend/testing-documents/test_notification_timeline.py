@@ -1,7 +1,8 @@
 from fastapi.testclient import TestClient
 from app.main import app
+from fastapi import status
 
-successful_status = 200
+successful_status = status.HTTP_200_OK
 missing_status = 404
 
 client = TestClient(app)

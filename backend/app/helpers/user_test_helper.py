@@ -1,6 +1,7 @@
 from fastapi.testclient import TestClient
 from app.schemas.user import User, UserCreate
 from app.packages.geo.coordinate import Coordinate
+from fastapi import status
 
 class UserTestHelper:
     client: TestClient
@@ -44,7 +45,7 @@ class UserTestHelper:
             json={ "email": email, "password": password }
         )
 
-        assert login_response.status_code == 200
+        assert login_response.status_code == status.HTTP_200_OK
         login_token = login_response.json()["access_token"]
         self.login_token = login_token
         self.client.headers["Authorization"] = f"Bearer {login_token}"

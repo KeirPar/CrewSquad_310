@@ -1,9 +1,11 @@
 from fastapi.testclient import TestClient
 from app.main import app
 from app.repositories.notification_repo import notification_db
+from fastapi import status
 import random
-successful_status = 200
-failed_status = 400
+
+successful_status = status.HTTP_200_OK
+failed_status = status.HTTP_400_BAD_REQUEST
 
 client = TestClient(app)
 

@@ -5,12 +5,13 @@ from app.schemas.user import User
 from app.schemas.order import Order, OrderCreate
 from app.schemas.cart import Cart
 from app.schemas.menu_item import MenuItem
+from fastapi import status
 
 
 client = TestClient(app)
 
-successful_status = 200
-failed_status = 400
+successful_status = status.HTTP_200_OK
+failed_status = status.HTTP_400_BAD_REQUEST
 invalid_status = 422
 
 testing_data = TestingData()
@@ -115,7 +116,7 @@ def test_get_orders():
         json={"email": email, "password": password}
     )
 
-    assert login_response.status_code == 200
+    assert login_response.status_code == status.HTTP_200_OK
     login_token = login_response.json()["access_token"]
 
     #   Get Current User
@@ -124,7 +125,7 @@ def test_get_orders():
 
     #   Get all orders
     get_orders_response = client.get("/orders", headers={"Authorization": f"Bearer {login_token}"})
-    assert get_orders_response.status_code == 200
+    assert get_orders_response.status_code == status.HTTP_200_OK
     assert get_orders_response.json() == []
     
     #   Order something
@@ -132,6 +133,6 @@ def test_get_orders():
 
     #   Get all orders
     get_orders_response = client.get("/orders", headers={"Authorization": f"Bearer {login_token}"})
-    assert get_orders_response.status_code == 200
+    assert get_orders_response.status_code == status.HTTP_200_OK
     retrieved_orders: list[Order] = [Order(**order) for order in get_orders_response.json()]
     assert retrieved_orders[0].items == testing_data.cart.menu_items

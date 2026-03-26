@@ -1,4 +1,5 @@
 from fastapi.testclient import TestClient
+from fastapi import status
 from app.main import app
 
 #Creates a fake browser that can talk to the API
@@ -19,7 +20,7 @@ def test_register_user_success():
     )
     
     #We should get a HTTP 201 Created status code
-    assert response.status_code == 201
+    assert response.status_code == status.HTTP_201_CREATED
     #We should have the database returning our email
     assert response.json()["email"] == "new_user@example.com"
     #We should get the database returning our address
@@ -42,8 +43,8 @@ def test_register_duplicate_email():
         }
     )
     
-    #We should get the HTTP 400 Bad Request status code
-    assert response.status_code == 400
+    #We should get the HTTP status.HTTP_400_BAD_REQUEST Bad Request status code
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
     #We should get the exact error detail message in auth_router
     assert response.json()["detail"] == "Email has already been registered"
 
@@ -71,7 +72,7 @@ def test_login_success():
         json={"email": email, "password": password}
     )
     #Assertions
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     data = response.json()
     assert "access_token" in data
     assert data["token_type"] == "bearer"
@@ -94,7 +95,7 @@ def test_get_me_success():
     #Get /me
     response = client.get("/auth/me", headers={"Authorization": f"Bearer {token}"})
     
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert response.json()["email"] == email
     assert response.json()["address"] == address
 
@@ -115,11 +116,11 @@ def test_menu_add_forbidden_for_customer():
     #Try to access owner route
     response = client.post("/menu/1/add", headers={"Authorization": f"Bearer {token}"})
     
-    assert response.status_code == 403
+    assert response.status_code == status.HTTP_403_FORBIDDEN
     assert "Access denied" in response.json()["detail"]
 
 def test_menu_add_allowed_for_owner():
-    """Test that a Restaurant Owner can successfully add menu items (200)."""
+    """Test that a Restaurant Owner can successfully add menu items (status.HTTP_200_OK)."""
     #Register and Login as Restaurant Owner
     email = "owner@test.com"
     password = "Password123!"
@@ -142,7 +143,7 @@ def test_menu_add_allowed_for_owner():
         }
     )
 
-    assert rest_response.status_code == 201, rest_response.json() #Created status code means it worked and we created the item
+    assert rest_response.status_code == status.HTTP_201_CREATED, rest_response.json() #Created status code means it worked and we created the item
 
     new_rest_id = rest_response.json()["id"] #get id of restaurant
 
@@ -155,7 +156,7 @@ def test_menu_add_allowed_for_owner():
                                     "image_url": "http://example.com/test_item.jpg"
                                    }) 
     
-    assert response.status_code == 201, rest_response.json() #Created status code means it worked and we created the item
+    assert response.status_code == status.HTTP_201_CREATED, rest_response.json() #Created status code means it worked and we created the item
 
     response_data = response.json()
     assert response_data["name"] == "Test Item" #make sure the item we added is the one we get back
@@ -182,7 +183,7 @@ def test_dashboard_and_cart_flow():
 
     #Check the dashboard to see if item in cart
     dash_res = client.get("/auth/dashboard", headers=headers)
-    assert dash_res.status_code == 200
+    assert dash_res.status_code == status.HTTP_200_OK
     assert dash_res.json()["stats"]["items_in_cart"] == 1
     assert "Welcome back" in dash_res.json()["message"]
 

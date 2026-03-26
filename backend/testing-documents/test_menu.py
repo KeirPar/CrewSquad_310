@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
 from app.main import app
+from fastapi import status
 
 client = TestClient(app)
 
@@ -13,7 +14,7 @@ def test_add_multiple_menu_items():
         "name": "Test Owner",
         "email": email,
         "password": password,
-        "phone_number": "211-595-0400",
+        "phone_number": "211-595-0status.HTTP_400_BAD_REQUEST",
         "role": "Restaurant Owner",
         "address": "456 Test St"
     })
@@ -43,7 +44,7 @@ def test_add_multiple_menu_items():
         "is_available": True, 
         "add_ons": []
     })
-    assert res1.status_code == 201
+    assert res1.status_code == status.HTTP_201_CREATED
     assert res1.json()["id"] == 1
 
     #Add item: burrito
@@ -58,7 +59,7 @@ def test_add_multiple_menu_items():
     })
     
     #Assertions
-    assert res2.status_code == 201
+    assert res2.status_code == status.HTTP_201_CREATED
     assert res2.json()["id"] == 2  # This proves the +1 logic works
     assert res2.json()["name"] == "Big Burrito"
 
@@ -98,7 +99,7 @@ def test_update_menu_item_partial():
     })
 
     #Assertions
-    assert update_res.status_code == 200
+    assert update_res.status_code == status.HTTP_200_OK
     assert update_res.json()["price"] == 15.50
     assert update_res.json()["name"] == "Original Pizza"
     assert update_res.json()["category"] == "Main"
@@ -135,19 +136,19 @@ def test_delete_menu_item():
 
     #Delete using the dynamic ids
     delete_res = client.delete(f"/menu/{restaurant_id}/{item_id}", headers=headers)
-    assert delete_res.status_code == 204
+    assert delete_res.status_code == status.HTTP_204_NO_CONTENT
 
     #Verify the deleted item is gone (should be 404)
     verify_res = client.patch(f"/menu/{restaurant_id}/{item_id}", headers=headers, json={"price": 2.0})
-    assert verify_res.status_code == 404
+    assert verify_res.status_code == status.HTTP_404_NOT_FOUND
 
 def test_get_restaurant_menu():
     """Verify that any user or owner can view the restaurant menu."""
     #Get request already public so can start
     res = client.get("/menu/1") #Use restaurant 1 from previous tests
-    assert res.status_code in [200, 404] #404 is fine if the db was wiped, 200 if data exists
+    assert res.status_code in [status.HTTP_200_OK, status.HTTP_404_NOT_FOUND] #404 is fine if the db was wiped, status.HTTP_200_OK if data exists
     
-    if res.status_code == 200:
+    if res.status_code == status.HTTP_200_OK:
         menu = res.json()
         assert isinstance(menu, list)
         if len(menu) > 0:
@@ -157,7 +158,7 @@ def test_get_restaurant_menu():
 def test_global_menu_feed_default_pagination():
     res = client.get("/menu")
     
-    assert res.status_code == 200
+    assert res.status_code == status.HTTP_200_OK
     data = res.json()
     
     assert data["limit"] == 10
@@ -171,7 +172,7 @@ def test_global_menu_feed_custom_limit():
 
     res = client.get("/menu?limit=1") #make sure the limit is working
     
-    assert res.status_code == 200
+    assert res.status_code == status.HTTP_200_OK
     data = res.json()
     
     assert data["limit"] == 1
@@ -180,11 +181,11 @@ def test_global_menu_feed_custom_limit():
 def test_global_menu_feed_offset():
 
     res1 = client.get("/menu?limit=1&offset=0") #gets first item
-    assert res1.status_code == 200
+    assert res1.status_code == status.HTTP_200_OK
     data1 = res1.json()
     
     res2 = client.get("/menu?limit=1&offset=1") #get second
-    assert res2.status_code == 200
+    assert res2.status_code == status.HTTP_200_OK
     data2 = res2.json()
     
     if data1["total_items"] >= 2: # only if more than 2 items
