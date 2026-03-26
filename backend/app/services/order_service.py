@@ -105,7 +105,7 @@ def calculate_items_subtotal(cart: Cart) -> float:
     
     total_price = 0
     for item in cart.menu_items:
-        total_price += item.price
+        total_price += item.get_price()
     return total_price
 
 
