@@ -43,6 +43,15 @@ def test_create_order_correct_total():
     assert response.status_code == successful_status
     assert response.json()["bill"]["items_subtotal"] == 15
 
+def test_create_order_correct_total_with_discount():
+    order_create = OrderCreate(**make_order_create())
+    order_create.cart.menu_items[0].percentage_discount = 0.3
+    order_create.cart.menu_items[1].percentage_discount = 0.3
+
+    response = client.post("/orders", json=order_create.model_dump())
+    assert response.status_code == successful_status
+    assert response.json()["bill"]["items_subtotal"] == 15 * 0.7
+
 
 def test_create_order_correct_item_count():
     response = client.post("/orders", json=make_order_create())
