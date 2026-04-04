@@ -4,6 +4,12 @@ from app.services.auth_service import AuthService
 from app.repositories.user_repository import user_db
 from app.schemas.user import UserRole
 from fastapi import status
+from fastapi.security import OAuth2PasswordRequestForm
+from typing import Annotated
+
+from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from pydantic import BaseModel
 
 
 #Using temporary database until we have one fully functional (think its me over next few days?)
@@ -40,12 +46,12 @@ def register_user(user_in: UserCreate):
 
 #creating new login endpoint within auth router to work with auth service
 @router.post("/login")
-def login(login_data: dict):
+def login(login_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
     #Finding user
-    user = user_db.find_by_email(login_data.get("email"))
-      
+    user = user_db.find_by_email(login_data.username)
+    
     #If user doesn't exist or password doesn't match
-    if not user or not AuthService.verify_password(login_data.get("password"), user.password_hash):
+    if not user or not AuthService.verify_password(login_data.password, user.password_hash):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, 
             detail="Invalid email or password"

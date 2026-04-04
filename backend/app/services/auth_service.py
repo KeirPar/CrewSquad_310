@@ -8,7 +8,7 @@ from app.schemas.user import User
 
 SECRET_KEY = "secret_crewsquad_key_make_it_longer_cuz_if_under_32_characters_it_gives_a_warning" #had to make longer, tests give warnings
 ALGORITHM = "HS256"
-tokenUrl = "auto/login"
+tokenUrl = "auth/login"
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=tokenUrl)
 
