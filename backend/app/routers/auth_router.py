@@ -7,9 +7,8 @@ from fastapi import status
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import Annotated
 
-from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from pydantic import BaseModel
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
 
 
 #Using temporary database until we have one fully functional (think its me over next few days?)
