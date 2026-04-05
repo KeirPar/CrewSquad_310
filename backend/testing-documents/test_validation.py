@@ -21,7 +21,7 @@ def get_auth_headers():
     })
     
     #Login to get the token
-    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    login_res = client.post("/auth/login", data={"username": email, "password": password})
     token = login_res.json()["access_token"]
     return {"Authorization": f"Bearer {token}"}
 

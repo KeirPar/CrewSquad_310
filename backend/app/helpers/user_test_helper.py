@@ -42,7 +42,7 @@ class UserTestHelper:
     def login(self, email: str, password: str) -> str:
         login_response = self.client.post(
             "/auth/login",
-            json={ "email": email, "password": password }
+            data={ "username": email, "password": password }
         )
 
         assert login_response.status_code == status.HTTP_200_OK

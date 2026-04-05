@@ -20,7 +20,7 @@ def test_add_multiple_menu_items():
     })
 
     #Login as Owner
-    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    login_res = client.post("/auth/login", data={"username": email, "password": password})
     token = login_res.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
 
@@ -67,7 +67,7 @@ def test_update_menu_item_partial():
     """Verify that an owner can update without losing category data."""
     email = "testowner@example.com"
     password = "Password123!"
-    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    login_res = client.post("/auth/login", data={"username": email, "password": password})
     token = login_res.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
 
@@ -109,7 +109,7 @@ def test_delete_menu_item():
     """Verify that an owner can delete an item and it no longer exists."""
     email = "testowner@example.com"
     password = "Password123!"
-    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    login_res = client.post("/auth/login", data={"username": email, "password": password})
     token = login_res.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
 
