@@ -14,7 +14,7 @@ def test_restaurant_lifecycle_and_security():
         "name": "The Boss", "email": owner_email, "phone_number": "250-000-0000",
         "password": password, "role": "Restaurant Owner", "address": "123 Boss St"
     })
-    login_res = client.post("/auth/login", json={"email": owner_email, "password": password})
+    login_res = client.post("/auth/login", data={"username": owner_email, "password": password})
     token = login_res.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
 

@@ -18,7 +18,7 @@ def test_queue_access_forbidden_for_customers():
         "name": "Snoopy Customer", "email": customer_email, "phone_number": "604-676-6767",
         "password": password, "role": "Customer", "address": "111 Fake St"
     })
-    login_res = client.post("/auth/login", json={"email": customer_email, "password": password}) #log them in
+    login_res = client.post("/auth/login", data={"username": customer_email, "password": password}) #log them in
     customer_token = login_res.json()["access_token"]
     
     response = client.get(
@@ -38,7 +38,7 @@ def test_manager_can_view_pending_queue():
         "name": "The Kitchen Boss", "email": manager_email, "phone_number": "604-677-6767",
         "password": password, "role": "Restaurant Owner", "address": "456 Kitchen Ave"
     })
-    login_res = client.post("/auth/login", json={"email": manager_email, "password": password}) #log them in
+    login_res = client.post("/auth/login", data={"username": manager_email, "password": password}) #log them in
     manager_token = login_res.json()["access_token"]
     
     response = client.get(
@@ -59,7 +59,7 @@ def test_queue_filters_out_completed_orders():
         "name": "The Kitchen Boss", "email": manager_email, "phone_number": "604-677-6767",
         "password": password, "role": "Restaurant Owner", "address": "456 Kitchen Ave"
     })
-    login_res = client.post("/auth/login", json={"email": manager_email, "password": password}) #log them in
+    login_res = client.post("/auth/login", data={"username": manager_email, "password": password}) #log them in
     manager_token = login_res.json()["access_token"]
     
     response = client.get(

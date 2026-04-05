@@ -69,7 +69,7 @@ def test_login_success():
     #Trying login
     response = client.post(
         "/auth/login",
-        json={"email": email, "password": password}
+        data={"username": email, "password": password}
     )
     #Assertions
     assert response.status_code == status.HTTP_200_OK
@@ -89,7 +89,7 @@ def test_get_me_success():
         "password": password, "role": "Customer", "address": address
     })
     #Login
-    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    login_res = client.post("/auth/login", data={"username": email, "password": password})
     token = login_res.json()["access_token"]
     
     #Get /me
@@ -110,7 +110,7 @@ def test_menu_add_forbidden_for_customer():
         "name": "Customer User", "email": email, "phone_number": "604-9722",
         "password": password, "role": "Customer", "address": "111 Brookside Way"
     })
-    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    login_res = client.post("/auth/login", data={"username": email, "password": password})
     token = login_res.json()["access_token"]
 
     #Try to access owner route
@@ -128,7 +128,7 @@ def test_menu_add_allowed_for_owner():
         "name": "Owner User", "email": email, "phone_number": "604-9722",
         "password": password, "role": "Restaurant Owner", "address": "333 branden street"
     })
-    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    login_res = client.post("/auth/login", data={"username": email, "password": password})
     token = login_res.json()["access_token"]
 
     rest_response = client.post( #make a fake restaurant so we have a valid restaurant id to add menu items to
@@ -174,7 +174,7 @@ def test_dashboard_and_cart_flow():
         "name": "US2 User", "email": email, "phone_number": "555-0000",
         "password": password, "role": "Customer", "address": "123 Dashboard St"
     })
-    login_res = client.post("/auth/login", json={"email": email, "password": password})
+    login_res = client.post("/auth/login", data={"username": email, "password": password})
     token = login_res.json()["access_token"]
     headers = {"Authorization": f"Bearer {token}"}
 
