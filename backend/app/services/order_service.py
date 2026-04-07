@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
 from fastapi import HTTPException 
+from app.schemas import user
 from app.schemas.cart import Cart
 from app.schemas.order import Order, OrderStatus
 from app.schemas.user import User
@@ -38,10 +39,12 @@ def create_order(order_id: int, user_id: int, cart: Cart) -> Order:
     validate_cart(cart)
 
     user = user_db.find_by_user_id(user_id)
-    user.order_history.append(order_id)
 
     if user is None:
-        raise ValueError("Cart does not belongs to any user")
+        raise ValueError("Cart does not belong to any user")
+
+    user.order_history.append(order_id)
+    user_db.save(user)
         
     restaurant_id=cart.menu_items[0].restaurant_id
     bill = get_bill(cart, user=user, restaurant_id=restaurant_id)
