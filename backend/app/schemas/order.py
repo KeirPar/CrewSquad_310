@@ -11,6 +11,7 @@ class OrderStatus(str, Enum):
     PREPARING = "PREPARING"
     DELIVERED = "DELIVERED"
     CANCELLED = "CANCELLED"
+    SCHEDULED = "SCHEDULED"
 
 class OrderCreate(BaseModel):
     user_id: int
