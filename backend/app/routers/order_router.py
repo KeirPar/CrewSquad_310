@@ -96,6 +96,7 @@ def get_order_status(order_id: int):
     payment = payment_db.find_by_order_id(order_id)
     return {"order": order, "payment": payment}
 
+
 @router.patch("/{order_id}/status")
 def change_order_status(
     order_id: int,

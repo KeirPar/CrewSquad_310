@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from app.routers import search_router, restaurant_router, payment_router, notification_router
 from app.routers import order_router, auth_router, menu_router, cart_router, user_router, driver_router, admin_router #import the routers we need in our app
 from app.services.admin_service import AdminService
-
+from fastapi.middleware.cors import CORSMiddleware
 def create_app():
     app = FastAPI(title = "CrewSquad_310 Backend") #create our FastAPI app
 
@@ -24,6 +24,10 @@ def create_app():
 
 app = create_app()
 
-@app.get("/")
-def read_root(): #just getting the root endpoint to return a simple message
-    return {"message": "Hello World!"}
+app.add_middleware( #for frontend-backend communication
+    CORSMiddleware,
+    allow_origins=["*"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
