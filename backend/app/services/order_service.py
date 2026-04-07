@@ -157,9 +157,13 @@ def get_pending_queue(restaurant_id: int) -> list[Order]: #added for us3
 def get_orders_by_distance(from_coordinate: Coordinate, max_kilometer_distance: float) -> list[Order]:
     orders_in_distance = []
 
-    for order in order_db._orders:
-        order: Order = order
-        if order.coordinate.get_kilometer_distance_to(from_coordinate) < max_kilometer_distance:
+    for order in order_db.get_all_orders(): #had to change this after implementing a proper order repository and orders.json
+        if not order.coordinate:
+            user = user_db.find_by_user_id(order.user_id)
+            if user:
+                order.coordinate = user.coordinate
+
+        if order.coordinate and order.coordinate.get_kilometer_distance_to(from_coordinate) < max_kilometer_distance:
             orders_in_distance.append(order)
 
     
