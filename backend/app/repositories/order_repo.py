@@ -32,7 +32,7 @@ class OrderRepository:
     def get_all_orders(self) -> List[Order]:
         return [Order(**o) for o in self.load_all()] #returning as order objects instead of dicts
 
-    def next_id(self) -> int:
+    def next_id(self) -> int: #for adding new order, just make next id one higher than max
         orders = self.load_all()
 
         if len(orders) == 0:
@@ -43,7 +43,7 @@ class OrderRepository:
     
     def save(self, order: Order) -> None:
         orders = self.load_all()
-        order_dict = order.model_dump(mode='json')
+        order_dict = order.model_dump(mode='json') #convert order object to dict for saving
         
         for i, o in enumerate(orders):
             if o["id"] == order.id:
@@ -61,7 +61,7 @@ class OrderRepository:
                 return Order(**o) #return order as object
         return None
     
-    def find_all_by_user_id(self, user_id: int) -> List[Order]: #returning list of order for a user
+    def find_all_by_user_id(self, user_id: int) -> List[Order]: #returning list of order for a specific user
         all_orders_by_user_id = []
         
         user = user_db.find_by_user_id(user_id)
@@ -75,7 +75,7 @@ class OrderRepository:
             if o["id"] in order_ids:
                 all_orders_by_user_id.append(Order(**o)) 
                 
-        return all_orders_by_user_id
+        return all_orders_by_user_id 
 
 
 order_db = OrderRepository()

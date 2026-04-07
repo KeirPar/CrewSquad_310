@@ -34,8 +34,8 @@ def order_at_coordinate(coordinate: Coordinate):
 
     safe_cart = testing_data.cart.model_dump()
     #had to change this after creating a proper order repository and orders.json
-    for item in safe_cart.get("menu_items", []): #make sure we are using real restaurant and menu item ids
-        item["restaurant_id"] = 1
+    for item in safe_cart.get("menu_items", []): #rewriting the restaurant_id and id of the menu item to match the new order repository and orders.json
+        item["restaurant_id"] = 1                   #otherwise the testingdata will try to order items that dont exist anymore
         item["id"] = 1
 
     create_order_response = client.post("/orders", json={ 
