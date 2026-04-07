@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🍔 Food Delivery Portal</h1>
+
+        <!-- AUTHENTICATION -->
+        <div id="auth-section">
+            <div id="login-form-container">
+                <h2>Login</h2>
+                <form id="login-form">
+                    <input type="email" id="login-email" placeholder="Email" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
+                <p>Need an account? <a href="#" id="show-register">Register here</a></p>
+            </div>
+
+            <div id="register-form-container" style="display: none;">
+                <h2>Register</h2>
+                <form id="register-form">
+                    <input type="text" id="reg-name" placeholder="Full Name" required>
+                    <input type="email" id="reg-email" placeholder="Email" required>
+                    <input type="password" id="reg-password" placeholder="Password" required>
+                    <input type="text" id="reg-phone" placeholder="Phone Number">
+                    <input type="text" id="reg-address" placeholder="Address">
+                    <select id="reg-role">
+                        <option value="Customer">Customer</option>
+                        <option value="Owner">Restaurant Owner</option>
+                    </select>
+                    <button type="submit">Register</button>
+                </form>
+                <p>Already have an account? <a href="#" id="show-login">Login here</a></p>
+            </div>
+            <p id="auth-error" class="error-text"></p>
+        </div>
+
+        <!-- CUSTOMER DASHBOARD -->
+        <div id="customer-dashboard" style="display: none;">
+            <h2>Customer Dashboard (<span class="user-name"></span>)</h2>
+            
+           <div class="card">
+                <h3>🔍 Search Restaurants</h3>
+                <input type="text" id="search-name" placeholder="Restaurant Name (optional)">
+                
+                <!-- NEW: Helper message for the rating and cuisine -->
+                <p class="helper-text" style="margin-bottom: 8px;">Filter by cuisine, or adjust the minimum rating (0.0 - 5.0):</p>
+                
+                <div class="input-row">
+                    <select id="search-cuisine">
+                        <option value="">Any Cuisine</option>
+                        <option value="Italian">Italian</option>
+                        <option value="Mexican">Mexican</option>
+                        <option value="Chinese">Chinese</option>
+                        <option value="Greek">Greek</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="American">American</option>
+                        <option value="Indian">Indian</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    
+                    <input type="number" id="search-min-rating" placeholder="Min Rating (e.g. 4.5)" step="0.1" min="0" max="5">
+                </div>
+
+                <div class="input-row">
+                    <select id="search-sort">
+                        <option value="">Sort By (Default)</option>
+                        <option value="rating_desc">Highest Rating</option>
+                        <option value="price_asc">Lowest Price</option>
+                        <option value="distance_asc">Closest Distance</option>
+                    </select>
+                </div>
+
+                <!-- NEW: Helper message for pagination -->
+                <p class="helper-text" style="margin-top: 10px; margin-bottom: 8px;">Pagination settings:</p>
+                <div class="input-row">
+                    <input type="number" id="search-limit" placeholder="Limit" value="10">
+                    <input type="number" id="search-offset" placeholder="Offset" value="0">
+                </div>
+
+                <button id="btn-search">Search</button>
+            </div>
+
+            <!-- BROWSE MENUS CARD -->
+            <div class="card">
+                <h3>🍽️ Browse Menus</h3>
+                <p class="helper-text" style="margin-bottom: 8px;">Search for specific dishes across all restaurants:</p>
+                <div class="input-row">
+                    <input type="text" id="menu-search-name" placeholder="Item Name (e.g. Burger, Taco)">
+                    <button id="btn-browse-menus">Search Menu</button>
+                </div>
+                
+                <!-- This div will dynamically populate with food items -->
+                <div id="menu-results" style="margin-top: 15px; max-height: 250px; overflow-y: auto;"></div>
+            </div>
+
+            <!-- SHOPPING CART CARD -->
+            <div class="card">
+                <h3>🛒 My Shopping Cart</h3>
+                <button id="btn-view-cart" class="btn-secondary">Refresh Cart</button>
+                
+                <div id="cart-contents" style="margin-top: 15px; font-size: 14px; background: white; padding: 12px; border-radius: 4px; border: 1px solid #ddd;">
+                    Cart is empty.
+                </div>
+                
+                <button id="btn-checkout" class="btn-success" style="margin-top: 15px;">Checkout & Place Order</button>
+            </div>
+
+            <div class="card">
+                <h3>📦 My Orders & Tracking</h3>
+                <button id="btn-my-orders">View Order History</button>
+                <hr>
+                <div class="input-row">
+                    <input type="number" id="track-order-id" placeholder="Order ID">
+                    <button id="btn-track-order">Get Status</button>
+                    <button id="btn-cancel-order" class="btn-danger">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- OWNER DASHBOARD -->
+        <div id="owner-dashboard" style="display: none;">
+            <h2>Owner Dashboard (<span class="user-name"></span>)</h2>
+            
+            <div class="card">
+                <h3>👨‍🍳 Kitchen Queue</h3>
+                <button id="btn-view-queue">Refresh Pending Orders</button>
+                <hr>
+                <div class="input-row">
+                    <input type="number" id="update-order-id" placeholder="Order ID">
+                    <select id="update-order-status">
+                        <option value="PREPARING">PREPARING</option>
+                        <option value="DELIVERED">DELIVERED</option>
+                        <option value="CANCELLED">CANCELLED</option>
+                    </select>
+                    <button id="btn-update-status" class="btn-success">Update Status</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📋 Menu Management</h3>
+                <input type="number" id="manage-rest-id" placeholder="Your Restaurant ID (e.g., 5)">
+                <hr>
+                <h4>Add Item</h4>
+                <div class="input-row">
+                    <input type="text" id="add-menu-name" placeholder="Item Name">
+                    <input type="number" id="add-menu-price" placeholder="Price" step="0.01">
+                    <button id="btn-add-menu">Add</button>
+                </div>
+                <hr>
+                <h4>Delete Item</h4>
+                <div class="input-row">
+                    <input type="number" id="delete-item-id" placeholder="Item ID to Delete">
+                    <button id="btn-delete-menu" class="btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SHARED JSON VIEWER & LOGOUT -->
+        <div id="shared-section" style="display: none;">
+            <button id="btn-logout" class="btn-danger" style="margin-top: 15px;">Logout</button>
+            <h3>API Response Output:</h3>
+            <pre id="data-display">Awaiting action...</pre>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
