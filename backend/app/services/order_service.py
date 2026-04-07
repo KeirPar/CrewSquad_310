@@ -148,7 +148,7 @@ def update_order_status(order: Order, new_status: OrderStatus, current_user: Use
 def get_pending_queue(restaurant_id: int) -> list[Order]: #added for us3
     #returns a list of all pending orders for a restaurant, sorted by oldest first
 
-    all_orders = [] #this would be like fetching all orders from the db, however we dont have any orders in a db
+    all_orders =  order_db._orders #get all orders from the database
 
     pending_queue = [order for order in all_orders if order.restaurant_id == restaurant_id and order.status == OrderStatus.PENDING] 
     pending_queue.sort(key=lambda x: x.created_at) 
