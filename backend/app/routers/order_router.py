@@ -93,8 +93,8 @@ def get_order_status(order_id: int):
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
     
-    payment = payment_db.find_by_order_id(order_id)
-    return {"order": order, "payment": payment}
+    return {"order status": order.status} #fixed to just return order status
+
 
 @router.patch("/{order_id}/status")
 def change_order_status(
