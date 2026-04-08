@@ -286,10 +286,14 @@ document.getElementById('btn-view-cart').onclick = async () => {
         cartIds.forEach(id => {
             const item = menuItemsCache[id];
             if (item) {
-                html += `<li style="margin-bottom: 5px;"><strong>${item.name}</strong> - $${item.price.toFixed(2)}</li>`;
+                // ADDED: A small, red Remove button next to each item
+                html += `<li style="margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+                            <span><strong>${item.name}</strong> - $${item.price.toFixed(2)}</span>
+                            <button class="btn-danger" style="width: auto; padding: 2px 8px; margin: 0; font-size: 12px;" onclick="removeFromCart(${id})">X</button>
+                         </li>`;
                 total += item.price;
             } else {
-                html += `<li>Item ID: ${id} (Details not loaded in cache)</li>`;
+                html += `<li>Item ID: ${id} (Details not loaded)</li>`;
             }
         });
         html += `</ul><hr style="margin: 10px 0;"><strong style="color: #28a745;">Items Subtotal:$${total.toFixed(2)}</strong>`;
