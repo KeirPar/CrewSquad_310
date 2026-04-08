@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.schemas.restaurant import Restaurant, restaurantCreate, RestaurantUpdate
 from app.schemas.user import User
-from app.dependencies import verify_restaurant_owner
+from app.dependencies import verify_restaurant_owner, verify_customer
 from app.repositories.restaurant_repo import RestaurantRepository
+from app.repositories.review_repo import review_db
+from app.schemas.review import ReviewCreate, Review
 from typing import List 
 
 #Initialize router with a prefix so all routes start with /restaurants
@@ -66,3 +68,26 @@ def delete_restaurant(
     #This triggers the cascade I made in the restaurant repo
     repo.delete_restaurant(restaurant_id)
     return None
+
+@router.post("/{restaurant_id}/rating", response_model=Review)
+def rate_restaurant(
+    restaurant_id: int, 
+    review_create: ReviewCreate,
+    customer: User = Depends(verify_customer)
+):
+    review = Review(
+        id=0, 
+        content=review_create.content, 
+        rating=review_create.rating,
+        user_id=customer.id,
+        restaurant_id=restaurant_id
+    )
+    review_db.save(review)
+    return review
+
+@router.get("/{restaurant_id}/rating", response_model=List[Review])
+def get_retaurant_rating(
+    restaurant_id: int
+):
+    return [review for review in review_db.get_all_reviews() if review.restaurant_id == restaurant_id]
+

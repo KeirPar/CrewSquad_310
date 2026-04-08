@@ -1,7 +1,7 @@
 from fastapi import Security, HTTPException, status, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from app.services.auth_service import AuthService
-from app.schemas.user import User
+from app.schemas.user import User, UserRole
 
 security = HTTPBearer()
 
@@ -18,3 +18,13 @@ def verify_restaurant_owner(auth: HTTPAuthorizationCredentials = Security(securi
             detail="Access denied, Must be a Restaurant Owner to modify the menu"
         )
     return user
+
+def verify_delivery_driver(current_user: User = Depends(AuthService.get_current_user)):
+    if current_user.role != UserRole.DELIVERY_DRIVER: #make sure user is delivery driver
+            raise HTTPException(status_code=403, detail="Only delivery driver can access.")
+    return current_user
+
+def verify_customer(current_user: User = Depends(AuthService.get_current_user)):
+    if current_user.role != UserRole.DELIVERY_DRIVER: #make sure user is customer
+            raise HTTPException(status_code=403, detail="Only cusomer can access.")
+    return current_user
