@@ -49,7 +49,9 @@ def resolve_report(report_id: int, decision: ReportStatus, notes: str, admin_use
             restaurant_repo = RestaurantRepository()
             restaurant = restaurant_repo.find_by_id(report.target_id)
             if restaurant:
-                restaurant.flags += 1
-                restaurant_repo.save(restaurant)
+                restaurant_repo.update_restaurant( #update restaurant to increase flags
+                    restaurant_id=restaurant.id, 
+                    update_data={"flags": restaurant.flags + 1}
+                )
 
     return report
