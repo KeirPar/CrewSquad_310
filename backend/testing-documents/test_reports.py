@@ -197,3 +197,33 @@ def test_validating_restaurant_report_adds_flag():
     #restaurant should now have 1 flag
     updated_restaurant = restaurant_repo.find_by_id(target_restaurant.id)
     assert updated_restaurant.flags == 1
+
+def test_restaurant_closed_after_three_strikes():
+    customer_token, admin_token, _ = setup_users()
+    restaurant_repo = RestaurantRepository()
+
+    target_restaurant = restaurant_repo.find_by_id(1)
+    
+    restaurant_repo.update_restaurant(target_restaurant.id, { #just make it so the restaurant has 2 flags
+        "flags": 2, 
+        "is_open": True
+    })
+    #customer submits report
+    client.post("/reports/", json={
+        "order_id": 1, 
+        "target_type": "Restaurant", 
+        "target_id": target_restaurant.id, 
+        "reason": "This is the final straw!"
+    }, headers={"Authorization": f"Bearer {customer_token}"})
+    
+    report_id = report_db.get_all_pending()[0].id
+    
+    #admin validates it
+    client.patch(f"/reports/{report_id}/handle", params={
+        "decision": "VALIDATED"
+    }, headers={"Authorization": f"Bearer {admin_token}"})
+    
+    #make sure restaurant is now closed after getting 3 flags
+    updated_restaurant = restaurant_repo.find_by_id(target_restaurant.id)
+    assert updated_restaurant.flags == 3
+    assert updated_restaurant.is_open is False # The restaurant should now be closed!
