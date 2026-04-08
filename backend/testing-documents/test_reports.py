@@ -22,7 +22,7 @@ user_test_helper = UserTestHelper(client=client)
 def setup_users(): #setting up 3 diff users (driver, customer, admin) for testing
     RepositoryManager.reset_all_repositories() #dont need to reset orders and restaurants, just reports and the other repos 
     
-    customer_create = user_test_helper.test_user_create.model_copy() #cusomer
+    customer_create = user_test_helper.test_user_create.model_copy() #customer
     customer_create.email = "customer@report.com"
     customer_create.role = UserRole.CUSTOMER
     customer = user_test_helper.register_and_login_user(user=customer_create)
@@ -33,7 +33,7 @@ def setup_users(): #setting up 3 diff users (driver, customer, admin) for testin
     driver_create.role = UserRole.DELIVERY_DRIVER
     driver = user_test_helper.register_and_login_user(user=driver_create)
 
-    AdminService.create_admins()
+    AdminService.create_admins() #admin
     user_test_helper.login(email=AdminService.admin_email, password=AdminService.admin_password)
     admin_token = user_test_helper.login_token
     
@@ -41,7 +41,7 @@ def setup_users(): #setting up 3 diff users (driver, customer, admin) for testin
 
 
 def test_customer_can_create_report(): #test making report as a customer, should succeed and return 201
-    customer_token, _, driver_id = setup_users()
+    customer_token, _, driver_id = setup_users() #getting tokens and driver id, dont need admin token for this one
     
     response = client.post("/reports/", json={
         "order_id": 1,
@@ -53,7 +53,7 @@ def test_customer_can_create_report(): #test making report as a customer, should
     assert response.status_code == status.HTTP_201_CREATED
 
 def test_admin_cannot_create_report():
-    _, admin_token, driver_id = setup_users()
+    _, admin_token, driver_id = setup_users() #dont need customer token for this one
     
     response = client.post("/reports/", json={
         "order_id": 1,
@@ -226,4 +226,4 @@ def test_restaurant_closed_after_three_strikes():
     #make sure restaurant is now closed after getting 3 flags
     updated_restaurant = restaurant_repo.find_by_id(target_restaurant.id)
     assert updated_restaurant.flags == 3
-    assert updated_restaurant.is_open is False # The restaurant should now be closed!
+    assert updated_restaurant.is_open is False # The restaurant is now closed

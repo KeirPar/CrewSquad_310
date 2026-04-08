@@ -10,7 +10,7 @@ from typing import List
 
 router = APIRouter(prefix="/reports", tags=["Reports"]) #all of these endpoints will be under /reports
 
-@router.post("/", status_code=status.HTTP_201_CREATED, response_model=Report) #posting a report, gotta be user 
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=Report) #posting a report, gotta be customer
 def submit_report(
     report_data: ReportCreate, 
     current_user: User = Depends(AuthService.get_current_user)
