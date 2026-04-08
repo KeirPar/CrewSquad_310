@@ -52,7 +52,11 @@ def test_add_review_as_invalid_customer():
 
 def test_add_review_as_valid_customer():
     """
-    You cannot create review for restaurant if you have not order at the restaurant before, so this should throw 403 forbidden
+    A user can create a new review for a restaurant with the following conditions:
+
+    - is a customer or admin (cannot rate restaurant using restaurant or delivery driver account).
+    - have ordered in the restaurant before.
+    - can only create one review per user for a restaurant.
     """
     #   Login
     user_test_helper = UserTestHelper(client=client)
