@@ -1,23 +1,16 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from app.services import report_service
 from app.schemas.user import User, UserRole
 from app.services.auth_service import AuthService
 from app.schemas.report import ReportCreate, Report, ReportStatus, ReportTargetType
 from app.repositories.report_repo import report_db
 from app.repositories.user_repository import user_db
+from app.routers.admin_router import get_admin 
+from typing import List
 
-# Assuming get_admin is in your admin router file
-# from app.routers.admin_router import get_admin 
+router = APIRouter(prefix="/reports", tags=["Reports"]) #all of these endpoints will be under /reports
 
-router = APIRouter(prefix="/reports", tags=["Reports"])
-
-# Fallback in case you can't import get_admin directly:
-def verify_admin(current_user: User = Depends(AuthService.get_current_user)):
-    if current_user.role != UserRole.ADMIN:
-        raise HTTPException(status_code=403, detail="Only admin can access.")
-    return current_user
-
-
-@router.post("/")
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=Report) #posting a report, gotta be user 
 def submit_report(
     report_data: ReportCreate, 
     current_user: User = Depends(AuthService.get_current_user)
@@ -25,46 +18,34 @@ def submit_report(
     if current_user.role != UserRole.CUSTOMER:
         raise HTTPException(status_code=403, detail="Only customers can file reports.")
     
-    new_report = Report(
-        id=0,
-        order_id=report_data.order_id,
-        target_type=report_data.target_type,
-        target_id=report_data.target_id,
-        reason=report_data.reason
-    )
-    report_db.save(new_report)
-    return {"message": f"Report against {report_data.target_type} submitted successfully."}
+    try:
+        return report_service.create_report(report_data, current_user) #try and create order using the service
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
-@router.get("/queue")
-def get_report_queue(admin: User = Depends(verify_admin)):
-    return report_db.get_all_pending()
+@router.get("/queue", response_model= List[Report]) #getting queue of reports for admin to handle, gotta be admin
+def get_report_queue(admin: User = Depends(get_admin)):
+    try:
+        return report_service.get_pending_reports(admin)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=str(e))
 
 
-@router.patch("/{report_id}/handle")
+@router.patch("/{report_id}/handle", response_model=Report)
 def handle_report(
     report_id: int, 
     decision: ReportStatus, 
     notes: str = "", 
-    admin: User = Depends(verify_admin)
-):
-    report = report_db.find_by_id(report_id)
-    if not report:
-        raise HTTPException(status_code=404, detail="Report not found")
-        
-    if report.status != ReportStatus.OPEN:
-        raise HTTPException(status_code=400, detail="Report has already been handled.")
+    admin: User = Depends(get_admin)):
 
-    report.status = decision
-    report.admin_notes = notes
-    report_db.save(report)
-    
-    if decision == ReportStatus.VALIDATED:
-        if report.target_type == ReportTargetType.DRIVER:
-            driver = user_db.find_by_user_id(report.target_id)
-            if driver and driver.role == UserRole.DELIVERY_DRIVER:
-                driver.flags += 1
-                user_db.save(driver)
-                
-
-    return {"message": f"Report handled successfully. Status marked as {decision}"}
+    try:
+        return report_service.resolve_report(report_id, decision, notes, admin) #resolve the report 
+    except ValueError as e:
+        error_msg = str(e).lower()
+        if "not found" in error_msg:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+        elif "already been handled" in error_msg:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+        else:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
