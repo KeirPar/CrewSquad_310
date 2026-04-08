@@ -34,7 +34,8 @@
     "cuisine_type": "Italian",
     "phone_number": "250-555-1010",
     "price_tier": 2,
-    "owner_id": 20
+    "owner_id": 20,
+    "flags": 1
   },
   {
     "id": 2,
