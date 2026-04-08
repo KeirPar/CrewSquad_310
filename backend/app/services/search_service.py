@@ -2,6 +2,7 @@ from app.repositories.restaurant_repo import RestaurantRepository #import our re
 from app.schemas.restaurant_sort_order import RestaurantSortOrder
 from app.schemas.restaurant import CuisineType
 from app.packages.geo.coordinate import Coordinate
+from app.services.rating_service import get_average_rating
 from typing import Optional
 
 class SearchService: #make our SearchService class
@@ -32,7 +33,7 @@ class SearchService: #make our SearchService class
         sort_error_message = ""
         #added for sorting, we can sort by rating or price
         if sort_by == RestaurantSortOrder.RATING_DESC:
-            restaurants.sort(key=lambda r: r.get("rating", 0.0), reverse=True) #sort by rating, high to low
+            restaurants.sort(key=lambda r: get_average_rating(restaurant_id=r.get("id", 0)), reverse=True) #sort by rating, high to low
         elif sort_by == RestaurantSortOrder.PRICE_ASC:
             restaurants.sort(key=lambda r: float(r.get("price_tier", 9999)), reverse=False) #sort by price, low to high
         elif sort_by == RestaurantSortOrder.DISTANCE_ASC:

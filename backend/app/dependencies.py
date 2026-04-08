@@ -20,11 +20,11 @@ def verify_restaurant_owner(auth: HTTPAuthorizationCredentials = Security(securi
     return user
 
 def verify_delivery_driver(current_user: User = Depends(AuthService.get_current_user)):
-    if current_user.role != UserRole.DELIVERY_DRIVER: #make sure user is delivery driver
-            raise HTTPException(status_code=403, detail="Only delivery driver can access.")
+    if current_user.role != UserRole.DELIVERY_DRIVER and current_user.role != UserRole.ADMIN: #make sure user is delivery driver
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied. Only delivery driver can access.")
     return current_user
 
 def verify_customer(current_user: User = Depends(AuthService.get_current_user)):
-    if current_user.role != UserRole.DELIVERY_DRIVER: #make sure user is customer
-            raise HTTPException(status_code=403, detail="Only cusomer can access.")
+    if current_user.role != UserRole.CUSTOMER and current_user.role != UserRole.ADMIN: #make sure user is customer
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied. Only cusomer can access.")
     return current_user

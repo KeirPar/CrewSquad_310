@@ -5,6 +5,7 @@ from app.dependencies import verify_restaurant_owner, verify_customer
 from app.repositories.restaurant_repo import RestaurantRepository
 from app.repositories.review_repo import review_db
 from app.schemas.review import ReviewCreate, Review
+from app.services.rating_service import get_average_rating
 from typing import List 
 
 #Initialize router with a prefix so all routes start with /restaurants
@@ -69,12 +70,12 @@ def delete_restaurant(
     repo.delete_restaurant(restaurant_id)
     return None
 
-@router.post("/{restaurant_id}/rating", response_model=Review)
-def rate_restaurant(
+@router.post("/{restaurant_id}/reviews")
+def review_restaurant(
     restaurant_id: int, 
     review_create: ReviewCreate,
     customer: User = Depends(verify_customer)
-):
+) -> Review:
     review = Review(
         id=0, 
         content=review_create.content, 
@@ -85,9 +86,14 @@ def rate_restaurant(
     review_db.save(review)
     return review
 
-@router.get("/{restaurant_id}/rating", response_model=List[Review])
-def get_retaurant_rating(
+@router.get("/{restaurant_id}/reviews", response_model=List[Review])
+def get_retaurant_reviews(
     restaurant_id: int
 ):
     return [review for review in review_db.get_all_reviews() if review.restaurant_id == restaurant_id]
 
+@router.get("/{restaurant_id}/rating")
+def get_retaurant_rating(
+    restaurant_id: int
+) -> float:
+    return get_average_rating(restaurant_id=restaurant_id)

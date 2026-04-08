@@ -42,7 +42,6 @@ class RestaurantUpdate(BaseModel):
 class Restaurant(RestaurantBase):
     id: int
     owner_id: int
-    rating: float = 0.0 #updated this to have a value
     is_open: bool = True #updated this to have a value
 
 #this will be for feature 3

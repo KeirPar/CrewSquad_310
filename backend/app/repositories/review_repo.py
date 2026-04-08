@@ -58,4 +58,13 @@ class ReviewRepository:
     def clear_all(self) -> None:
         self.save_all([])
 
+    def next_id(self) -> int: #for adding new report, just make next id one higher than max
+        reviews = self.load_all()
+
+        if len(reviews) == 0:
+            return 1 
+        all_ids = [review["id"] for review in reviews]
+        highest_id = max(all_ids)
+        return highest_id + 1
+
 review_db = ReviewRepository()
