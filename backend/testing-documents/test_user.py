@@ -64,3 +64,87 @@ def test_update_user_with_invalid_location():
     user_update_response = client.post("/user/update", json=updated_user_data_json, headers={"Authorization": f"Bearer {user_test_helper.login_token}"})
 
     assert user_update_response.status_code == invalid_status
+
+#Creating all these tests for favourite items favourite restaurants and recent items, they all do more or less the same thing
+def test_add_favourite_item_success():
+    current_user = user_test_helper.register_and_login_user(user=test_user_create)
+    headers = {"Authorization": f"Bearer {user_test_helper.login_token}"}
+    
+    response = client.post("/user/favourites/items/1", headers=headers)
+    assert response.status_code == successful_status
+    assert 1 in response.json()["favourite_items"]
+
+def test_add_favourite_item_duplicate():
+    headers = {"Authorization": f"Bearer {user_test_helper.login_token}"}
+    
+    #Adding once to test duplicate but should succeed
+    client.post("/user/favourites/items/1", headers=headers)
+    #Try adding the exact same item again
+    response = client.post("/user/favourites/items/1", headers=headers)
+    assert response.status_code == failed_status
+    assert "already in favourites" in response.json()["detail"]
+
+def test_delete_favourite_item_success():
+    headers = {"Authorization": f"Bearer {user_test_helper.login_token}"}
+    
+    response = client.delete("/user/favourites/items/1", headers=headers)
+    assert response.status_code == successful_status
+    assert 1 not in response.json()["favourite_items"]
+
+def test_delete_favourite_item_not_found():
+    headers = {"Authorization": f"Bearer {user_test_helper.login_token}"}
+    
+    response = client.delete("/user/favourites/items/999", headers=headers)
+    assert response.status_code == 404
+
+def test_add_favourite_restaurant_success():
+    headers = {"Authorization": f"Bearer {user_test_helper.login_token}"}
+    
+    response = client.post("/user/favourites/restaurants/5", headers=headers)
+    assert response.status_code == successful_status
+    assert 5 in response.json()["favourite_restaurants"]
+
+def test_add_favourite_restaurant_duplicate():
+    headers = {"Authorization": f"Bearer {user_test_helper.login_token}"}
+    
+    client.post("/user/favourites/restaurants/5", headers=headers)
+    response = client.post("/user/favourites/restaurants/5", headers=headers)
+    assert response.status_code == failed_status
+
+def test_delete_favourite_restaurant_success():
+    headers = {"Authorization": f"Bearer {user_test_helper.login_token}"}
+    
+    response = client.delete("/user/favourites/restaurants/5", headers=headers)
+    assert response.status_code == successful_status
+    assert 5 not in response.json()["favourite_restaurants"]
+
+def test_recently_ordered_empty():
+    #Making a fresh user so history is empty
+    fresh_user_create = test_user_create.model_copy()
+    fresh_user_create.email = "fresh_empty_user@example.com"
+    user_test_helper.register_and_login_user(user=fresh_user_create)
+    headers = {"Authorization": f"Bearer {user_test_helper.login_token}"}
+    
+    response = client.get("/user/recently-ordered", headers=headers)
+    assert response.status_code == successful_status
+    assert len(response.json()["recent_items"]) == 0
+
+def test_recently_ordered_with_history():
+    headers = {"Authorization": f"Bearer {user_test_helper.login_token}"}
+    current_user = user_test_helper.get_current_user()
+    
+    #placing a dummy to check if order history works
+    order_data = OrderCreate(
+        user_id=current_user.id,
+        cart=testing_data.cart
+    ).model_dump()
+    client.post("/orders", json=order_data, headers=headers)
+    
+    #Check the recently ordered endpoint
+    response = client.get("/user/recently-ordered", headers=headers)
+    assert response.status_code == successful_status
+    
+    recent_items = response.json()["recent_items"]
+    assert len(recent_items) > 0
+    #The first item in the cart should now be in the recent items list
+    assert recent_items[0]["name"] == testing_data.cart.menu_items[0].name
