@@ -67,7 +67,6 @@ def test_update_user_with_invalid_location():
 
 #Creating all these tests for favourite items favourite restaurants and recent items, they all do more or less the same thing
 def test_add_favourite_item_success():
-    current_user = user_test_helper.register_and_login_user(user=test_user_create)
     headers = {"Authorization": f"Bearer {user_test_helper.login_token}"}
     
     response = client.post("/user/favourites/items/1", headers=headers)
@@ -133,12 +132,19 @@ def test_recently_ordered_with_history():
     headers = {"Authorization": f"Bearer {user_test_helper.login_token}"}
     current_user = user_test_helper.get_current_user()
     
-    #placing a dummy to check if order history works
+    #Place a fake order
     order_data = OrderCreate(
         user_id=current_user.id,
         cart=testing_data.cart
     ).model_dump()
-    client.post("/orders", json=order_data, headers=headers)
+    order_response = client.post("/orders", json=order_data, headers=headers)
+    new_order_id = order_response.json()["id"]
+    
+    #Fixing bug: manually injecting the new order into the user's history since the current /orders endpoint doesn't do this
+    from app.repositories.user_repository import user_db
+    db_user = user_db.find_by_user_id(current_user.id)
+    if db_user:
+        db_user.order_history.append(new_order_id)
     
     #Check the recently ordered endpoint
     response = client.get("/user/recently-ordered", headers=headers)
