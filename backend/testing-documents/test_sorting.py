@@ -4,9 +4,12 @@ from app.helpers.user_test_helper import UserTestHelper
 from app.packages.geo.coordinate import Coordinate
 from app.schemas.review import ReviewCreate
 from fastapi import status
+from app.schemas.order import OrderCreate
+from app.helpers.testing_data import TestingData
 
 client = TestClient(app)
 user_test_helper = UserTestHelper(client=client)
+testing_data = TestingData()
 
 def test_sort_by_rating_desc():
     #   Login
@@ -22,6 +25,12 @@ def test_sort_by_rating_desc():
 
     #   Add ratings
     for id in restaurant_ids:
+        order_create = OrderCreate(
+            user_id=user_test_helper.get_current_user().id,
+            cart=testing_data.cart
+        ).model_dump()
+        response = client.post("/orders", json=order_create)
+
         client.post("/restaurants/" + str(id) + "/reviews", json=ReviewCreate(content = "", rating = 3 * id % 10).model_dump())
 
     #   Check resturants ratings is sorted

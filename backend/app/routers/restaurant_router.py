@@ -6,6 +6,7 @@ from app.repositories.restaurant_repo import RestaurantRepository
 from app.repositories.review_repo import review_db
 from app.schemas.review import ReviewCreate, Review
 from app.services.rating_service import get_average_rating
+from app.repositories.order_repo import order_db
 from typing import List 
 
 #Initialize router with a prefix so all routes start with /restaurants
@@ -83,6 +84,13 @@ def review_restaurant(
         user_id=customer.id,
         restaurant_id=restaurant_id
     )
+    customer_orders_ids = customer.order_history
+    has_customer_ordered_in_restaurant = restaurant_id in customer_orders_ids
+
+    if not has_customer_ordered_in_restaurant:
+        raise HTTPException(status_code=403, detail="You have not ordered in this restaurant")
+
+
     review_db.save(review)
     return review
 
