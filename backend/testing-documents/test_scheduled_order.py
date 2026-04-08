@@ -22,7 +22,7 @@ def get_auth_headers():
     from app.packages.geo.coordinate import Coordinate
     email = "scheduled_test@example.com"
     password = "Password123!"
-    # Register — ignore if already exists
+  
     client.post("/auth/register", json={
         "name": "Scheduled Tester",
         "email": email,
@@ -32,7 +32,7 @@ def get_auth_headers():
         "address": "123 Near St",
         "coordinate": {"latitude": 49.8820, "longitude": -119.4950}
     })
-    # Login using form data — matches OAuth2PasswordRequestForm
+    
     login_response = client.post(
         "/auth/login",
         data={"username": email, "password": password}
@@ -66,8 +66,8 @@ def make_scheduled_order_body(hours_ahead: float = 5):
     """Builds a valid scheduled order request body."""
     safe_cart = testing_data.cart.model_dump()
     
-    for item in safe_cart.get("menu_items", []): #had to change this, this pr was merged before my changes to the order repository went up
-        item["restaurant_id"] = 1               #again just rewriting the restaurant_id and id of the menu item to match the new order repository and orders.json
+    for item in safe_cart.get("menu_items", []): 
+        item["restaurant_id"] = 1               
         item["id"] = 1
 
     return {
@@ -85,11 +85,7 @@ def place_scheduled_order(hours_ahead: float = 5):
     )
 
 
-# =====================================================================
-# FR1: Customer can place a scheduled order for a future time
-# =====================================================================
-
-def test_place_scheduled_order_returns_201():
+def test_place_scheduled_order_success():
     """Verify that placing a valid scheduled order returns 201."""
     response = place_scheduled_order()
 
@@ -142,10 +138,6 @@ def test_place_scheduled_order_requires_auth():
     assert response.status_code == 401
 
 
-# =====================================================================
-# FR2: scheduled_time must be in the future and within 24 hours
-# =====================================================================
-
 def test_scheduled_time_in_past_rejected():
     """Verify that a scheduled_time in the past returns 400."""
     body = make_scheduled_order_body()
@@ -169,9 +161,6 @@ def test_scheduled_time_within_24h_accepted():
     assert response.status_code == created_status
 
 
-# =====================================================================
-# FR3: scheduled_time must allow enough time for delivery
-# =====================================================================
 
 def test_estimated_delivery_minutes_is_positive():
     """Verify the estimated delivery minutes is a positive number."""
@@ -185,8 +174,8 @@ def test_estimated_delivery_time_is_after_creation():
     response = place_scheduled_order()
     assert response.status_code == created_status
     data = response.json()
-    created_at = datetime.fromisoformat(data["created_at"])
-    estimated = datetime.fromisoformat(data["estimated_delivery_time"])
+    created_at = datetime.fromisoformat(data["created_at"].replace("Z", "+00:00"))
+    estimated = datetime.fromisoformat(data["estimated_delivery_time"].replace("Z", "+00:00"))
     assert estimated > created_at
 
 
@@ -252,11 +241,7 @@ def test_mixed_restaurant_cart_rejected():
     assert response.status_code == failed_status
 
 
-# =====================================================================
-# FR4: Customer can cancel their own scheduled order
-# =====================================================================
-
-def test_cancel_scheduled_order_returns_200():
+def test_cancel_scheduled_order_success():
     """Verify that cancelling a scheduled order returns 200."""
     order_id = place_scheduled_order().json()["id"]
     response = client.patch(f"/scheduled-orders/{order_id}/cancel", headers=headers)
@@ -298,7 +283,7 @@ def test_cancel_without_reason_succeeds():
     assert response.status_code == successful_status
 
 
-def test_cancel_already_cancelled_order_returns_400():
+def test_cancel_already_cancelled_order_failed():
     """Verify that cancelling an already cancelled order returns 400."""
     order_id = place_scheduled_order().json()["id"]
     client.patch(f"/scheduled-orders/{order_id}/cancel", headers=headers)
@@ -321,11 +306,7 @@ def test_cancel_requires_auth():
     assert response.status_code == 401
 
 
-# =====================================================================
-# FR5: Customer can retrieve their scheduled orders
-# =====================================================================
-
-def test_get_my_scheduled_orders_returns_200():
+def test_get_my_scheduled_orders_success():
     """Verify that retrieving all scheduled orders returns 200."""
     response = client.get("/scheduled-orders/my-orders/all", headers=headers)
     assert response.status_code == successful_status
@@ -358,7 +339,7 @@ def test_get_my_scheduled_orders_sorted_by_scheduled_time():
         assert times == sorted(times)
 
 
-def test_get_scheduled_order_by_id_returns_200():
+def test_get_scheduled_order_by_id_success():
     """Verify that retrieving a specific scheduled order returns 200."""
     order_id = place_scheduled_order().json()["id"]
     response = client.get(f"/scheduled-orders/{order_id}", headers=headers)
