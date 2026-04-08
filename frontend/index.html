@@ -122,7 +122,7 @@
                     <button id="btn-cancel-order" class="btn-danger">Cancel</button>
                 </div>
             </div>
-            <!-- PAYMENT (Feat 7) -->
+          <!-- PAYMENT (Feat 7) — ADDED -->
             <div class="card">
                 <h3>💳 Payment</h3>
                 <h4>Simulate Payment</h4>
@@ -130,79 +130,79 @@
                 <div class="input-row">
                     <input type="number" id="simulate-order-id" placeholder="Order ID">
                     <button id="btn-simulate-payment" class="btn-secondary">🎲 Simulate</button>
+                </div>
+                <hr>
+                <h4>Manual Payment Decision</h4>
+                <p class="helper-text">Manually accept or reject a payment for an order.</p>
+                <input type="number" id="decision-order-id" placeholder="Order ID">
+                <div class="input-row">
+                    <select id="decision-value">
+                        <option value="ACCEPTED">ACCEPTED</option>
+                        <option value="REJECTED">REJECTED</option>
+                    </select>
+                    <input type="text" id="decision-reason" placeholder="Reason (optional)">
+                </div>
+                <button id="btn-submit-decision" class="btn-success">✅ Submit Decision</button>
+                <hr>
+                <h4>Check Order & Payment Status</h4>
+                <div class="input-row">
+                    <input type="number" id="status-order-id" placeholder="Order ID">
+                    <button id="btn-check-status">🔍 Get Status</button>
+                </div>
             </div>
-            <hr>
-            <h4>Manual Payment Decision</h4>
-            <p class="helper-text">Manually accept or reject a payment for an order.</p>
-            <input type="number" id="decision-order-id" placeholder="Order ID">
-            <div class="input-row">
-                <select id="decision-value">
-                    <option value="ACCEPTED">ACCEPTED</option>
-                    <option value="REJECTED">REJECTED</option>
+ 
+            <!-- NOTIFICATIONS (Feat 8) — ADDED -->
+            <div class="card">
+                <h3>🔔 Notifications</h3>
+                <h4>My Notifications</h4>
+                <p class="helper-text">View all notifications directed at your account.</p>
+                <button id="btn-my-notifications">📋 Load My Notifications</button>
+                <hr>
+                <h4>Order Notifications</h4>
+                <p class="helper-text">View all notifications for a specific order.</p>
+                <div class="input-row">
+                    <input type="number" id="notif-order-id" placeholder="Order ID">
+                    <button id="btn-order-notifications">🔍 Get</button>
+                </div>
+                <hr>
+                <h4>Order Timeline</h4>
+                <p class="helper-text">View the full event timeline for your order.</p>
+                <div class="input-row">
+                    <input type="number" id="timeline-order-id" placeholder="Order ID">
+                    <button id="btn-order-timeline" class="btn-success">📅 Get Timeline</button>
+                </div>
+            </div>
+ 
+            <!-- SCHEDULED ORDERS (M4) — ADDED -->
+            <div class="card">
+                <h3>🗓️ Scheduled Orders</h3>
+                <h4>Place a Scheduled Order</h4>
+                <p class="helper-text">Must be within 24 hours and allow enough time for delivery. The menu will load automatically when you click the restaurant dropdown.</p>
+                <select id="sched-restaurant">
+                    <option value="">Select a Restaurant</option>
                 </select>
-                <input type="text" id="decision-reason" placeholder="Reason (optional)">
-            </div>
-            <button id="btn-submit-decision" class="btn-success">✅ Submit Decision</button>
-            <hr>
-            <h4>Check Order & Payment Status</h4>
-            <div class="input-row">
-                <input type="number" id="status-order-id" placeholder="Order ID">
-                <button id="btn-check-status">🔍 Get Status</button>
-            </div>
-        </div>
-
-<!-- NOTIFICATIONS (Feat 8) -->
-        <div class="card">
-            <h3>🔔 Notifications</h3>
-            <h4>My Notifications</h4>
-            <p class="helper-text">View all notifications directed at your account.</p>
-            <button id="btn-my-notifications">📋 Load My Notifications</button>
-            <hr>
-            <h4>Order Notifications</h4>
-            <p class="helper-text">View all notifications for a specific order.</p>
-            <div class="input-row">
-                <input type="number" id="notif-order-id" placeholder="Order ID">
-                <button id="btn-order-notifications">🔍 Get</button>
-            </div>
-            <hr>
-            <h4>Order Timeline</h4>
-            <p class="helper-text">View the full event timeline for your order.</p>
-            <div class="input-row">
-                <input type="number" id="timeline-order-id" placeholder="Order ID">
-                <button id="btn-order-timeline" class="btn-success">📅 Get Timeline</button>
+                <select id="sched-item">
+                    <option value="">Select a Menu Item</option>
+                </select>
+                <label class="helper-text" style="display:block; margin-bottom:4px;">Scheduled Delivery Time:</label>
+                <input type="datetime-local" id="sched-time">
+                <button id="btn-place-scheduled" class="btn-success">📅 Place Scheduled Order</button>
+                <hr>
+                <h4>My Scheduled Orders</h4>
+                <button id="btn-my-scheduled">📋 Load My Scheduled Orders</button>
+                <hr>
+                <h4>Cancel Scheduled Order</h4>
+                <input type="number" id="cancel-sched-id" placeholder="Scheduled Order ID">
+                <input type="text" id="cancel-sched-reason" placeholder="Reason (optional)">
+                <button id="btn-cancel-scheduled" class="btn-danger">❌ Cancel Scheduled Order</button>
+                <hr>
+                <h4>View Scheduled Order by ID</h4>
+                <div class="input-row">
+                    <input type="number" id="get-sched-id" placeholder="Scheduled Order ID">
+                    <button id="btn-get-scheduled">🔍 Get</button>
+                </div>
             </div>
         </div>
-
-<!-- SCHEDULED ORDERS (M4 Feature) -->
-        <div class="card">
-            <h3>🗓️ Scheduled Orders</h3>
-            <h4>Place a Scheduled Order</h4>
-            <p class="helper-text">Must be within 24 hours and allow enough time for delivery. Load the menu first using Browse Menus above.</p>
-            <select id="sched-restaurant">
-                <option value="">Select a Restaurant</option>
-            </select>
-            <select id="sched-item">
-                <option value="">Select a Menu Item</option>
-            </select>
-            <label class="helper-text" style="display:block; margin-bottom:4px;">Scheduled Delivery Time:</label>
-            <input type="datetime-local" id="sched-time">
-            <button id="btn-place-scheduled" class="btn-success">📅 Place Scheduled Order</button>
-            <hr>
-            <h4>My Scheduled Orders</h4>
-            <button id="btn-my-scheduled">📋 Load My Scheduled Orders</button>
-            <hr>
-            <h4>Cancel Scheduled Order</h4>
-            <input type="number" id="cancel-sched-id" placeholder="Scheduled Order ID">
-            <input type="text" id="cancel-sched-reason" placeholder="Reason (optional)">
-            <button id="btn-cancel-scheduled" class="btn-danger">❌ Cancel Scheduled Order</button>
-            <hr>
-            <h4>View Scheduled Order by ID</h4>
-            <div class="input-row">
-                <input type="number" id="get-sched-id" placeholder="Scheduled Order ID">
-                <button id="btn-get-scheduled">🔍 Get</button>
-            </div>
-        </div>
-    </div>
 
         <!-- OWNER DASHBOARD -->
         <div id="owner-dashboard" style="display: none;">
@@ -240,7 +240,7 @@
                     <button id="btn-delete-menu" class="btn-danger">Delete</button>
                 </div>
             </div>
-            <!-- PAYMENT for owners -->
+ <!-- PAYMENT for owners — ADDED -->
             <div class="card">
                 <h3>💳 Payment Decisions</h3>
                 <p class="helper-text">Accept or reject customer payments for orders.</p>
@@ -254,8 +254,8 @@
                 </div>
                 <button id="btn-owner-submit-decision" class="btn-success">✅ Submit Decision</button>
             </div>
-
-<!-- NOTIFICATIONS for owners -->
+ 
+            <!-- NOTIFICATIONS for owners — ADDED -->
             <div class="card">
                 <h3>🔔 Restaurant Notifications</h3>
                 <p class="helper-text">View notifications sent to your restaurant.</p>

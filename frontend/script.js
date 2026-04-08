@@ -380,9 +380,8 @@ document.getElementById('btn-delete-menu').onclick = async () => {
         else logData(await res.json());
     } catch (err) { handleError(err); }
 };
-
 // =====================================================================
-// FEAT 7 — PAYMENT
+// FEAT 7 — PAYMENT (ADDED)
 // =====================================================================
 
 document.getElementById('btn-simulate-payment').onclick = async () => {
@@ -426,48 +425,37 @@ document.getElementById('btn-check-status').onclick = async () => {
 };
 
 // =====================================================================
-// FEAT 8 — NOTIFICATIONS
+// FEAT 8 — NOTIFICATIONS (ADDED)
 // =====================================================================
 
 document.getElementById('btn-my-notifications').onclick = async () => {
     if (!currentUser) return alert("Not logged in.");
     try {
-        // Get all orders first
         const ordersRes = await fetch(`${API_URL}/orders/`, {
             headers: { 'Authorization': `Bearer ${currentToken}` }
         });
         const orders = await ordersRes.json();
         const orderList = Array.isArray(orders) ? orders : [];
-
-        // Collect notifications from all orders
         const allNotifications = [];
         for (const order of orderList) {
             const notifRes = await fetch(`${API_URL}/notifications/order/${order.id}`, {
                 headers: { 'Authorization': `Bearer ${currentToken}` }
             });
             const notifData = await notifRes.json();
-            const notifs = notifData.notifications || [];
-            allNotifications.push(...notifs);
+            allNotifications.push(...(notifData.notifications || []));
         }
-
-        // Also fetch notifications directly for this user (payment, status change)
         const recipientRes = await fetch(`${API_URL}/notifications/recipient/${currentUser.id}`, {
             headers: { 'Authorization': `Bearer ${currentToken}` }
         });
         const recipientData = await recipientRes.json();
         const recipientNotifs = recipientData.notifications || [];
-
-        // Merge and deduplicate by id
         const seen = new Set();
         const merged = [...allNotifications, ...recipientNotifs].filter(n => {
             if (seen.has(n.id)) return false;
             seen.add(n.id);
             return true;
         });
-
-        // Sort by timestamp newest first
         merged.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-
         logData({ notifications: merged });
     } catch (err) { handleError(err); }
 };
@@ -496,37 +484,73 @@ document.getElementById('btn-order-timeline').onclick = async () => {
 };
 
 // =====================================================================
-// M4 — SCHEDULED ORDERS
+// M4 — SCHEDULED ORDERS (ADDED)
 // =====================================================================
+
+function refreshScheduledOrderDropdowns() {
+    const restSelect = document.getElementById('sched-restaurant');
+    if (!restSelect) return;
+    const restaurants = {};
+    Object.values(menuItemsCache).forEach(item => {
+        if (!restaurants[item.restaurant_id]) {
+            restaurants[item.restaurant_id] = `Restaurant ${item.restaurant_id}`;
+        }
+    });
+    restSelect.innerHTML = '<option value="">Select a Restaurant</option>';
+    Object.entries(restaurants).forEach(([id, name]) => {
+        const opt = document.createElement('option');
+        opt.value = id;
+        opt.text = name;
+        restSelect.appendChild(opt);
+    });
+}
+
+document.getElementById('sched-restaurant').onchange = () => {
+    const restId = parseInt(document.getElementById('sched-restaurant').value);
+    const itemSelect = document.getElementById('sched-item');
+    itemSelect.innerHTML = '<option value="">Select a Menu Item</option>';
+    if (!restId) return;
+    Object.values(menuItemsCache)
+        .filter(item => item.restaurant_id === restId)
+        .forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = JSON.stringify({ id: item.id, name: item.name, price: item.price, restaurant_id: item.restaurant_id });
+            opt.text = `${item.name} — $${item.price.toFixed(2)}`;
+            itemSelect.appendChild(opt);
+        });
+};
+
+document.getElementById('sched-restaurant').onfocus = async () => {
+    if (Object.keys(menuItemsCache).length === 0) {
+        try {
+            const res = await fetch(`${API_URL}/menu?limit=50&offset=0`);
+            const data = await res.json();
+            (data.items || []).forEach(item => { menuItemsCache[item.id] = item; });
+            refreshScheduledOrderDropdowns();
+        } catch (err) { handleError(err); }
+    } else {
+        refreshScheduledOrderDropdowns();
+    }
+};
 
 document.getElementById('btn-place-scheduled').onclick = async () => {
     const restId = parseInt(document.getElementById('sched-restaurant').value);
     const itemRaw = document.getElementById('sched-item').value;
     const schedTime = document.getElementById('sched-time').value;
-
     if (!restId || !itemRaw || !schedTime) {
         return alert("Please select a restaurant, menu item, and scheduled time.");
     }
-
     const item = JSON.parse(itemRaw);
-
     const payload = {
         cart: {
             id: Math.floor(Math.random() * 10000),
             menu_items: [{
-                id: item.id,
-                name: item.name,
-                description: "Scheduled order item",
-                price: item.price,
-                image_url: "",
-                add_ons: [],
-                is_available: true,
-                restaurant_id: restId
+                id: item.id, name: item.name, description: "Scheduled order item",
+                price: item.price, image_url: "", add_ons: [], is_available: true, restaurant_id: restId
             }]
         },
         scheduled_time: new Date(schedTime).toISOString()
     };
-
     try {
         const res = await fetch(`${API_URL}/scheduled-orders`, {
             method: 'POST',
@@ -535,7 +559,11 @@ document.getElementById('btn-place-scheduled').onclick = async () => {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.detail || "Failed to place scheduled order.");
-        alert(`Scheduled! Estimated delivery: ${Math.round(data.estimated_delivery_minutes)} minutes.`);
+        const estimatedTime = new Date(data.estimated_delivery_time);
+        const formatted = estimatedTime.toLocaleString('en-CA', {
+            hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric', timeZoneName: 'short'
+        });
+        alert(`Scheduled order placed! Estimated delivery by ${formatted}. (${Math.round(data.estimated_delivery_minutes)} minutes from now)`);
         logData(data);
     } catch (err) { handleError(err); }
 };
@@ -578,7 +606,7 @@ document.getElementById('btn-get-scheduled').onclick = async () => {
     } catch (err) { handleError(err); }
 };
 
-// Owner: Payment decision
+// Owner: Payment decision (ADDED)
 document.getElementById('btn-owner-submit-decision').onclick = async () => {
     const orderId = document.getElementById('owner-decision-order-id').value;
     const decision = document.getElementById('owner-decision-value').value;
@@ -596,7 +624,7 @@ document.getElementById('btn-owner-submit-decision').onclick = async () => {
     } catch (err) { handleError(err); }
 };
 
-// Owner: Notifications
+// Owner: Notifications (ADDED)
 document.getElementById('btn-owner-my-notifications').onclick = async () => {
     if (!currentUser) return alert("Not logged in.");
     try {
@@ -617,57 +645,6 @@ document.getElementById('btn-owner-timeline').onclick = async () => {
         });
         logData(await res.json());
     } catch (err) { handleError(err); }
-};
-
-function refreshScheduledOrderDropdowns() {
-    const restSelect = document.getElementById('sched-restaurant');
-    if (!restSelect) return;
-
-    // Build unique restaurant list from cache
-    const restaurants = {};
-    Object.values(menuItemsCache).forEach(item => {
-        if (!restaurants[item.restaurant_id]) {
-            restaurants[item.restaurant_id] = `Restaurant ${item.restaurant_id}`;
-        }
-    });
-
-    restSelect.innerHTML = '<option value="">Select a Restaurant</option>';
-    Object.entries(restaurants).forEach(([id, name]) => {
-        const opt = document.createElement('option');
-        opt.value = id;
-        opt.text = name;
-        restSelect.appendChild(opt);
-    });
-}
-
-document.getElementById('sched-restaurant').onchange = () => {
-    const restId = parseInt(document.getElementById('sched-restaurant').value);
-    const itemSelect = document.getElementById('sched-item');
-    itemSelect.innerHTML = '<option value="">Select a Menu Item</option>';
-    if (!restId) return;
-    Object.values(menuItemsCache)
-        .filter(item => item.restaurant_id === restId)
-        .forEach(item => {
-            const opt = document.createElement('option');
-            opt.value = JSON.stringify({ id: item.id, name: item.name, price: item.price, restaurant_id: item.restaurant_id });
-            opt.text = `${item.name} — $${item.price.toFixed(2)}`;
-            itemSelect.appendChild(opt);
-        });
-};
-
-document.getElementById('sched-restaurant').onfocus = async () => {
-    if (Object.keys(menuItemsCache).length === 0) {
-        // Auto-fetch all menu items into cache
-        try {
-            const res = await fetch(`${API_URL}/menu?limit=50&offset=0`);
-            const data = await res.json();
-            const items = data.items || [];
-            items.forEach(item => { menuItemsCache[item.id] = item; });
-            refreshScheduledOrderDropdowns();
-        } catch (err) { handleError(err); }
-    } else {
-        refreshScheduledOrderDropdowns();
-    }
 };
 
 refreshScheduledOrderDropdowns();
