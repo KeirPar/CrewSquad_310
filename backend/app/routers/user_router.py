@@ -1,10 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.schemas.user import UserCreate, User
 from app.services.auth_service import AuthService
-from app.repositories.order_repo import OrderRepository
-
-
-order_db = OrderRepository()
+from app.repositories.order_repo import order_db
 
 router = APIRouter(prefix="/user", tags = ["User"])
 
