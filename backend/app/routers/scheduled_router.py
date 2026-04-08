@@ -25,19 +25,7 @@ def place_scheduled_order(
     body: ScheduledOrderCreate,
     current_user: User = Depends(AuthService.get_current_user)
 ):
-    """
-    Places a new scheduled order for a future delivery time (FR1, FR2, FR3).
-
-    Business Rules:
-        - scheduled_time must be in the future.
-        - scheduled_time must be within 24 hours from now.
-        - scheduled_time must allow enough time for preparation and delivery
-          based on distance between the customer and the restaurant.
-        - Cart must contain at least 1 item from the same restaurant.
-
-    Returns:
-        The created ScheduledOrder including estimated delivery time and minutes.
-    """
+    """Places a new scheduled order for a future delivery time."""
     try:
         return create_scheduled_order(body, current_user.id)
     except ValueError as e:
@@ -48,10 +36,7 @@ def place_scheduled_order(
 def get_my_orders(
     current_user: User = Depends(AuthService.get_current_user)
 ):
-    """
-    Returns all scheduled orders for the currently logged in user (FR5).
-    Results are sorted by scheduled_time ascending.
-    """
+    """ Returns all scheduled orders for the currently logged in user"""
     return get_my_scheduled_orders(current_user.id)
 
 
@@ -84,18 +69,7 @@ def cancel_order(
     body: CancelRequest = CancelRequest(),
     current_user: User = Depends(AuthService.get_current_user)
 ):
-    """
-    Cancels a scheduled order (FR4).
-
-    Business Rules:
-        - Only the user who placed the order can cancel it.
-        - The order must not already be cancelled.
-        - An optional cancellation reason can be provided.
-
-    Raises:
-        400 if already cancelled or not authorized.
-        404 if the scheduled order is not found.
-    """
+    """Cancels a scheduled order """
     try:
         return cancel_scheduled_order(
             scheduled_order_id=scheduled_order_id,
