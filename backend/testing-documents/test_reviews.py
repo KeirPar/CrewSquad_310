@@ -6,6 +6,7 @@ from fastapi import status
 from app.schemas.user import UserRole
 from app.schemas.order import OrderCreate
 from app.helpers.testing_data import TestingData
+from app.repositories.review_repo import review_db
 
 client = TestClient(app)
 user_test_helper = UserTestHelper(client=client)
@@ -84,6 +85,27 @@ def test_add_review_as_valid_customer():
 
     response = client.post("/orders", json=order_create)
 
+    #   Clear review_db
+    review_db.clear_all()
+
     #   Add review
     response = client.post("/restaurants/" + str(restaurant_id) + "/reviews", json=ReviewCreate(content = "", rating = 10).model_dump())
     assert response.status_code == status.HTTP_200_OK
+
+    #   Check the rating is applied
+    rating_response = client.get("/restaurants/" + str(restaurant_id) + "/rating")
+    assert rating_response.json() == 10
+
+    #   update review rating
+    new_rating = ReviewCreate(content = "Hello", rating = 5)
+    response = client.post("/restaurants/" + str(restaurant_id) + "/reviews", json=new_rating.model_dump())
+    assert response.status_code == status.HTTP_200_OK
+
+    #   Check the average rating is updated.
+    rating_response = client.get("/restaurants/" + str(restaurant_id) + "/rating")
+    assert rating_response.json() == 5
+    
+    #   Check the review is updated.
+    reviews_response = client.get("/restaurants/" + str(restaurant_id) + "/reviews")
+    assert reviews_response.json()[0]["content"] == new_rating.content
+    assert reviews_response.json()[0]["rating"] == new_rating.rating
