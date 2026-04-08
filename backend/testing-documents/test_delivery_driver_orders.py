@@ -21,6 +21,7 @@ DELIVERY_NOTE = "The door password is 675267"
 @pytest.fixture(scope="function", autouse=True)
 def clean_up():
     RepositoryManager.reset_all_repositories()
+    order_db.save_all([])
 
 def order_at_coordinate(coordinate: Coordinate):
     global user_count
@@ -31,10 +32,18 @@ def order_at_coordinate(coordinate: Coordinate):
     user_create.delivery_note = DELIVERY_NOTE
     user = user_test_helper.register_and_login_user(user=user_create)
 
+    safe_cart = testing_data.cart.model_dump()
+    #had to change this after creating a proper order repository and orders.json
+    for item in safe_cart.get("menu_items", []): #rewriting the restaurant_id and id of the menu item to match the new order repository and orders.json
+        item["restaurant_id"] = 1                   #otherwise the testingdata will try to order items that dont exist anymore
+        item["id"] = 1
+
     create_order_response = client.post("/orders", json={ 
         "user_id": user.id, 
-        "cart": testing_data.cart.model_dump() 
+        "cart": safe_cart
     })
+
+    assert create_order_response.status_code in [200, 201], f"API failed to create order: {create_order_response.text}"
 
     user_count += 1
 

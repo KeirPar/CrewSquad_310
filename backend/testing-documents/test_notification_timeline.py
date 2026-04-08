@@ -1,6 +1,25 @@
 from fastapi.testclient import TestClient
+from app.schemas.restaurant_manager import RestaurantManager
+from app.schemas.user import UserRole
+from app.services.auth_service import AuthService
 from app.main import app
 from fastapi import status
+
+
+def override_auth_for_tests(): #need this for our tests, if we use the real auth service it messes up
+    return RestaurantManager(
+        id=2, 
+        name="Bob Manager",
+        password_hash="hash",
+        email="manager@test.com",
+        phone_number="123",
+        role=UserRole.OWNER,
+        address="456 Manager St",
+        restaurant_id=5, 
+    )
+
+def setup_module(module): #built in fastAPI function that runs before any tests, i am using it to override the auth service
+    app.dependency_overrides[AuthService.get_current_user] = override_auth_for_tests #we ignore the real auth service and use this fake restaurant manager for our tests
 
 successful_status = status.HTTP_200_OK
 missing_status = 404
@@ -195,3 +214,7 @@ def test_different_orders_have_separate_timelines():
     # Each timeline should only contain its own order's notifications
     assert all(n["order_id"] == order1["id"] for n in timeline1)
     assert all(n["order_id"] == order2["id"] for n in timeline2)
+
+
+def teardown_module(module): #clearing it after all tests run
+    app.dependency_overrides.clear()

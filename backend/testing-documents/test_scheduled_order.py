@@ -30,7 +30,7 @@ def get_auth_headers():
         "password": password,
         "role": "Customer",
         "address": "123 Near St",
-        "coordinate": {"latitude": 35.1, "longitude": 25.1}
+        "coordinate": {"latitude": 49.8820, "longitude": -119.4950}
     })
     # Login using form data — matches OAuth2PasswordRequestForm
     login_response = client.post(
@@ -64,22 +64,14 @@ def past_time() -> str:
 
 def make_scheduled_order_body(hours_ahead: float = 5):
     """Builds a valid scheduled order request body."""
+    safe_cart = testing_data.cart.model_dump()
+    
+    for item in safe_cart.get("menu_items", []): #had to change this, this pr was merged before my changes to the order repository went up
+        item["restaurant_id"] = 1               #again just rewriting the restaurant_id and id of the menu item to match the new order repository and orders.json
+        item["id"] = 1
+
     return {
-        "cart": {
-            "id": 1,
-            "menu_items": [
-                {
-                    "id": 1,
-                    "name": "Burger",
-                    "description": "A juicy burger",
-                    "price": 10,
-                    "image_url": "http://example.com/burger.jpg",
-                    "add_ons": [],
-                    "is_available": True,
-                    "restaurant_id": 5
-                }
-            ]
-        },
+        "cart": safe_cart,
         "scheduled_time": future_time(hours_ahead)
     }
 
@@ -100,6 +92,9 @@ def place_scheduled_order(hours_ahead: float = 5):
 def test_place_scheduled_order_returns_201():
     """Verify that placing a valid scheduled order returns 201."""
     response = place_scheduled_order()
+
+    assert response.status_code == created_status, f"API rejected the order! Reason: {response.text}"
+
     assert response.status_code == created_status
 
 

@@ -1,8 +1,29 @@
 from fastapi.testclient import TestClient
+from app.schemas.user import UserRole
+from app.schemas.restaurant_manager import RestaurantManager
+from app.services.auth_service import AuthService
 from app.main import app
 from app.helpers.user_test_helper import UserTestHelper
 from app.packages.geo.coordinate import Coordinate
 from fastapi import status
+
+
+def override_auth_for_tests():
+    return RestaurantManager(
+        id=2, 
+        name="Bob Manager",
+        password_hash="hash",
+        email="manager@test.com",
+        phone_number="123",
+        role=UserRole.OWNER,
+        address="456 Manager St",
+        restaurant_id=5, 
+    )
+
+def setup_module(module): #same thing in test_notification_timeline.py, using to overide the auth service for the tests
+    app.dependency_overrides[AuthService.get_current_user] = override_auth_for_tests
+
+
 
 successful_status = status.HTTP_200_OK
 failed_status = status.HTTP_400_BAD_REQUEST
@@ -207,3 +228,6 @@ def test_status_change_content_mentions_new_status():
         if n["notification_type"] == "ORDER_STATUS_CHANGED"
     ]
     assert all("PREPARING" in n["content"] for n in status_notifications)
+
+def teardown_module(module):
+    app.dependency_overrides.clear()

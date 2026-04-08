@@ -35,13 +35,12 @@ def test_get_order_status():
     response = client.get(f"/orders/{order_id}")
     assert response.status_code == successful_status
 
-def test_get_order_status_has_order_and_payment():
-    """Verify the response contains both the order and payment."""
+def test_get_order_status_has_correct_status():
+    """Verify the response contains the correct order status."""
     order_id = client.post("/orders", json=make_order_create()).json()["id"]
     response = client.get(f"/orders/{order_id}")
     assert response.status_code == successful_status
-    assert "order" in response.json()
-    assert "payment" in response.json()
+    assert "order status" in response.json()
 
 def test_get_order_status_reflects_payment_decision():
     """Verify the order status updates correctly after a payment decision."""
@@ -49,8 +48,7 @@ def test_get_order_status_reflects_payment_decision():
     client.post(f"/payments/{order_id}", json={"decision": "ACCEPTED"}, headers=headers)
     response = client.get(f"/orders/{order_id}")
     assert response.status_code == successful_status
-    assert response.json()["order"]["status"] == "PREPARING"
-    assert response.json()["payment"]["status"] == "ACCEPTED"
+    assert response.json()["order status"] == "PREPARING"
 
 def test_get_order_status_reflects_rejection():
     """Verify the order status updates correctly after a rejection."""
@@ -58,8 +56,7 @@ def test_get_order_status_reflects_rejection():
     client.post(f"/payments/{order_id}", json={"decision": "REJECTED", "reason": "Too busy"}, headers=headers)
     response = client.get(f"/orders/{order_id}")
     assert response.status_code == successful_status
-    assert response.json()["order"]["status"] == "CANCELLED"
-    assert response.json()["payment"]["status"] == "REJECTED"
+    assert response.json()["order status"] == "CANCELLED"
 
 def test_get_order_nonexistent():
     """Verify that retrieving a non-existent order returns 404."""
