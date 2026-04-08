@@ -1,72 +1,183 @@
 [
   {
     "id": 1,
-    "owner_id": 1,
-    "name": "Spicy Taco Supreme",
-    "address": "123 Kelowna Street",
+    "menu": [
+      {
+        "id": 1,
+        "restaurant_id": 1,
+        "name": "Spaghetti Bolognese",
+        "description": "Classic slow-cooked beef ragu over spaghetti.",
+        "price": 18.99,
+        "category": "Main",
+        "image_url": "spaghetti.jpg",
+        "is_available": true,
+        "add_ons": []
+      },
+      {
+        "id": 2,
+        "restaurant_id": 1,
+        "name": "Fettuccine Alfredo",
+        "description": "Creamy garlic parmesan sauce over fettuccine pasta.",
+        "price": 16.5,
+        "category": "Main",
+        "image_url": "alfredo.jpg",
+        "is_available": true,
+        "add_ons": []
+      }
+    ],
+    "name": "Luigi's Pasta House",
+    "address": "404 Marinara Blvd",
     "coordinate": {
-      "latitude": 45,
-      "longitude": 45
+      "latitude": 49.8821,
+      "longitude": -119.496
     },
-    "cuisine_type": "Mexican",
-    "rating": 4.5,
-    "is_open": true,
-    "phone_number": "250-555-1111",
-    "price_tier": "1"
+    "cuisine_type": "Italian",
+    "phone_number": "250-555-1010",
+    "price_tier": 2,
+    "owner_id": 20
   },
   {
     "id": 2,
-    "owner_id": 2,
-    "name": "Burger Joint Ohio",
-    "address": "456 Okanagan Ave",
+    "menu": [
+      {
+        "id": 3,
+        "restaurant_id": 2,
+        "name": "Spicy Tuna Roll",
+        "description": "Fresh tuna mixed with spicy mayo and cucumber.",
+        "price": 12.0,
+        "category": "Sushi",
+        "image_url": "spicy_tuna.jpg",
+        "is_available": true,
+        "add_ons": []
+      },
+      {
+        "id": 4,
+        "restaurant_id": 2,
+        "name": "Salmon Nigiri",
+        "description": "Two pieces of fresh raw salmon over pressed rice.",
+        "price": 6.5,
+        "category": "Sushi",
+        "image_url": "salmon_nigiri.jpg",
+        "is_available": true,
+        "add_ons": []
+      }
+    ],
+    "name": "Sakura Sushi Buffet",
+    "address": "888 Cherry Blossom Way",
     "coordinate": {
-      "latitude": 42,
-      "longitude": 43
+      "latitude": 49.8853,
+      "longitude": -119.477
     },
-    "cuisine_type": "American",
-    "rating": 3.8,
-    "is_open": true,
-    "phone_number": "250-555-1112",
-    "price_tier": "2"
+    "cuisine_type": "Japanese",
+    "phone_number": "250-555-2020",
+    "price_tier": 2,
+    "owner_id": 21
   },
   {
     "id": 3,
-    "owner_id": 3,
-    "name": "Sushi World",
-    "address": "789 Lakeview Blvd",
+    "menu": [
+      {
+        "id": 5,
+        "restaurant_id": 3,
+        "name": "Classic Cheeseburger",
+        "description": "Beef patty, cheddar cheese, lettuce, tomato, and house sauce.",
+        "price": 13.5,
+        "category": "Main",
+        "image_url": "cheeseburger.jpg",
+        "is_available": true,
+        "add_ons": []
+      },
+      {
+        "id": 6,
+        "restaurant_id": 3,
+        "name": "Bacon Double",
+        "description": "Two beef patties, double bacon, double cheese.",
+        "price": 17.99,
+        "category": "Main",
+        "image_url": "double_bacon.jpg",
+        "is_available": true,
+        "add_ons": []
+      }
+    ],
+    "name": "Burger Barn",
+    "address": "101 Grill Road",
     "coordinate": {
-      "latitude": 15,
-      "longitude": 15
+      "latitude": 49.8912,
+      "longitude": -119.499
     },
-    "cuisine_type": "Japanese",
-    "rating": 4.9,
-    "is_open": true,
-    "phone_number": "250-555-1113",
-    "price_tier": "3"
+    "cuisine_type": "American",
+    "phone_number": "250-555-3030",
+    "price_tier": 1,
+    "owner_id": 22
   },
   {
     "id": 4,
-    "owner_id": 4,
-    "name": "Mario & Luigi's Pasta",
-    "address": "101 Bernard Ave",
+    "menu": [
+      {
+        "id": 7,
+        "restaurant_id": 4,
+        "name": "Butter Chicken",
+        "description": "Tender chicken simmered in a rich tomato butter gravy.",
+        "price": 18.5,
+        "category": "Curry",
+        "image_url": "butter_chicken.jpg",
+        "is_available": true,
+        "add_ons": []
+      },
+      {
+        "id": 8,
+        "restaurant_id": 4,
+        "name": "Garlic Naan",
+        "description": "Traditional clay oven baked flatbread topped with garlic.",
+        "price": 3.5,
+        "category": "Sides",
+        "image_url": "garlic_naan.jpg",
+        "is_available": true,
+        "add_ons": []
+      }
+    ],
+    "name": "Taj Curry House",
+    "address": "500 Spice Avenue",
     "coordinate": {
-      "latitude": 85,
-      "longitude": 105
+      "latitude": 49.8654,
+      "longitude": -119.4678
     },
-    "cuisine_type": "Italian",
-    "rating": 4.2,
-    "is_open": false,
-    "phone_number": "250-555-1114",
-    "price_tier": "3"
+    "cuisine_type": "Indian",
+    "phone_number": "250-555-4040",
+    "price_tier": 2,
+    "owner_id": 23
   },
   {
     "id": 5,
-    "owner_id": 1,
-    "name": "Test Bistro",
-    "address": "456 Test Ave",
+    "menu": [
+      {
+        "id": 9,
+        "restaurant_id": 5,
+        "name": "Al Pastor Tacos",
+        "description": "Three corn tortillas with marinated pork and pineapple.",
+        "price": 14.0,
+        "category": "Tacos",
+        "image_url": "al_pastor.jpg",
+        "is_available": true,
+        "add_ons": []
+      },
+      {
+        "id": 10,
+        "restaurant_id": 5,
+        "name": "Carne Asada Fries",
+        "description": "French fries loaded with steak, cheese, pico de gallo, and sour cream.",
+        "price": 16.5,
+        "category": "Appetizer",
+        "image_url": "asada_fries.jpg",
+        "is_available": true,
+        "add_ons": []
+      }
+    ],
+    "name": "El Camino Cantina",
+    "address": "222 Fiesta Blvd",
     "coordinate": {
-      "latitude": 35,
-      "longitude": 25
+      "latitude": 49.8789,
+      "longitude": -119.4567
     },
     "cuisine_type": "Indian",
     "phone_number": "250-999-9999",

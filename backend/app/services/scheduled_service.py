@@ -10,9 +10,9 @@ from app.services.order_service import create_order, validate_cart
 from app.repositories.order_repo import order_db
 
 
-PREPARATION_TIME_MINUTES = 20       # fixed kitchen preparation time
-AVERAGE_SPEED_KMH = 30             # average city delivery speed in km/h
-MAX_SCHEDULE_HOURS_AHEAD = 24      # orders cannot be scheduled more than 24h ahead
+PREPARATION_TIME_MINUTES = 20       
+AVERAGE_SPEED_KMH = 30             
+MAX_SCHEDULE_HOURS_AHEAD = 24      
 
 restaurant_repo = RestaurantRepository()
 
@@ -48,7 +48,7 @@ def create_scheduled_order(scheduled_order_create: ScheduledOrderCreate, user_id
     """
     Creates and stores a scheduled order after full validation.
 
-    Business Rules:
+    Rules:
         — Cart must have at least 1 item all from the same restaurant.
         — scheduled_time must be in the future and within 24 hours from now.
         — scheduled_time must allow enough time for preparation and delivery.
@@ -63,7 +63,7 @@ def create_scheduled_order(scheduled_order_create: ScheduledOrderCreate, user_id
         ScheduledOrder: The stored scheduled order with estimated delivery info.
 
     Raises:
-        ValueError: If any business rule is violated.
+        ValueError: If any rule is violated.
     """
     now = datetime.now(timezone.utc)
     scheduled_time = scheduled_order_create.scheduled_time
@@ -128,9 +128,9 @@ def create_scheduled_order(scheduled_order_create: ScheduledOrderCreate, user_id
 
 def cancel_scheduled_order(scheduled_order_id: int, user_id: int, reason: str = "") -> ScheduledOrder:
     """
-    Cancels a scheduled order (FR4).
+    Cancels a scheduled order.
 
-    Business Rules:
+    Rules:
         - The scheduled order must exist.
         - Only the user who placed the order can cancel it.
         - The order must not already be cancelled.
