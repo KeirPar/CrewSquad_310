@@ -1,19 +1,21 @@
 from fastapi.testclient import TestClient
-from app.main import app
+from app.main import create_app
 from app.helpers.user_test_helper import UserTestHelper
 from app.packages.geo.coordinate import Coordinate
 from app.schemas.review import ReviewCreate
 from fastapi import status
 from app.schemas.order import OrderCreate
 from app.helpers.testing_data import TestingData
+from app.schemas.user import UserRole
 
-client = TestClient(app)
+client = TestClient(create_app())
 user_test_helper = UserTestHelper(client=client)
-testing_data = TestingData()
 
 def test_sort_by_rating_desc():
     #   Login
     user_create = user_test_helper.test_user_create.model_copy()
+    user_create.email = "ABC@example.com"
+    user_create.role = UserRole.CUSTOMER
     user_test_helper.register_and_login_user(user=user_create)
     user_test_helper.login(user_create.email, user_create.password)
 
@@ -25,13 +27,16 @@ def test_sort_by_rating_desc():
 
     #   Add ratings
     for id in restaurant_ids:
+        testing_data = TestingData(cart_restaurant_id=id)
         order_create = OrderCreate(
             user_id=user_test_helper.get_current_user().id,
             cart=testing_data.cart
         ).model_dump()
         response = client.post("/orders", json=order_create)
 
-        client.post("/restaurants/" + str(id) + "/reviews", json=ReviewCreate(content = "", rating = 3 * id % 10).model_dump())
+        add_review_response = client.post("/restaurants/" + str(id) + "/reviews", json=ReviewCreate(content = "", rating = 3 * id % 10).model_dump())
+        print(add_review_response.text)
+        assert add_review_response.status_code == status.HTTP_200_OK
 
     #   Check resturants ratings is sorted
     rating_sorted_response = client.get("/search/restaurants?sort_by=rating_desc")

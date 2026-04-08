@@ -26,5 +26,5 @@ def verify_delivery_driver(current_user: User = Depends(AuthService.get_current_
 
 def verify_customer(current_user: User = Depends(AuthService.get_current_user)):
     if current_user.role != UserRole.CUSTOMER and current_user.role != UserRole.ADMIN: #make sure user is customer
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied. Only cusomer can access.")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied. Only customer can access.")
     return current_user
