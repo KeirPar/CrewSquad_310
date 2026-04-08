@@ -99,6 +99,27 @@
                 <!-- This div will dynamically populate with food items -->
                 <div id="menu-results" style="margin-top: 15px; max-height: 250px; overflow-y: auto;"></div>
             </div>
+            
+            <div class="card" style="border: 2px solid #007bff;">
+                <h3>⭐ My Favorites & 🕒 Recent Orders</h3>
+                <p class="helper-text" style="margin-bottom: 8px;">Quickly access your go-to spots and recent meals:</p>
+                
+                <div class="input-row">
+                    <button id="btn-view-favorites" class="btn-secondary">View Favorites</button>
+                    <button id="btn-view-recent" class="btn-secondary">View Recent Orders</button>
+                </div>
+
+                <div id="feature-results" style="margin-top: 15px; padding: 12px; background: white; border: 1px solid #ddd; border-radius: 4px; max-height: 200px; overflow-y: auto;">
+                    Select an option above to load your data.
+                </div>
+
+                <hr>
+                <p class="helper-text" style="margin-bottom: 8px;">Add a new restaurant to your favorites:</p>
+                <div class="input-row">
+                    <input type="number" id="add-fav-id" placeholder="Restaurant ID">
+                    <button id="btn-add-favorite" class="btn-success">Add Favorite</button>
+                </div>
+            </div>
 
             <!-- SHOPPING CART CARD -->
             <div class="card">

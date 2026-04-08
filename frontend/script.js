@@ -132,6 +132,80 @@ document.getElementById('btn-search').onclick = async () => {
     }
 };
 
+// --- INDIVIDUAL FEATURE: FAVORITES & RECENT ORDERS ---
+
+//View Favorites
+document.getElementById('btn-view-favorites').onclick = async () => {
+    try {
+        // IMPORTANT: Adjust this URL to match your exact backend endpoint
+        const res = await fetch(`${API_URL}/favorites`, { 
+            headers: { 'Authorization': `Bearer ${currentToken}` }
+        });
+        const data = await res.json();
+        logData(data); // Shows full response in the raw JSON viewer
+
+        const container = document.getElementById('feature-results');
+        if (!res.ok) throw new Error(data.detail || "Failed to fetch favorites");
+        if (!data || data.length === 0) return container.innerHTML = "You have no favorite restaurants yet.";
+
+        let html = '<ul style="margin-top: 0; padding-left: 20px;">';
+        // Adjust "fav.name" or "fav.restaurant_name" based on what your backend returns
+        data.forEach(fav => {
+            html += `<li style="margin-bottom: 5px;"><strong>Restaurant ID: ${fav.restaurant_id}</strong></li>`;
+        });
+        html += '</ul>';
+        container.innerHTML = html;
+
+    } catch (err) { handleError(err); }
+};
+
+//Add Favorite
+document.getElementById('btn-add-favorite').onclick = async () => {
+    const restId = parseInt(document.getElementById('add-fav-id').value);
+    if (!restId) return alert("Please enter a Restaurant ID to favorite.");
+
+    try {
+        // IMPORTANT: Adjust this URL and Method to match your backend
+        const res = await fetch(`${API_URL}/favorites/${restId}`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${currentToken}` }
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || "Failed to add favorite");
+        
+        alert("Restaurant added to favorites!");
+        logData(data);
+        document.getElementById('btn-view-favorites').click(); // Auto-refresh the list
+    } catch (err) { handleError(err); }
+};
+
+//View Recent Orders
+document.getElementById('btn-view-recent').onclick = async () => {
+    try {
+        // IMPORTANT: Adjust this URL to match your exact backend endpoint
+        const res = await fetch(`${API_URL}/orders/recent`, { 
+            headers: { 'Authorization': `Bearer ${currentToken}` }
+        });
+        const data = await res.json();
+        logData(data);
+
+        const container = document.getElementById('feature-results');
+        if (!res.ok) throw new Error(data.detail || "Failed to fetch recent orders");
+        
+        // Handle both possible JSON structures (array or object with a list inside)
+        const ordersList = Array.isArray(data) ? data : (data.orders || []);
+        if (ordersList.length === 0) return container.innerHTML = "No recent orders found.";
+
+        let html = '<ul style="margin-top: 0; padding-left: 20px;">';
+        ordersList.forEach(order => {
+            html += `<li style="margin-bottom: 5px;"><strong>Order #${order.id}</strong> - Status: ${order.status} - Total: $${order.total_amount}</li>`;
+        });
+        html += '</ul>';
+        container.innerHTML = html;
+
+    } catch (err) { handleError(err); }
+};
+
 // --- MENU BROWSING & CART SYSTEM ---
 
 // 1. Search Menus
