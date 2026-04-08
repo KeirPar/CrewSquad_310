@@ -16,9 +16,8 @@ class TestingData:
     restaurant_manager: RestaurantManager
     cart: Cart
 
-    def __init__(self):
+    def __init__(self, cart_restaurant_id: int = 5):
         cart_id = 0
-        restaurant_id = 5
 
         customer = Customer( #example customer
             id=1,
@@ -64,7 +63,7 @@ class TestingData:
                     image_url = "http://example.com/burger.jpg",
                     add_ons = [],
                     is_available = True,
-                    restaurant_id = restaurant_id
+                    restaurant_id = cart_restaurant_id
                 ),
                 MenuItem(
                     id = 2,
@@ -75,7 +74,7 @@ class TestingData:
                     image_url = "http://example.com/fries.jpg",
                     add_ons = [],
                     is_available = True,
-                    restaurant_id = restaurant_id
+                    restaurant_id = cart_restaurant_id
                 )
             ]
         )

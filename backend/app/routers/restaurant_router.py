@@ -1,8 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.schemas.restaurant import Restaurant, restaurantCreate, RestaurantUpdate
 from app.schemas.user import User
-from app.dependencies import verify_restaurant_owner
+from app.dependencies import verify_restaurant_owner, verify_customer
 from app.repositories.restaurant_repo import RestaurantRepository
+from app.repositories.review_repo import review_db
+from app.schemas.review import ReviewCreate, Review
+from app.services.rating_service import get_average_rating
+from app.repositories.order_repo import order_db
 from typing import List 
 
 #Initialize router with a prefix so all routes start with /restaurants
@@ -66,3 +70,53 @@ def delete_restaurant(
     #This triggers the cascade I made in the restaurant repo
     repo.delete_restaurant(restaurant_id)
     return None
+
+@router.post("/{restaurant_id}/reviews")
+def review_restaurant(
+    restaurant_id: int, 
+    review_create: ReviewCreate,
+    customer: User = Depends(verify_customer)
+) -> Review:
+    #   Throw exception if user haven't ordered in this restaurant
+    
+    has_customer_ordered_in_restaurant = restaurant_id in [order.restaurant_id for order in order_db.find_all_by_user_id(customer.id)]
+
+    if not has_customer_ordered_in_restaurant:
+        raise HTTPException(status_code=403, detail="You have not ordered in this restaurant")
+
+    #   Update instead of insert a new review if user have already reviewed the restaurant.
+    reviews = review_db.get_all_reviews()
+    old_review = None
+
+    for review in reviews:
+        if review.user_id == customer.id and review.restaurant_id == restaurant_id:
+            old_review = review
+
+    if old_review is not None:
+        old_review.content = review_create.content
+        old_review.rating = review_create.rating
+        review_db.save(old_review)
+        return old_review
+
+
+    new_review = Review(
+        id=0, 
+        content=review_create.content, 
+        rating=review_create.rating,
+        user_id=customer.id,
+        restaurant_id=restaurant_id
+    )
+    review_db.save(new_review)
+    return new_review
+
+@router.get("/{restaurant_id}/reviews", response_model=List[Review])
+def get_retaurant_reviews(
+    restaurant_id: int
+):
+    return [review for review in review_db.get_all_reviews() if review.restaurant_id == restaurant_id]
+
+@router.get("/{restaurant_id}/rating")
+def get_retaurant_rating(
+    restaurant_id: int
+) -> float:
+    return get_average_rating(restaurant_id=restaurant_id)
