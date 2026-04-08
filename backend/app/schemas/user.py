@@ -38,3 +38,4 @@ class User(BaseModel):
     #Initalizes the lists for favourite menu items and favourite restaurants.
     favourite_items: list[int] = []
     favourite_restaurants: list[int] = []
+    flags : int = 0 

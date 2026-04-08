@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.routers import search_router, restaurant_router, payment_router, notification_router
-from app.routers import order_router, auth_router, menu_router, cart_router, user_router, driver_router, admin_router #import the routers we need in our app
+from app.routers import order_router, auth_router, menu_router, cart_router, user_router, driver_router, admin_router, report_router #import the routers we need in our app
 from app.services.admin_service import AdminService
 from app.routers import scheduled_router
 
@@ -20,6 +20,7 @@ def create_app():
     app.include_router(notification_router.router) #include notification router in our app
     app.include_router(admin_router.router) #include admin router in our app
     app.include_router(scheduled_router.router)
+    app.include_router(report_router.router)
 
     AdminService.create_admins()    #   Add admin accounts to the app.
 
