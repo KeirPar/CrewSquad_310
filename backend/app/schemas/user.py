@@ -35,3 +35,6 @@ class User(BaseModel):
     delivery_note: str = ""
     order_history: list[int] = [] #stores order id
     cart: list[int] = [] #stores cart id
+    #Initalizes the lists for favourite menu items and favourite restaurants.
+    favourite_items: list[int] = []
+    favourite_restaurants: list[int] = []
