@@ -101,14 +101,21 @@ def change_order_status(
     order_id: int,
     order: Order, 
     new_status: OrderStatus, 
-    current_user: User = Depends(get_current_manager) #fake user until we have feat1 setup
+    current_user: User = Depends(AuthService.get_current_user)
 ):
+    order = order_db.find_by_id(order_id) #get the order from the db with that id
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    
     try:
         updated_order = update_order_status(
             order=order, 
             new_status=new_status, 
             current_user=current_user
         )
+
+        order_db.save(updated_order)
+
         create_status_change_notifications(updated_order, new_status, current_user) 
         return {"message": "Order status updated successfully", "data": updated_order}
     except ValueError as e:

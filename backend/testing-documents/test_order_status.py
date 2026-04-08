@@ -87,7 +87,7 @@ def test_customer_cannot_accept_order():
 def test_unauthorized_user():
     order = create_dummy_order(status=OrderStatus.PENDING) #make the status pending (not locked)
     class UnauthorizedUser:
-        pass
+        role = "FAKE_ROLE"
     fake_user = UnauthorizedUser()
     with pytest.raises(HTTPException) as excinfo:
         update_order_status(order, OrderStatus.PREPARING, fake_user) #try to change the status to preparing, should raise error because the user class is unauthorized

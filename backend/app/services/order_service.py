@@ -4,7 +4,7 @@ from fastapi import HTTPException
 from app.schemas import user
 from app.schemas.cart import Cart
 from app.schemas.order import Order, OrderStatus
-from app.schemas.user import User
+from app.schemas.user import User, UserRole
 from app.schemas.customer import Customer
 from app.schemas.restaurant_manager import RestaurantManager
 from app.schemas.bill import Bill
@@ -118,20 +118,20 @@ def calculate_items_subtotal(cart: Cart) -> float:
 "so basically, once an order is created, it starts with the status PENDING. "
 "From there, it can either be changed to PREPARING or CANCELLED. If it is changed to PREPARING, "
 "then it can either be changed to DELIVERED or CANCELLED. Once an order is DELIVERED or CANCELLED, "
-"it is locked and cannot be changed anymore. So you cant change a DELIVERED order to CANCELLED or anything like that. "
+"it is locked and cannot be changed anymore. So you cant change a DELIVERED or CANCELLED order to another status. "
 
 def update_order_status(order: Order, new_status: OrderStatus, current_user: User) -> Order: #added for fr3
   
     if order.status in [OrderStatus.DELIVERED, OrderStatus.CANCELLED]: #check if order is already delivered or cancelled, if so, we cant update the status anymore
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Order is locked and cannot be updated. Cant change the status from {order.status}") #return error
     
-    if isinstance(current_user, Customer):  # if current user is a customer, they can only cancel order if its pending
+    if current_user.role == UserRole.CUSTOMER:  # if current user is a customer, they can only cancel order if its pending
         if new_status != OrderStatus.CANCELLED:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Customers can only cancel orders. Invalid status update.")
         if order.status != OrderStatus.PENDING: 
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Order cannot be cancelled at this stage. Only pending orders can be cancelled.")
     
-    elif isinstance(current_user, RestaurantManager):  # but if its a manager then its chill
+    elif current_user.role == UserRole.OWNER:  # but if its a manager then its chill
         pass
     else:
         raise HTTPException(status_code=403, detail="Unauthorized user class.")
@@ -151,7 +151,7 @@ def update_order_status(order: Order, new_status: OrderStatus, current_user: Use
 def get_pending_queue(restaurant_id: int) -> list[Order]: #added for us3
     #returns a list of all pending orders for a restaurant, sorted by oldest first
 
-    all_orders =  order_db._orders #get all orders from the database
+    all_orders =  order_db.get_all_orders() #get all orders from the database
 
     pending_queue = [order for order in all_orders if order.restaurant_id == restaurant_id and order.status == OrderStatus.PENDING] 
     pending_queue.sort(key=lambda x: x.created_at) 
