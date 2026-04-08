@@ -77,21 +77,36 @@ def review_restaurant(
     review_create: ReviewCreate,
     customer: User = Depends(verify_customer)
 ) -> Review:
-    review = Review(
-        id=0, 
-        content=review_create.content, 
-        rating=review_create.rating,
-        user_id=customer.id,
-        restaurant_id=restaurant_id
-    )
+    #   Throw exception if user haven't ordered in this restaurant
     customer_orders_ids = customer.order_history
     has_customer_ordered_in_restaurant = restaurant_id in customer_orders_ids
 
     if not has_customer_ordered_in_restaurant:
         raise HTTPException(status_code=403, detail="You have not ordered in this restaurant")
 
+    #   Update instead of insert a new review if user have already reviewed the restaurant.
+    reviews = review_db.get_all_reviews()
+    old_review = False
 
-    review_db.save(review)
+    for review in reviews:
+        if review.user_id == customer.id and review.restaurant_id == restaurant_id:
+            old_review = review
+
+    if old_review is not None:
+        old_review.content = review_create.content
+        old_review.rating = review_create.rating
+        review_db.save(old_review)
+        return
+
+
+    new_review = Review(
+        id=0, 
+        content=review_create.content, 
+        rating=review_create.rating,
+        user_id=customer.id,
+        restaurant_id=restaurant_id
+    )
+    review_db.save(new_review)
     return review
 
 @router.get("/{restaurant_id}/reviews", response_model=List[Review])
