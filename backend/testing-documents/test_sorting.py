@@ -54,7 +54,7 @@ def test_sort_by_price_asc():
 
 def test_sort_by_distance_asc():
     user_create = user_test_helper.test_user_create.model_copy()
-    user_create.coordinate = Coordinate(0, 0)
+    user_create.coordinate = Coordinate(latitude=49.88, longitude=-119.49)
     user_test_helper.register_and_login_user(user=user_create)
     
     response = client.get("/search/restaurants?sort_by=distance_asc", headers={"Authorization": f"Bearer {user_test_helper.login_token}"})
