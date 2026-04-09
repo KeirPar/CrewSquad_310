@@ -10,7 +10,6 @@
     <div class="container">
         <h1>🍔 Food Delivery Portal</h1>
 
-        <!-- AUTHENTICATION -->
         <div id="auth-section">
             <div id="login-form-container">
                 <h2>Login</h2>
@@ -41,17 +40,13 @@
             <p id="auth-error" class="error-text"></p>
         </div>
 
-        <!-- CUSTOMER DASHBOARD -->
         <div id="customer-dashboard" style="display: none;">
             <h2>Customer Dashboard (<span class="user-name"></span>)</h2>
             
-           <div class="card">
+            <div class="card">
                 <h3>🔍 Search Restaurants</h3>
                 <input type="text" id="search-name" placeholder="Restaurant Name (optional)">
-                
-                <!-- NEW: Helper message for the rating and cuisine -->
                 <p class="helper-text" style="margin-bottom: 8px;">Filter by cuisine, or adjust the minimum rating (0.0 - 5.0):</p>
-                
                 <div class="input-row">
                     <select id="search-cuisine">
                         <option value="">Any Cuisine</option>
@@ -64,7 +59,6 @@
                         <option value="Indian">Indian</option>
                         <option value="Other">Other</option>
                     </select>
-                    
                     <input type="number" id="search-min-rating" placeholder="Min Rating (e.g. 4.5)" step="0.1" min="0" max="5">
                 </div>
 
@@ -77,17 +71,14 @@
                     </select>
                 </div>
 
-                <!-- NEW: Helper message for pagination -->
                 <p class="helper-text" style="margin-top: 10px; margin-bottom: 8px;">Pagination settings:</p>
                 <div class="input-row">
                     <input type="number" id="search-limit" placeholder="Limit" value="10">
                     <input type="number" id="search-offset" placeholder="Offset" value="0">
                 </div>
-
                 <button id="btn-search">Search</button>
             </div>
-
-            <!-- BROWSE MENUS CARD -->
+            
             <div class="card">
                 <h3>🍽️ Browse Menus</h3>
                 <p class="helper-text" style="margin-bottom: 8px;">Search for specific dishes across all restaurants:</p>
@@ -95,24 +86,19 @@
                     <input type="text" id="menu-search-name" placeholder="Item Name (e.g. Burger, Taco)">
                     <button id="btn-browse-menus">Search Menu</button>
                 </div>
-                
-                <!-- This div will dynamically populate with food items -->
                 <div id="menu-results" style="margin-top: 15px; max-height: 250px; overflow-y: auto;"></div>
             </div>
             
             <div class="card" style="border: 2px solid #007bff;">
                 <h3>⭐ My Favorites & 🕒 Recent Orders</h3>
                 <p class="helper-text" style="margin-bottom: 8px;">Quickly access your go-to spots and recent meals:</p>
-                
                 <div class="input-row">
                     <button id="btn-view-favorites" class="btn-secondary">View Favorites</button>
                     <button id="btn-view-recent" class="btn-secondary">View Recent Orders</button>
                 </div>
-
                 <div id="feature-results" style="margin-top: 15px; padding: 12px; background: white; border: 1px solid #ddd; border-radius: 4px; max-height: 200px; overflow-y: auto;">
                     Select an option above to load your data.
                 </div>
-
                 <hr>
                 <p class="helper-text" style="margin-bottom: 8px;">Add a new restaurant to your favorites:</p>
                 <div class="input-row">
@@ -121,15 +107,12 @@
                 </div>
             </div>
 
-            <!-- SHOPPING CART CARD -->
             <div class="card">
                 <h3>🛒 My Shopping Cart</h3>
                 <button id="btn-view-cart" class="btn-secondary">Refresh Cart</button>
-                
                 <div id="cart-contents" style="margin-top: 15px; font-size: 14px; background: white; padding: 12px; border-radius: 4px; border: 1px solid #ddd;">
                     Cart is empty.
                 </div>
-                
                 <button id="btn-checkout" class="btn-success" style="margin-top: 15px;">Checkout & Place Order</button>
             </div>
 
@@ -143,7 +126,7 @@
                     <button id="btn-cancel-order" class="btn-danger">Cancel</button>
                 </div>
             </div>
-          <!-- PAYMENT (Feat 7) — ADDED -->
+
             <div class="card">
                 <h3>💳 Payment</h3>
                 <h4>Simulate Payment</h4>
@@ -171,8 +154,7 @@
                     <button id="btn-check-status">🔍 Get Status</button>
                 </div>
             </div>
- 
-            <!-- NOTIFICATIONS (Feat 8) — ADDED -->
+
             <div class="card">
                 <h3>🔔 Notifications</h3>
                 <h4>My Notifications</h4>
@@ -193,12 +175,11 @@
                     <button id="btn-order-timeline" class="btn-success">📅 Get Timeline</button>
                 </div>
             </div>
- 
-            <!-- SCHEDULED ORDERS (M4) — ADDED -->
+
             <div class="card">
                 <h3>🗓️ Scheduled Orders</h3>
                 <h4>Place a Scheduled Order</h4>
-                <p class="helper-text">Must be within 24 hours and allow enough time for delivery. The menu will load automatically when you click the restaurant dropdown.</p>
+                <p class="helper-text">Must be within 24 hours and allow enough time for delivery.</p>
                 <select id="sched-restaurant">
                     <option value="">Select a Restaurant</option>
                 </select>
@@ -225,10 +206,19 @@
             </div>
         </div>
 
-        <!-- OWNER DASHBOARD -->
         <div id="owner-dashboard" style="display: none;">
             <h2>Owner Dashboard (<span class="user-name"></span>)</h2>
             
+            <div class="card" style="border: 2px solid #28a745;">
+                <h3>🏠 Restaurant Storefront</h3>
+                <p class="helper-text">Register your business to start serving customers:</p>
+                <div class="input-row">
+                    <input type="text" id="store-name" placeholder="Restaurant Name">
+                    <input type="text" id="store-cuisine" placeholder="Cuisine Type">
+                </div>
+                <button id="btn-register-store" class="btn-success">Register Storefront</button>
+            </div>
+
             <div class="card">
                 <h3>👨‍🍳 Kitchen Queue</h3>
                 <button id="btn-view-queue">Refresh Pending Orders</button>
@@ -249,10 +239,12 @@
                 <input type="number" id="manage-rest-id" placeholder="Your Restaurant ID (e.g., 5)">
                 <hr>
                 <h4>Add Item</h4>
+                <input type="text" id="add-menu-name" placeholder="Item Name">
+                <input type="text" id="add-menu-description" placeholder="Description (e.g. Juicy beef burger)">
+                <input type="text" id="add-menu-category" placeholder="Category (e.g. Mains, Drinks)">
                 <div class="input-row">
-                    <input type="text" id="add-menu-name" placeholder="Item Name">
                     <input type="number" id="add-menu-price" placeholder="Price" step="0.01">
-                    <button id="btn-add-menu">Add</button>
+                    <button id="btn-add-menu">Add Item</button>
                 </div>
                 <hr>
                 <h4>Delete Item</h4>
@@ -261,7 +253,7 @@
                     <button id="btn-delete-menu" class="btn-danger">Delete</button>
                 </div>
             </div>
- <!-- PAYMENT for owners — ADDED -->
+
             <div class="card">
                 <h3>💳 Payment Decisions</h3>
                 <p class="helper-text">Accept or reject customer payments for orders.</p>
@@ -275,8 +267,7 @@
                 </div>
                 <button id="btn-owner-submit-decision" class="btn-success">✅ Submit Decision</button>
             </div>
- 
-            <!-- NOTIFICATIONS for owners — ADDED -->
+
             <div class="card">
                 <h3>🔔 Restaurant Notifications</h3>
                 <p class="helper-text">View notifications sent to your restaurant.</p>
@@ -290,7 +281,6 @@
             </div>
         </div>
 
-        <!-- SHARED JSON VIEWER & LOGOUT -->
         <div id="shared-section" style="display: none;">
             <button id="btn-logout" class="btn-danger" style="margin-top: 15px;">Logout</button>
             <h3>API Response Output:</h3>
