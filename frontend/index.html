@@ -281,6 +281,21 @@
             </div>
         </div>
 
+        <!-- ADMIN DASHBOARD -->
+        <div id="admin-dashboard" style="display: none;">
+            <h2>Admin Dashboard (<span class="user-name"></span>)</h2>
+            <div class="card">
+                <h3>🛠️ Delivery Fee Multiplier</h3>
+                <p class="helper-text">Update the system-wide delivery fee multiplier for all orders.</p>
+                <div class="input-row">
+                    <input type="number" id="delivery-fee-multiplier" placeholder="Multiplier (e.g. 1.25)" step="0.01" min="0.01" value="1">
+                    <button id="btn-update-multiplier" class="btn-success">Update</button>
+                </div>
+                <p id="multiplier-status" class="helper-text">Current multiplier can be updated by an admin.</p>
+            </div>
+        </div>
+
+        <!-- SHARED JSON VIEWER & LOGOUT -->
         <div id="shared-section" style="display: none;">
             <button id="btn-logout" class="btn-danger" style="margin-top: 15px;">Logout</button>
             <h3>API Response Output:</h3>
