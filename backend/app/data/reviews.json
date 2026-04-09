@@ -1,77 +1,77 @@
 [
   {
     "id": 1,
-    "content": "Hello",
+    "content": "Mid",
     "rating": 5.0,
     "user_id": 6,
     "restaurant_id": 1
   },
   {
     "id": 2,
-    "content": "",
+    "content": "Terrible food",
     "rating": 3.0,
     "user_id": 32,
     "restaurant_id": 1
   },
   {
     "id": 3,
-    "content": "",
+    "content": "It's alright",
     "rating": 6.0,
     "user_id": 32,
     "restaurant_id": 2
   },
   {
     "id": 4,
-    "content": "",
+    "content": "Awesome food and drinks!",
     "rating": 9.0,
     "user_id": 32,
     "restaurant_id": 3
   },
   {
     "id": 5,
-    "content": "",
+    "content": "So bad",
     "rating": 2.0,
     "user_id": 32,
     "restaurant_id": 4
   },
   {
     "id": 6,
-    "content": "",
+    "content": "Mid",
     "rating": 5.0,
     "user_id": 32,
     "restaurant_id": 5
   },
   {
     "id": 7,
-    "content": "",
+    "content": "Better than I expected",
     "rating": 8.0,
     "user_id": 32,
     "restaurant_id": 6
   },
   {
     "id": 8,
-    "content": "",
+    "content": "Not the best",
     "rating": 1.0,
     "user_id": 32,
     "restaurant_id": 7
   },
   {
     "id": 9,
-    "content": "",
+    "content": "Meh",
     "rating": 4.0,
     "user_id": 32,
     "restaurant_id": 8
   },
   {
     "id": 10,
-    "content": "",
+    "content": "Decent",
     "rating": 7.0,
     "user_id": 32,
     "restaurant_id": 9
   },
   {
     "id": 11,
-    "content": "",
+    "content": "Terrible!",
     "rating": 0.0,
     "user_id": 32,
     "restaurant_id": 10
