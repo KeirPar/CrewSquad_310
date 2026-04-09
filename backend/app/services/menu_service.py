@@ -1,10 +1,20 @@
 from app.schemas import restaurant
 from app.repositories.restaurant_repo import RestaurantRepository
+from app.schemas.menu_item import MenuItem
 
 
 class MenuService:
     def __init__(self):
         self.repo = RestaurantRepository() #grab the restaurants
+
+    def get_all_menu_items(self) -> list[MenuItem]:
+        restaurant = self.repo.load_all() #load all data
+        
+        all_items = []
+        for r in restaurant:
+            all_items.extend([MenuItem(**raw_menu) for raw_menu in r.get("menu", [])]) #grab menus
+
+        return all_items
 
     def get_menu_items(self, limit: int, offset: int) -> dict:
 

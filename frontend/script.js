@@ -392,8 +392,41 @@ document.getElementById('btn-my-orders').onclick = async () => {
 document.getElementById('btn-track-order').onclick = async () => {
     const id = document.getElementById('track-order-id').value;
     try {
-        const res = await fetch(`${API_URL}/orders/${id}`);
-        logData(await res.json());
+        const res = await fetch(`${API_URL}/orders/`, { headers: { 'Authorization': `Bearer ${currentToken}` } });
+        const orders = await res.json();
+        const order = Array.isArray(orders) ? orders.find(o => o.id === parseInt(id)) : null;
+        if (order) {
+            logData({ "Order Status": order.status, "Full Order": order });
+        } else {
+            logData({ error: "Order not found" });
+        }
+    } catch (err) { handleError(err); }
+};
+
+document.getElementById('btn-view-bill').onclick = async () => {
+    const id = document.getElementById('bill-order-id').value;
+    if (!id) return alert("Enter Order ID");
+    try {
+        const res = await fetch(`${API_URL}/orders/`, { headers: { 'Authorization': `Bearer ${currentToken}` } });
+        const orders = await res.json();
+        const order = Array.isArray(orders) ? orders.find(o => o.id === parseInt(id)) : null;
+        if (order && order.bill) {
+            // Format the bill nicely
+            const bill = order.bill;
+            const totalTax = bill.taxes.reduce((sum, [type, amount]) => sum + amount, 0);
+            const total = bill.items_subtotal + totalTax + bill.delivery_fee;
+            const formattedBill = {
+                "Order ID": order.id,
+                "Status": order.status,
+                "Items Subtotal": `$${bill.items_subtotal.toFixed(2)}`,
+                "Taxes": bill.taxes.map(([type, amount]) => `${type}: $${amount.toFixed(2)}`).join(', '),
+                "Delivery Fee": `$${bill.delivery_fee.toFixed(2)}`,
+                "Total": `$${total.toFixed(2)}`
+            };
+            logData(formattedBill);
+        } else {
+            logData({ error: "No bill found for this order" });
+        }
     } catch (err) { handleError(err); }
 };
 
@@ -572,10 +605,14 @@ document.getElementById('btn-check-status').onclick = async () => {
     const orderId = document.getElementById('status-order-id').value;
     if (!orderId) return alert("Enter an Order ID.");
     try {
-        const res = await fetch(`${API_URL}/orders/${orderId}`, {
-            headers: { 'Authorization': `Bearer ${currentToken}` }
-        });
-        logData(await res.json());
+        const res = await fetch(`${API_URL}/orders/`, { headers: { 'Authorization': `Bearer ${currentToken}` } });
+        const orders = await res.json();
+        const order = Array.isArray(orders) ? orders.find(o => o.id === parseInt(orderId)) : null;
+        if (order) {
+            logData({ "Order Status": order.status, "Full Order": order });
+        } else {
+            logData({ error: "Order not found" });
+        }
     } catch (err) { handleError(err); }
 };
 
