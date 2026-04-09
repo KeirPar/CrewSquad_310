@@ -2,13 +2,21 @@ Step-by-Step Deployment and Handover Guide:
 
 Installation Instruction:
 Complete, unambiguous, step-by-step setup procedures for running the system from scratch using Docker.
+
 Prerequisites: Install Docker, Git, and Python.
+
 Open your terminal.
+
 Login to your Github account on your local machine.
+
 Clone the repository by running: git clone https://github.com/KeirPar/CrewSquad_310.git
+
 Navigate into the project directory: “cd CrewSquad_310”
+
 Build the Docker containers: “docker compose up --build”
+
 Open the website at http://localhost:3000/
+
 
 To Run Automated Tests: 
 While the containers are running, execute the following command in a new terminal window:
