@@ -1,1 +1,6347 @@
-[]
+[
+  {
+    "id": 1,
+    "created_at": "2026-04-08T23:29:02.847450Z",
+    "status": "PENDING",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 2,
+    "created_at": "2026-04-08T23:29:03.236290Z",
+    "status": "PENDING",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 45.0,
+      "longitude": 90.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 3,
+    "created_at": "2026-04-08T23:29:03.636611Z",
+    "status": "PREPARING",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.01,
+      "longitude": 0.02
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 4,
+    "created_at": "2026-04-08T23:29:05.059180Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "123 Test St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 5,
+    "created_at": "2026-04-08T23:29:05.281656Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "123 Test St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 6,
+    "created_at": "2026-04-08T23:29:05.480090Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "123 Test St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 7,
+    "created_at": "2026-04-08T23:29:05.680040Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "123 Test St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 8,
+    "created_at": "2026-04-08T23:29:05.875331Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "123 Test St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 9,
+    "created_at": "2026-04-08T23:29:06.083003Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "123 Test St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 10,
+    "created_at": "2026-04-08T23:29:06.280470Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "123 Test St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 11,
+    "created_at": "2026-04-08T23:29:06.479769Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "123 Test St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 12,
+    "created_at": "2026-04-08T23:29:06.890017Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "123 Test St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 13,
+    "created_at": "2026-04-08T23:29:07.083924Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "123 Test St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 14,
+    "created_at": "2026-04-08T23:29:07.282155Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "123 Test St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 15,
+    "created_at": "2026-04-08T23:29:07.289657Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 16,
+    "created_at": "2026-04-08T23:29:07.306238Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 17,
+    "created_at": "2026-04-08T23:29:07.321026Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 18,
+    "created_at": "2026-04-08T23:29:07.335283Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 19,
+    "created_at": "2026-04-08T23:29:07.349381Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 20,
+    "created_at": "2026-04-08T23:29:07.363680Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 21,
+    "created_at": "2026-04-08T23:29:07.379357Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 22,
+    "created_at": "2026-04-08T23:29:07.393712Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 23,
+    "created_at": "2026-04-08T23:29:07.408286Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 24,
+    "created_at": "2026-04-08T23:29:07.424871Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 25,
+    "created_at": "2026-04-08T23:29:07.439490Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 26,
+    "created_at": "2026-04-08T23:29:07.454858Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 27,
+    "created_at": "2026-04-08T23:29:07.464857Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 28,
+    "created_at": "2026-04-08T23:29:07.475663Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 29,
+    "created_at": "2026-04-08T23:29:07.485792Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 30,
+    "created_at": "2026-04-08T23:29:07.495354Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 31,
+    "created_at": "2026-04-08T23:29:07.505991Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 32,
+    "created_at": "2026-04-08T23:29:07.523463Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 33,
+    "created_at": "2026-04-08T23:29:07.538983Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 34,
+    "created_at": "2026-04-08T23:29:07.555147Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 35,
+    "created_at": "2026-04-08T23:29:07.564444Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 36,
+    "created_at": "2026-04-08T23:29:07.580460Z",
+    "status": "DELIVERED",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 37,
+    "created_at": "2026-04-08T23:29:07.606276Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 38,
+    "created_at": "2026-04-08T23:29:07.616228Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 39,
+    "created_at": "2026-04-08T23:29:07.623554Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 40,
+    "created_at": "2026-04-08T23:29:07.648893Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 41,
+    "created_at": "2026-04-08T23:29:07.657175Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 42,
+    "created_at": "2026-04-08T23:29:07.665610Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 43,
+    "created_at": "2026-04-08T23:29:07.674022Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.3,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.3,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 10.5,
+      "taxes": [
+        [
+          "GST",
+          0.525
+        ],
+        [
+          "PST",
+          0.7350000000000001
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 44,
+    "created_at": "2026-04-08T23:29:07.682649Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 45,
+    "created_at": "2026-04-08T23:29:07.702002Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 46,
+    "created_at": "2026-04-08T23:29:07.910104Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 47,
+    "created_at": "2026-04-08T23:29:07.922293Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 48,
+    "created_at": "2026-04-08T23:29:07.933286Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 49,
+    "created_at": "2026-04-08T23:29:07.944310Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 50,
+    "created_at": "2026-04-08T23:29:07.962254Z",
+    "status": "CANCELLED",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 51,
+    "created_at": "2026-04-08T23:29:07.994776Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 52,
+    "created_at": "2026-04-08T23:29:08.003623Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 53,
+    "created_at": "2026-04-08T23:29:08.012770Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 54,
+    "created_at": "2026-04-08T23:29:08.021981Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 55,
+    "created_at": "2026-04-08T23:29:08.030957Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 56,
+    "created_at": "2026-04-08T23:29:08.040090Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 57,
+    "created_at": "2026-04-08T23:29:08.049664Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 58,
+    "created_at": "2026-04-08T23:29:08.058831Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Pizza",
+        "description": "Cheesy",
+        "base_price": 20.0,
+        "percentage_discount": 0.0,
+        "image_url": "pizza.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 20.0,
+      "taxes": [
+        [
+          "GST",
+          1.0
+        ],
+        [
+          "PST",
+          1.4000000000000001
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 59,
+    "created_at": "2026-04-08T23:29:08.078337Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 60,
+    "created_at": "2026-04-08T23:29:08.088093Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 61,
+    "created_at": "2026-04-08T23:29:08.105352Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 62,
+    "created_at": "2026-04-08T23:29:08.121481Z",
+    "status": "CANCELLED",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 63,
+    "created_at": "2026-04-08T23:29:08.137483Z",
+    "status": "CANCELLED",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 64,
+    "created_at": "2026-04-08T23:29:08.154648Z",
+    "status": "CANCELLED",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 65,
+    "created_at": "2026-04-08T23:29:08.172018Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 66,
+    "created_at": "2026-04-08T23:29:08.188349Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 67,
+    "created_at": "2026-04-08T23:29:08.204501Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 68,
+    "created_at": "2026-04-08T23:29:08.216783Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 69,
+    "created_at": "2026-04-08T23:29:08.231737Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 70,
+    "created_at": "2026-04-08T23:29:08.249671Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 71,
+    "created_at": "2026-04-08T23:29:08.262586Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 72,
+    "created_at": "2026-04-08T23:29:08.275136Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 73,
+    "created_at": "2026-04-08T23:29:08.286916Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 74,
+    "created_at": "2026-04-08T23:29:08.304397Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 75,
+    "created_at": "2026-04-08T23:29:08.335840Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 76,
+    "created_at": "2026-04-08T23:29:08.349252Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 77,
+    "created_at": "2026-04-08T23:29:08.362666Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 78,
+    "created_at": "2026-04-08T23:29:08.377197Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 79,
+    "created_at": "2026-04-08T23:29:08.394398Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.01
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 80,
+    "created_at": "2026-04-08T23:29:08.411908Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 81,
+    "created_at": "2026-04-08T23:29:08.438493Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 82,
+    "created_at": "2026-04-08T23:29:08.462817Z",
+    "status": "CANCELLED",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 83,
+    "created_at": "2026-04-08T23:29:08.489386Z",
+    "status": "CANCELLED",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 84,
+    "created_at": "2026-04-08T23:29:08.513706Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 85,
+    "created_at": "2026-04-08T23:29:08.538566Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 86,
+    "created_at": "2026-04-08T23:29:08.564696Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 87,
+    "created_at": "2026-04-08T23:29:08.590602Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 88,
+    "created_at": "2026-04-08T23:29:08.621261Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 89,
+    "created_at": "2026-04-08T23:29:08.646959Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 90,
+    "created_at": "2026-04-08T23:29:08.684851Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 91,
+    "created_at": "2026-04-08T23:29:08.704304Z",
+    "status": "PREPARING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 0.0,
+      "longitude": 0.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 92,
+    "created_at": "2026-04-08T23:29:24.170462Z",
+    "status": "PENDING",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 23.0,
+      "longitude": 3.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 93,
+    "created_at": "2026-04-08T23:29:24.578414Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 94,
+    "created_at": "2026-04-08T23:29:24.798554Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 95,
+    "created_at": "2026-04-08T23:29:25.000452Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 96,
+    "created_at": "2026-04-08T23:29:25.203621Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 97,
+    "created_at": "2026-04-08T23:29:25.421790Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 98,
+    "created_at": "2026-04-08T23:29:26.240416Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 99,
+    "created_at": "2026-04-08T23:29:26.443393Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 100,
+    "created_at": "2026-04-08T23:29:26.645065Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 101,
+    "created_at": "2026-04-08T23:29:27.693466Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 102,
+    "created_at": "2026-04-08T23:29:27.920655Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 103,
+    "created_at": "2026-04-08T23:29:28.124641Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 104,
+    "created_at": "2026-04-08T23:29:28.329664Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 105,
+    "created_at": "2026-04-08T23:29:28.533544Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 106,
+    "created_at": "2026-04-08T23:29:28.766272Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 107,
+    "created_at": "2026-04-08T23:29:29.184947Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 108,
+    "created_at": "2026-04-08T23:29:29.821672Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 109,
+    "created_at": "2026-04-08T23:29:30.048421Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 110,
+    "created_at": "2026-04-08T23:29:30.058539Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 111,
+    "created_at": "2026-04-08T23:29:30.290593Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 112,
+    "created_at": "2026-04-08T23:29:30.495626Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 113,
+    "created_at": "2026-04-08T23:29:30.913030Z",
+    "status": "SCHEDULED",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 1,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "123 Near St",
+    "coordinate": {
+      "latitude": 49.882,
+      "longitude": -119.495
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 114,
+    "created_at": "2026-04-08T23:29:31.531951Z",
+    "status": "PENDING",
+    "restaurant_id": 1,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 1
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 23.0,
+      "longitude": 3.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 115,
+    "created_at": "2026-04-08T23:29:31.564484Z",
+    "status": "PENDING",
+    "restaurant_id": 2,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 2
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 2
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 23.0,
+      "longitude": 3.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 116,
+    "created_at": "2026-04-08T23:29:31.583938Z",
+    "status": "PENDING",
+    "restaurant_id": 3,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 3
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 3
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 23.0,
+      "longitude": 3.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 117,
+    "created_at": "2026-04-08T23:29:31.650048Z",
+    "status": "PENDING",
+    "restaurant_id": 4,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 4
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 4
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 23.0,
+      "longitude": 3.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 118,
+    "created_at": "2026-04-08T23:29:31.669672Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 23.0,
+      "longitude": 3.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 119,
+    "created_at": "2026-04-08T23:29:31.689835Z",
+    "status": "PENDING",
+    "restaurant_id": 6,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 6
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 6
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 23.0,
+      "longitude": 3.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 120,
+    "created_at": "2026-04-08T23:29:31.708823Z",
+    "status": "PENDING",
+    "restaurant_id": 7,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 7
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 7
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 23.0,
+      "longitude": 3.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 121,
+    "created_at": "2026-04-08T23:29:31.728741Z",
+    "status": "PENDING",
+    "restaurant_id": 8,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 8
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 8
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 23.0,
+      "longitude": 3.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 122,
+    "created_at": "2026-04-08T23:29:31.748452Z",
+    "status": "PENDING",
+    "restaurant_id": 9,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 9
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 9
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 23.0,
+      "longitude": 3.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 123,
+    "created_at": "2026-04-08T23:29:31.767165Z",
+    "status": "PENDING",
+    "restaurant_id": 10,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 10
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 10
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 23.0,
+      "longitude": 3.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 124,
+    "created_at": "2026-04-08T23:29:33.407321Z",
+    "status": "PENDING",
+    "restaurant_id": 5,
+    "items": [
+      {
+        "id": 1,
+        "name": "Burger",
+        "description": "A juicy burger",
+        "base_price": 10.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/burger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      },
+      {
+        "id": 2,
+        "name": "Fries",
+        "description": "Crispy fries",
+        "base_price": 5.0,
+        "percentage_discount": 0.0,
+        "image_url": "http://example.com/fries.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 5
+      }
+    ],
+    "delivery_address": "789 Test Ave",
+    "coordinate": {
+      "latitude": 23.0,
+      "longitude": 3.0
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 15.0,
+      "taxes": [
+        [
+          "GST",
+          0.75
+        ],
+        [
+          "PST",
+          1.05
+        ]
+      ],
+      "delivery_fee": 5.99
+    }
+  },
+  {
+    "id": 125,
+    "created_at": "2026-04-08T23:47:18.651395Z",
+    "status": "PREPARING",
+    "restaurant_id": 3,
+    "items": [
+      {
+        "id": 5,
+        "name": "Classic Cheeseburger",
+        "description": "Beef patty, cheddar cheese, lettuce, tomato, and house sauce.",
+        "base_price": 13.5,
+        "percentage_discount": 0.0,
+        "image_url": "cheeseburger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 3
+      }
+    ],
+    "delivery_address": "8409 Ski Jump Rise",
+    "coordinate": {
+      "latitude": 49.88,
+      "longitude": -119.49
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 13.5,
+      "taxes": [
+        [
+          "GST",
+          0.675
+        ],
+        [
+          "PST",
+          0.9450000000000001
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 126,
+    "created_at": "2026-04-08T23:48:35.541303Z",
+    "status": "PENDING",
+    "restaurant_id": 3,
+    "items": [
+      {
+        "id": 5,
+        "name": "Classic Cheeseburger",
+        "description": "Beef patty, cheddar cheese, lettuce, tomato, and house sauce.",
+        "base_price": 13.5,
+        "percentage_discount": 0.0,
+        "image_url": "cheeseburger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 3
+      }
+    ],
+    "delivery_address": "8409 Ski Jump Rise",
+    "coordinate": {
+      "latitude": 49.88,
+      "longitude": -119.49
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 13.5,
+      "taxes": [
+        [
+          "GST",
+          0.675
+        ],
+        [
+          "PST",
+          0.9450000000000001
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 127,
+    "created_at": "2026-04-08T23:48:41.509039Z",
+    "status": "PENDING",
+    "restaurant_id": 3,
+    "items": [
+      {
+        "id": 5,
+        "name": "Classic Cheeseburger",
+        "description": "Beef patty, cheddar cheese, lettuce, tomato, and house sauce.",
+        "base_price": 13.5,
+        "percentage_discount": 0.0,
+        "image_url": "cheeseburger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 3
+      }
+    ],
+    "delivery_address": "8409 Ski Jump Rise",
+    "coordinate": {
+      "latitude": 49.88,
+      "longitude": -119.49
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 13.5,
+      "taxes": [
+        [
+          "GST",
+          0.675
+        ],
+        [
+          "PST",
+          0.9450000000000001
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  },
+  {
+    "id": 128,
+    "created_at": "2026-04-08T23:58:43.966470Z",
+    "status": "PENDING",
+    "restaurant_id": 3,
+    "items": [
+      {
+        "id": 5,
+        "name": "Classic Cheeseburger",
+        "description": "Beef patty, cheddar cheese, lettuce, tomato, and house sauce.",
+        "base_price": 13.5,
+        "percentage_discount": 0.0,
+        "image_url": "cheeseburger.jpg",
+        "add_ons": [],
+        "is_available": true,
+        "restaurant_id": 3
+      }
+    ],
+    "delivery_address": "8409 Ski Jump Rise",
+    "coordinate": {
+      "latitude": 49.88,
+      "longitude": -119.49
+    },
+    "delivery_note": "",
+    "bill": {
+      "items_subtotal": 13.5,
+      "taxes": [
+        [
+          "GST",
+          0.675
+        ],
+        [
+          "PST",
+          0.9450000000000001
+        ]
+      ],
+      "delivery_fee": 1.99
+    }
+  }
+]

@@ -11,22 +11,15 @@
         <h1>🍔 CreqSquad Food Delivery Portal</h1>
         <p class="helper-text">Complete frontend for authentication, search, restaurants, menus, cart, orders, payments, notifications, scheduled orders, reports, admin tools, and driver tools.</p>
 
-        <div id="auth-section" class="card">
-            <div class="input-row">
-                <div class="full-width">
-                    <h2>Login</h2>
-                    <form id="login-form">
-                        <div class="input-row">
-                            <input type="email" id="login-email" placeholder="Email" required>
-                            <input type="password" id="login-password" placeholder="Password" required>
-                        </div>
-                        <div class="input-row">
-                            <button type="submit">Login</button>
-                            <button type="button" id="btn-fill-admin" class="btn-secondary">Fill Demo Admin</button>
-                        </div>
-                    </form>
-                    <p>Need an account? <a href="#" id="show-register">Register here</a></p>
-                </div>
+        <div id="auth-section">
+            <div id="login-form-container">
+                <h2>Login</h2>
+                <form id="login-form">
+                    <input type="email" id="login-email" placeholder="Email" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
+                <p>Need an account? <a href="#" id="show-register">Register here</a></p>
             </div>
 
             <div id="register-form-container" style="display: none;">
@@ -55,34 +48,13 @@
             <p id="auth-error" class="error-text"></p>
         </div>
 
-        <div id="app-layout" style="display: none;">
-            <div class="app-layout">
-                <div class="response-column">
-                    <div class="card response-panel">
-                        <h2>API Response Output</h2>
-                        <pre id="data-display">Awaiting action...</pre>
-                    </div>
-                </div>
-
-                <div class="workspace-column">
-        <div id="session-section" style="display: none;">
+        <div id="customer-dashboard" style="display: none;">
+            <h2>Customer Dashboard (<span class="user-name"></span>)</h2>
+            
             <div class="card">
-                <h2>Current Session</h2>
-                <p><strong>User:</strong> <span class="user-name"></span></p>
-                <p><strong>Role:</strong> <span id="current-role-label"></span></p>
-                <div class="input-row">
-                    <button id="btn-view-profile" class="btn-secondary">View Profile</button>
-                    <button id="btn-logout" class="btn-danger">Logout</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="public-tools-section" style="display: none;">
-
-            <div class="section-block">
-                <div class="card">
-                <h2>Search Restaurants</h2>
-                <p class="helper-text">Filter by cuisine, rating, sort order, and pagination.</p>
+                <h3>🔍 Search Restaurants</h3>
+                <input type="text" id="search-name" placeholder="Restaurant Name (optional)">
+                <p class="helper-text" style="margin-bottom: 8px;">Filter by cuisine, or adjust the minimum rating (0.0 - 5.0):</p>
                 <div class="input-row">
                     <input type="text" id="search-name" placeholder="Restaurant Name">
                     <select id="search-cuisine">
@@ -96,7 +68,7 @@
                         <option value="Indian">Indian</option>
                         <option value="Other">Other</option>
                     </select>
-                    <input type="number" id="search-min-rating" placeholder="Min Rating" step="0.1" min="0" max="10">
+                    <input type="number" id="search-min-rating" placeholder="Min Rating (e.g. 4.5)" step="0.1" min="0" max="5">
                 </div>
                 <div class="input-row">
                     <select id="search-sort">
@@ -108,48 +80,40 @@
                     <input type="number" id="search-limit" value="10" min="1" placeholder="Limit">
                     <input type="number" id="search-offset" value="0" min="0" placeholder="Offset">
                 </div>
+
+                <p class="helper-text" style="margin-top: 10px; margin-bottom: 8px;">Pagination settings:</p>
                 <div class="input-row">
                     <button id="btn-search">Search Restaurants</button>
                     <button id="btn-clear-search" class="btn-secondary">Clear Search</button>
                 </div>
                 <div id="search-results" class="result-box">Search results will appear here.</div>
                 </div>
+                <button id="btn-search">Search</button>
             </div>
-
-            <div class="section-block">
-                <div class="card">
-                <h2>Browse Menus</h2>
-                <p class="helper-text">Search menu items across restaurants and add them to cart.</p>
+            
+            <div class="card">
+                <h3>🍽️ Browse Menus</h3>
+                <p class="helper-text" style="margin-bottom: 8px;">Search for specific dishes across all restaurants:</p>
                 <div class="input-row">
                     <input type="text" id="menu-search-name" placeholder="Menu Item Name">
                     <input type="number" id="menu-limit" value="50" min="1" placeholder="Limit">
                     <input type="number" id="menu-offset" value="0" min="0" placeholder="Offset">
                 </div>
-                <div class="input-row">
-                    <button id="btn-browse-menus">Load Menu Items</button>
-                    <button id="btn-refresh-scheduled-source" class="btn-secondary">Refresh Scheduled Menu Source</button>
-                </div>
-                <div id="menu-results" class="result-box">Menu items will appear here.</div>
-                
-                <hr>
-                <h3>🛒 My Shopping Cart</h3>
+                <div id="menu-results" style="margin-top: 15px; max-height: 250px; overflow-y: auto;"></div>
+            </div>
+            
+            <div class="card" style="border: 2px solid #007bff;">
+                <h3>⭐ My Favorites & 🕒 Recent Orders</h3>
+                <p class="helper-text" style="margin-bottom: 8px;">Quickly access your go-to spots and recent meals:</p>
                 <div class="input-row">
                     <button id="btn-view-cart" class="btn-secondary">Refresh Cart</button>
                     <button id="btn-clear-cart" class="btn-danger">Clear Cart</button>
                 </div>
-                <div class="input-row">
-                    <input type="number" id="cart-remove-item-id" placeholder="Menu Item ID">
-                    <button id="btn-remove-cart-item" class="btn-danger">Remove Item From Cart</button>
+                <div id="feature-results" style="margin-top: 15px; padding: 12px; background: white; border: 1px solid #ddd; border-radius: 4px; max-height: 200px; overflow-y: auto;">
+                    Select an option above to load your data.
                 </div>
-                <div id="cart-contents" class="result-box">Cart is empty.</div>
-                <button id="btn-checkout" class="btn-success">Checkout and Place Order</button>
-                </div>
-            </div>
-
-            <div class="section-block">
-                <div class="card">
-                <h2>Restaurant Reviews and Ratings</h2>
-                <p class="helper-text">Check a restaurant rating, view reviews, or submit a review after ordering.</p>
+                <hr>
+                <p class="helper-text" style="margin-bottom: 8px;">Add a new restaurant to your favorites:</p>
                 <div class="input-row">
                     <input type="number" id="review-restaurant-id" placeholder="Restaurant ID">
                     <button id="btn-get-rating">Get Rating</button>
@@ -165,44 +129,14 @@
             </div>
         </div>
 
-        <div id="shared-section" style="display: none;">
-            <div id="customer-dashboard" style="display: none;">
-                <h2>Customer Dashboard (<span class="user-name"></span>)</h2>
-
-                <div class="card">
-                    <h3> My Favorites and Recent Orders</h3>
-                    <div class="input-row">
-                        <button id="btn-view-favorites" class="btn-secondary">View Favorites</button>
-                        <button id="btn-view-recent" class="btn-secondary">View Recently Ordered</button>
-                    </div>
-                    <div class="input-row">
-                        <input type="number" id="fav-restaurant-id" placeholder="Restaurant ID">
-                        <button id="btn-add-favorite-restaurant">Add Favorite Restaurant</button>
-                        <button id="btn-remove-favorite-restaurant" class="btn-danger">Remove Favorite Restaurant</button>
-                    </div>
-                    <div class="input-row">
-                        <input type="number" id="fav-item-id" placeholder="Menu Item ID">
-                        <button id="btn-add-favorite-item">Add Favorite Item</button>
-                        <button id="btn-remove-favorite-item" class="btn-danger">Remove Favorite Item</button>
-                    </div>
-                    <h4>Update Profile</h4>
-                    <div class="input-row">
-                        <input type="text" id="update-name" placeholder="Name">
-                        <input type="email" id="update-email" placeholder="Email">
-                        <input type="password" id="update-password" placeholder="New Password">
-                    </div>
-                    <div class="input-row">
-                        <input type="text" id="update-phone" placeholder="Phone Number">
-                        <input type="text" id="update-address" placeholder="Address">
-                        <input type="text" id="update-note" placeholder="Delivery Note">
-                    </div>
-                    <div class="input-row">
-                        <input type="number" id="update-latitude" placeholder="Latitude" step="0.000001">
-                        <input type="number" id="update-longitude" placeholder="Longitude" step="0.000001">
-                        <button id="btn-update-user">Update User</button>
-                    </div>
-                    <div id="feature-results" class="result-box">User tools output will appear here.</div>
+            <div class="card">
+                <h3>🛒 My Shopping Cart</h3>
+                <button id="btn-view-cart" class="btn-secondary">Refresh Cart</button>
+                <div id="cart-contents" style="margin-top: 15px; font-size: 14px; background: white; padding: 12px; border-radius: 4px; border: 1px solid #ddd;">
+                    Cart is empty.
                 </div>
+                <button id="btn-checkout" class="btn-success" style="margin-top: 15px;">Checkout & Place Order</button>
+            </div>
 
                 <div class="card">
                     <h3>📦 My Orders and Tracking</h3>
@@ -217,26 +151,15 @@
                     </div>
                     <div id="orders-results" class="result-box">Orders will appear here.</div>
                 </div>
+            </div>
 
-                <div class="card">
-                    <h3>💳 Payment</h3>
-                    <div class="input-row">
-                        <input type="number" id="simulate-order-id" placeholder="Order ID">
-                        <button id="btn-simulate-payment" class="btn-secondary">Simulate Payment</button>
-                    </div>
-                    <div class="input-row">
-                        <input type="number" id="decision-order-id" placeholder="Order ID">
-                        <select id="decision-value">
-                            <option value="ACCEPTED">ACCEPTED</option>
-                            <option value="REJECTED">REJECTED</option>
-                        </select>
-                        <input type="text" id="decision-reason" placeholder="Reason (optional)">
-                    </div>
-                    <div class="input-row">
-                        <button id="btn-submit-decision">Submit Payment Decision</button>
-                        <input type="number" id="payment-status-order-id" placeholder="Order ID">
-                        <button id="btn-check-status" class="btn-secondary">Check Order Status</button>
-                    </div>
+            <div class="card">
+                <h3>💳 Payment</h3>
+                <h4>Simulate Payment</h4>
+                <p class="helper-text">Randomly accept or reject a payment (70% acceptance rate).</p>
+                <div class="input-row">
+                    <input type="number" id="simulate-order-id" placeholder="Order ID">
+                    <button id="btn-simulate-payment" class="btn-secondary">🎲 Simulate</button>
                 </div>
 
                 <div class="card">
@@ -299,68 +222,17 @@
                 </div>
             </div>
 
-            <div id="owner-dashboard" style="display: none;">
-                <h2>Owner Dashboard (<span class="user-name"></span>)</h2>
-
-                <div class="card">
-                    <h3>🏠 Restaurant Storefront</h3>
-                    <p class="helper-text">Start by registering a restaurant. Then load your restaurants and use the restaurant ID when deleting or updating.</p>
-                    <h4 class="owner-subtitle">1. Register a Restaurant</h4>
-                    <div class="input-row">
-                        <input type="text" id="restaurant-name" placeholder="Restaurant Name">
-                        <input type="text" id="restaurant-address" placeholder="Address">
-                        <select id="restaurant-cuisine">
-                            <option value="Italian">Italian</option>
-                            <option value="Mexican">Mexican</option>
-                            <option value="Chinese">Chinese</option>
-                            <option value="Greek">Greek</option>
-                            <option value="Japanese">Japanese</option>
-                            <option value="American">American</option>
-                            <option value="Indian">Indian</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="input-row">
-                        <input type="text" id="restaurant-phone" placeholder="Phone Number">
-                        <input type="number" id="restaurant-price-tier" placeholder="Price Tier 1-4" min="1" max="4">
-                        <button id="btn-register-restaurant">Register Restaurant</button>
-                    </div>
-                    <hr>
-                    <h4 class="owner-subtitle">2. View or Delete Restaurants</h4>
-                    <div class="input-row">
-                        <button id="btn-my-restaurants" class="btn-secondary">Load My Restaurants</button>
-                        <input type="number" id="owner-restaurant-id" placeholder="Restaurant ID">
-                        <button id="btn-delete-restaurant" class="btn-danger">Delete Restaurant</button>
-                    </div>
-                    <hr>
-                    <h4 class="owner-subtitle">3. Update a Restaurant</h4>
-                    <p class="helper-text">Load your restaurants first, then copy the restaurant ID you want to update.</p>
-                    <div class="input-row">
-                        <input type="text" id="update-restaurant-name" placeholder="Updated Name">
-                        <input type="text" id="update-restaurant-address" placeholder="Updated Address">
-                        <input type="text" id="update-restaurant-phone" placeholder="Updated Phone">
-                    </div>
-                    <div class="input-row">
-                        <select id="update-restaurant-cuisine">
-                            <option value="">Cuisine (optional)</option>
-                            <option value="Italian">Italian</option>
-                            <option value="Mexican">Mexican</option>
-                            <option value="Chinese">Chinese</option>
-                            <option value="Greek">Greek</option>
-                            <option value="Japanese">Japanese</option>
-                            <option value="American">American</option>
-                            <option value="Indian">Indian</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <input type="number" id="update-restaurant-price-tier" placeholder="Updated Price Tier" min="1" max="4">
-                        <select id="update-restaurant-open">
-                            <option value="">Open State</option>
-                            <option value="true">Open</option>
-                            <option value="false">Closed</option>
-                        </select>
-                        <button id="btn-update-restaurant">Update Restaurant</button>
-                    </div>
-                    <div id="restaurant-results" class="result-box">Restaurant management output will appear here.</div>
+            <div class="card">
+                <h3>🔔 Notifications</h3>
+                <h4>My Notifications</h4>
+                <p class="helper-text">View all notifications directed at your account.</p>
+                <button id="btn-my-notifications">📋 Load My Notifications</button>
+                <hr>
+                <h4>Order Notifications</h4>
+                <p class="helper-text">View all notifications for a specific order.</p>
+                <div class="input-row">
+                    <input type="number" id="notif-order-id" placeholder="Order ID">
+                    <button id="btn-order-notifications">🔍 Get</button>
                 </div>
 
                 <div class="card">
@@ -408,55 +280,75 @@
                     </div>
                     <div id="owner-menu-results" class="result-box">Owner menu output will appear here.</div>
                 </div>
+            </div>
 
-                <div class="card">
-                    <h3>👨🍳 Kitchen Queue</h3>
-                    <div class="input-row">
-                        <button id="btn-view-queue">Refresh Pending Orders</button>
-                        <input type="number" id="update-order-id" placeholder="Order ID">
-                        <select id="update-order-status">
-                            <option value="PREPARING">PREPARING</option>
-                            <option value="DELIVERED">DELIVERED</option>
-                            <option value="CANCELLED">CANCELLED</option>
-                        </select>
-                        <button id="btn-update-status" class="btn-success">Update Status</button>
-                    </div>
-                    <div id="queue-results" class="result-box">Pending orders will appear here.</div>
+            <div class="card">
+                <h3>🗓️ Scheduled Orders</h3>
+                <h4>Place a Scheduled Order</h4>
+                <p class="helper-text">Must be within 24 hours and allow enough time for delivery.</p>
+                <select id="sched-restaurant">
+                    <option value="">Select a Restaurant</option>
+                </select>
+                <select id="sched-item">
+                    <option value="">Select a Menu Item</option>
+                </select>
+                <label class="helper-text" style="display:block; margin-bottom:4px;">Scheduled Delivery Time:</label>
+                <input type="datetime-local" id="sched-time">
+                <button id="btn-place-scheduled" class="btn-success">📅 Place Scheduled Order</button>
+                <hr>
+                <h4>My Scheduled Orders</h4>
+                <button id="btn-my-scheduled">📋 Load My Scheduled Orders</button>
+                <hr>
+                <h4>Cancel Scheduled Order</h4>
+                <input type="number" id="cancel-sched-id" placeholder="Scheduled Order ID">
+                <input type="text" id="cancel-sched-reason" placeholder="Reason (optional)">
+                <button id="btn-cancel-scheduled" class="btn-danger">❌ Cancel Scheduled Order</button>
+                <hr>
+                <h4>View Scheduled Order by ID</h4>
+                <div class="input-row">
+                    <input type="number" id="get-sched-id" placeholder="Scheduled Order ID">
+                    <button id="btn-get-scheduled">🔍 Get</button>
                 </div>
 
-                <div class="card">
-                    <h3>💳 Payment Decisions</h3>
-                    <div class="input-row">
-                        <input type="number" id="owner-decision-order-id" placeholder="Order ID">
-                        <select id="owner-decision-value">
-                            <option value="ACCEPTED">ACCEPTED</option>
-                            <option value="REJECTED">REJECTED</option>
-                        </select>
-                        <input type="text" id="owner-decision-reason" placeholder="Reason (optional)">
-                        <button id="btn-owner-submit-decision">Submit Decision</button>
-                    </div>
+        <div id="owner-dashboard" style="display: none;">
+            <h2>Owner Dashboard (<span class="user-name"></span>)</h2>
+            
+            <div class="card" style="border: 2px solid #28a745;">
+                <h3>🏠 Restaurant Storefront</h3>
+                <p class="helper-text">Register your business to start serving customers:</p>
+                <div class="input-row">
+                    <input type="text" id="store-name" placeholder="Restaurant Name">
+                    <input type="text" id="store-cuisine" placeholder="Cuisine Type">
                 </div>
+                <button id="btn-register-store" class="btn-success">Register Storefront</button>
+            </div>
 
-                <div class="card">
-                    <h3>🔔 Restaurant Notifications</h3>
-                    <div class="input-row">
-                        <button id="btn-owner-my-notifications">My Notifications</button>
-                        <input type="number" id="owner-timeline-order-id" placeholder="Order ID">
-                        <button id="btn-owner-timeline" class="btn-secondary">Order Timeline</button>
-                    </div>
+            <div class="card">
+                <h3>👨‍🍳 Kitchen Queue</h3>
+                <button id="btn-view-queue">Refresh Pending Orders</button>
+                <hr>
+                <div class="input-row">
+                    <input type="number" id="update-order-id" placeholder="Order ID">
+                    <select id="update-order-status">
+                        <option value="PREPARING">PREPARING</option>
+                        <option value="DELIVERED">DELIVERED</option>
+                        <option value="CANCELLED">CANCELLED</option>
+                    </select>
+                    <button id="btn-update-status" class="btn-success">Update Status</button>
                 </div>
             </div>
 
-            <div id="admin-dashboard" style="display: none;">
-                <h2>Admin Dashboard (<span class="user-name"></span>)</h2>
-
-                <div class="card">
-                    <h3>🛠 Delivery Fee Multiplier</h3>
-                    <div class="input-row">
-                        <input type="number" id="delivery-fee-multiplier" placeholder="Multiplier" step="0.01" min="0.01" value="1">
-                        <button id="btn-update-multiplier" class="btn-success">Update</button>
-                    </div>
-                    <p id="multiplier-status" class="helper-text">Current multiplier can be updated by an admin.</p>
+            <div class="card">
+                <h3>📋 Menu Management</h3>
+                <input type="number" id="manage-rest-id" placeholder="Your Restaurant ID (e.g., 5)">
+                <hr>
+                <h4>Add Item</h4>
+                <input type="text" id="add-menu-name" placeholder="Item Name">
+                <input type="text" id="add-menu-description" placeholder="Description (e.g. Juicy beef burger)">
+                <input type="text" id="add-menu-category" placeholder="Category (e.g. Mains, Drinks)">
+                <div class="input-row">
+                    <input type="number" id="add-menu-price" placeholder="Price" step="0.01">
+                    <button id="btn-add-menu">Add Item</button>
                 </div>
 
                 <div class="card">
@@ -476,35 +368,52 @@
                     </div>
                     <div id="report-results" class="result-box">Report queue output will appear here.</div>
                 </div>
+            </div>
 
-                <div class="card">
-                    <h3>🔔 Admin Monitoring</h3>
-                    <p class="helper-text">Load all notifications in the system for oversight during demos.</p>
-                    <button id="btn-admin-notifications">Load All Notifications</button>
-                </div>
-
-                <div class="card">
-                    <h3>🧪 Admin Testing Tools</h3>
-                    <p class="helper-text">Direct hooks for smaller endpoints that are useful during demos.</p>
-                    <button id="btn-admin-auth-dashboard" class="btn-secondary">View Auth Dashboard</button>
+            <div class="card">
+                <h3>💳 Payment Decisions</h3>
+                <p class="helper-text">Accept or reject customer payments for orders.</p>
+                <input type="number" id="owner-decision-order-id" placeholder="Order ID">
+                <div class="input-row">
+                    <select id="owner-decision-value">
+                        <option value="ACCEPTED">ACCEPTED</option>
+                        <option value="REJECTED">REJECTED</option>
+                    </select>
+                    <input type="text" id="owner-decision-reason" placeholder="Reason (optional)">
                 </div>
             </div>
 
-            <div id="driver-dashboard" style="display: none;">
-                <h2>Driver Dashboard (<span class="user-name"></span>)</h2>
-                <div class="card">
-                    <h3>🚗 Nearby Orders</h3>
-                    <div class="input-row">
-                        <input type="number" id="driver-max-km" placeholder="Max Distance (km)" step="0.1" value="10">
-                        <button id="btn-driver-orders">Load Nearby Orders</button>
-                    </div>
-                    <div id="driver-results" class="result-box">Nearby driver orders will appear here.</div>
+            <div class="card">
+                <h3>🔔 Restaurant Notifications</h3>
+                <p class="helper-text">View notifications sent to your restaurant.</p>
+                <button id="btn-owner-my-notifications">📋 Load My Notifications</button>
+                <hr>
+                <h4>Order Timeline</h4>
+                <div class="input-row">
+                    <input type="number" id="owner-timeline-order-id" placeholder="Order ID">
+                    <button id="btn-owner-timeline" class="btn-success">📅 Get Timeline</button>
                 </div>
             </div>
 
+        <!-- ADMIN DASHBOARD -->
+        <div id="admin-dashboard" style="display: none;">
+            <h2>Admin Dashboard (<span class="user-name"></span>)</h2>
+            <div class="card">
+                <h3>🛠️ Delivery Fee Multiplier</h3>
+                <p class="helper-text">Update the system-wide delivery fee multiplier for all orders.</p>
+                <div class="input-row">
+                    <input type="number" id="delivery-fee-multiplier" placeholder="Multiplier (e.g. 1.25)" step="0.01" min="0.01" value="1">
+                    <button id="btn-update-multiplier" class="btn-success">Update</button>
+                </div>
+                <p id="multiplier-status" class="helper-text">Current multiplier can be updated by an admin.</p>
+            </div>
         </div>
-                </div>
-            </div>
+
+        <!-- SHARED JSON VIEWER & LOGOUT -->
+        <div id="shared-section" style="display: none;">
+            <button id="btn-logout" class="btn-danger" style="margin-top: 15px;">Logout</button>
+            <h3>API Response Output:</h3>
+            <pre id="data-display">Awaiting action...</pre>
         </div>
     </div>
 
