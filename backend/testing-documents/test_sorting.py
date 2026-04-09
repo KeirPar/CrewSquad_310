@@ -54,21 +54,23 @@ def test_sort_by_price_asc():
 
 def test_sort_by_distance_asc():
     user_create = user_test_helper.test_user_create.model_copy()
-    user_create.coordinate = Coordinate(latitude=49.88, longitude=-119.49)
+    user_create.coordinate = Coordinate(latitude=49.94290035633633, longitude=-119.39555529342739)   
     user_test_helper.register_and_login_user(user=user_create)
     
     response = client.get("/search/restaurants?sort_by=distance_asc", headers={"Authorization": f"Bearer {user_test_helper.login_token}"})
     assert response.status_code == status.HTTP_200_OK
     restaurants = response.json()["data"]
     
-    if len(restaurants) > 1: #if we have more than 1 restaurant, we can check the sorting, otherwise we can't really say if it's sorted or not
-        sorted_restaurants = sorted(
-            restaurants,
-            key=lambda r: float(Coordinate(**r.get("coordinate")).get_kilometer_distance_to(user_create.coordinate)),
-            reverse=False
-        )
+    if len(restaurants) > 1:
+            sorted_restaurants = sorted(
+                restaurants,
+                key=lambda r: (
+                    not r.get("is_open", True), 
+                    float(Coordinate(**r.get("coordinate")).get_kilometer_distance_to(user_create.coordinate))
+                )
+            )
 
-        print("\nAPI Order:", [r["name"] for r in restaurants])
-        print("Test Order:", [r["name"] for r in sorted_restaurants])
+    print("\nAPI Order:", [r["name"] for r in restaurants])
+    print("Test Order:", [r["name"] for r in sorted_restaurants])
 
-        assert restaurants == sorted_restaurants
+    assert restaurants == sorted_restaurants
