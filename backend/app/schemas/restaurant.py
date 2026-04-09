@@ -24,6 +24,7 @@ class RestaurantBase(BaseModel):
     phone_number: str
     price_tier: int = Field(..., ge=1, le=4) #for feat3-fr1, im gonna add this for our searching by price tier feature, this will be an integer from 1 to 4, with 1 being the cheapest and 4 being the most expensive
     flags: int = 0 
+    rating: float = 0.0
 #Edit to the above comment from keir, I updated this to do so in Feat2-FR3
 
 #create and update models inherit from the base model

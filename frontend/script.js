@@ -28,13 +28,14 @@ function escapeHtml(value) {
         .replaceAll("'", "&#39;");
 }
 
-// UI Elements
-const authSection = document.getElementById('auth-section');
-const customerDashboard = document.getElementById('customer-dashboard');
-const ownerDashboard = document.getElementById('owner-dashboard');
-const adminDashboard = document.getElementById('admin-dashboard');
-const sharedSection = document.getElementById('shared-section');
-const dataDisplay = document.getElementById('data-display');
+function toPrettyJson(value) {
+    return JSON.stringify(value, null, 2);
+}
+
+function logRequest(info) {
+    if (!requestDisplay) return;
+    requestDisplay.textContent = typeof info === "string" ? info : toPrettyJson(info);
+}
 
 function logData(data) {
     const text = typeof data === "string" ? data : toPrettyJson(data);
@@ -98,19 +99,24 @@ async function fetchProfile() {
     document.querySelectorAll(".user-name").forEach((element) => {
         element.innerText = currentUser.name;
     });
-    currentUser = await res.json();
+    document.getElementById("current-role-label").innerText = currentUser.role;
+    fillUpdateForm();
 
-    document.querySelectorAll('.user-name').forEach(el => el.innerText = currentUser.name);
-    authSection.style.display = 'none';
-    sharedSection.style.display = 'block';
-    ownerDashboard.style.display = 'none';
-    customerDashboard.style.display = 'none';
-    adminDashboard.style.display = 'none';
+    authSection.style.display = "none";
+    if (appLayout) appLayout.style.display = "block";
+    if (sessionSection) sessionSection.style.display = "block";
+    sharedSection.style.display = "block";
+    resetDashboards();
+    if (publicToolsSection) {
+        publicToolsSection.style.display = currentUser.role === "Admin" ? "none" : "block";
+    }
 
-    if (currentUser.role.toUpperCase() === 'OWNER' || currentUser.role === 'Restaurant Owner') {
-        ownerDashboard.style.display = 'block';
-    } else if (currentUser.role === 'Admin') {
-        adminDashboard.style.display = 'block';
+    if (currentUser.role === "Restaurant Owner" || String(currentUser.role).toUpperCase() === "OWNER") {
+        ownerDashboard.style.display = "block";
+    } else if (currentUser.role === "Admin") {
+        adminDashboard.style.display = "block";
+    } else if (currentUser.role === "Delivery Driver") {
+        driverDashboard.style.display = "block";
     } else {
         customerDashboard.style.display = "block";
     }
@@ -197,28 +203,59 @@ function renderSearchResults(payload) {
     setBox("search-results", html);
 }
 
-// View Favorites
-document.getElementById('btn-view-favorites').onclick = async () => {
-    try {
-        // Fix: Fetch the user profile, because it contains the favourite_restaurants list!
-        const res = await fetch(`${API_URL}/auth/me`, { 
-            headers: { 'Authorization': `Bearer ${currentToken}` }
+function renderMenuResults(items) {
+    if (!items.length) {
+        setBox("menu-results", "<p>No menu items found.</p>");
+        return;
+    }
+
+    const groupedItems = items.reduce((groups, item) => {
+        const category = item.category || "General";
+        if (!groups[category]) groups[category] = [];
+        groups[category].push(item);
+        return groups;
+    }, {});
+
+    let html = "";
+    Object.entries(groupedItems).forEach(([category, categoryItems]) => {
+        html += `<h4>${escapeHtml(category)}</h4><ul class="list">`;
+        categoryItems.forEach((item) => {
+            html += `
+                <li>
+                    <strong>${escapeHtml(item.name)}</strong> (Item ID ${item.id}, Restaurant ${item.restaurant_id}) - ${formatPrice(item)}
+                    <br>${escapeHtml(item.description || "")}
+                    <div class="input-row">
+                        <button class="inline-button" onclick="addToCartAction(${item.id})">Add To Cart</button>
+                        <button class="inline-button" onclick="useMenuItemId(${item.id}, ${item.restaurant_id})">Use Item ID</button>
+                    </div>
+                </li>
+            `;
         });
-        const data = await res.json();
-        logData(data); 
+        html += "</ul>";
+    });
+    setBox("menu-results", html);
+}
 
-        const container = document.getElementById('feature-results');
-        if (!res.ok) throw new Error(data.detail || "Failed to fetch profile");
+function renderCart(cartIds) {
+    if (!cartIds.length) {
+        setBox("cart-contents", "Cart is empty.");
+        return;
+    }
 
-        const favRests = data.favourite_restaurants || [];
-        if (favRests.length === 0) return container.innerHTML = "You have no favorite restaurants yet.";
-
-        let html = '<ul style="margin-top: 0; padding-left: 20px;">';
-        favRests.forEach(id => {
-            html += `<li style="margin-bottom: 5px;"><strong>Restaurant ID: ${id}</strong></li>`;
-        });
-        html += '</ul>';
-        container.innerHTML = html;
+    let total = 0;
+    let html = '<ul class="list">';
+    cartIds.forEach((id) => {
+        const item = menuItemsCache[id];
+        if (item) {
+            total += Number(item.price || 0);
+            html += `<li><strong>${escapeHtml(item.name)}</strong> (Item ID ${id}) - ${formatPrice(item)} <button class="inline-button btn-danger" onclick="removeFromCartAction(${id})">Remove</button></li>`;
+        } else {
+            html += `<li>Item ID ${id} <button class="inline-button btn-danger" onclick="removeFromCartAction(${id})">Remove</button></li>`;
+        }
+    });
+    html += `</ul><p><strong>Subtotal:</strong> $${total.toFixed(2)}</p>`;
+    setBox("cart-contents", html);
+}
 
 function renderOrders(orders) {
     lastOrders = orders;
@@ -227,49 +264,27 @@ function renderOrders(orders) {
         return;
     }
 
-// Add Favorite
-document.getElementById('btn-add-favorite').onclick = async () => {
-    const restId = parseInt(document.getElementById('add-fav-id').value);
-    if (!restId) return alert("Please enter a Restaurant ID to favorite.");
+    let html = '<ul class="list">';
+    orders.forEach((order) => {
+        html += `<li><strong>Order #${order.id}</strong> | Status: ${escapeHtml(order.status)} | Restaurant: ${order.restaurant_id}</li>`;
+    });
+    html += "</ul>";
+    setBox("orders-results", html);
+}
 
-    try {
-        // Fix: Updated to exactly match your Python router
-        const res = await fetch(`${API_URL}/user/favourites/restaurants/${restId}`, {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${currentToken}` }
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.detail || "Failed to add favorite");
-        
-        alert("Restaurant added to favorites!");
-        logData(data);
-        document.getElementById('btn-view-favorites').click(); 
-    } catch (err) { handleError(err); }
-};
+function renderRestaurants(restaurants) {
+    if (!restaurants.length) {
+        setBox("restaurant-results", "No restaurants found for this owner.");
+        return;
+    }
 
-// View Recent Orders (Recent Items)
-document.getElementById('btn-view-recent').onclick = async () => {
-    try {
-        // Fix: Updated to exactly match your Python router
-        const res = await fetch(`${API_URL}/user/recently-ordered`, { 
-            headers: { 'Authorization': `Bearer ${currentToken}` }
-        });
-        const data = await res.json();
-        logData(data);
-
-        const container = document.getElementById('feature-results');
-        if (!res.ok) throw new Error(data.detail || "Failed to fetch recent items");
-        
-        // Fix: Your backend returns 'recent_items' which are Menu Item objects, not Orders!
-        const recentItems = data.recent_items || [];
-        if (recentItems.length === 0) return container.innerHTML = "No recent items found.";
-
-        let html = '<ul style="margin-top: 0; padding-left: 20px;">';
-        recentItems.forEach(item => {
-            html += `<li style="margin-bottom: 5px;"><strong>${item.name}</strong> - $${item.price.toFixed(2)} <br><span style="font-size: 12px; color: gray;">(Restaurant ID: ${item.restaurant_id})</span></li>`;
-        });
-        html += '</ul>';
-        container.innerHTML = html;
+    let html = '<ul class="list">';
+    restaurants.forEach((restaurant) => {
+        html += `<li><strong>${escapeHtml(restaurant.name)}</strong> (ID ${restaurant.id}) | ${escapeHtml(restaurant.address)}<div class="input-row"><button class="inline-button" onclick="useRestaurantFromOwner(${restaurant.id})">Use Restaurant ID</button><button class="inline-button" onclick="loadRestaurantMenuAction(${restaurant.id})">Load Menu</button></div></li>`;
+    });
+    html += "</ul>";
+    setBox("restaurant-results", html);
+}
 
 function renderQueue(queue) {
     lastQueue = queue;
@@ -286,20 +301,12 @@ function renderQueue(queue) {
     setBox("queue-results", html);
 }
 
-// 1. Search Menus
-document.getElementById('btn-browse-menus').onclick = async () => {
-    const nameQuery = document.getElementById('menu-search-name').value.toLowerCase();
-    
-    try {
-        // ADDED: You need this fetch line or 'items' will be undefined!
-        const res = await fetch(`${API_URL}/menu?limit=50&offset=0`);
-        const data = await res.json();
-        let items = data.items || [];
-
-        // Frontend filtering if nameQuery exists
-        if (nameQuery) {
-            items = items.filter(item => item.name.toLowerCase().includes(nameQuery));
-        }
+function renderReports(reports) {
+    lastReportQueue = reports;
+    if (!reports.length) {
+        setBox("report-results", "No pending reports.");
+        return;
+    }
 
     let html = '<ul class="list">';
     reports.forEach((report) => {
@@ -315,103 +322,56 @@ function renderDriverOrders(orders) {
         return;
     }
 
-        // Group items by category
-        const groupedItems = items.reduce((acc, item) => {
-            const cat = item.category || "General";
-            if (!acc[cat]) acc[cat] = [];
-            acc[cat].push(item);
-            return acc;
-        }, {});
+    let html = '<ul class="list">';
+    orders.forEach((order) => {
+        html += `<li><strong>Order #${order.id}</strong> | Restaurant ${order.restaurant_id} | Status ${escapeHtml(order.status)}</li>`;
+    });
+    html += "</ul>";
+    setBox("driver-results", html);
+}
 
-        // Display by category folders
-        for (const category in groupedItems) {
-            const catHeader = document.createElement('h4');
-            catHeader.innerText = `📂 ${category}`;
-            catHeader.style.margin = '15px 0 5px 0';
-            resultsContainer.appendChild(catHeader);
+function renderReviews(reviews) {
+    if (!reviews.length) {
+        setBox("review-results", "No reviews found.");
+        return;
+    }
+    let html = '<ul class="list">';
+    reviews.forEach((review) => {
+        html += `<li>User ${review.user_id}: ${escapeHtml(review.content)} (Rating ${review.rating})</li>`;
+    });
+    html += "</ul>";
+    setBox("review-results", html);
+}
 
-            groupedItems[category].forEach(item => {
-                menuItemsCache[item.id] = item;
-                const itemDiv = document.createElement('div');
-                itemDiv.style.borderBottom = '1px solid #eee';
-                itemDiv.style.padding = '10px 0';
-                itemDiv.style.display = 'flex';
-                itemDiv.style.justifyContent = 'space-between';
-                itemDiv.style.alignItems = 'center';
+function refreshScheduledOrderDropdowns() {
+    const restaurantSelect = document.getElementById("sched-restaurant");
+    const restaurants = {};
+    Object.values(menuItemsCache).forEach((item) => {
+        restaurants[item.restaurant_id] = `Restaurant ${item.restaurant_id}`;
+    });
 
-                itemDiv.innerHTML = `
-                    <div>
-                        <strong>${item.name}</strong> - $${item.price.toFixed(2)}<br>
-                        <span class="helper-text">${item.description}</span>
-                    </div>
-                    <button class="btn-secondary" style="width: auto; padding: 6px 12px; margin: 0;" onclick="addToCart(${item.id})">Add</button>
-                `;
-                resultsContainer.appendChild(itemDiv);
-            });
-        }
-        logData(data);
-    } catch (err) { handleError(err); }
-};
+    restaurantSelect.innerHTML = '<option value="">Select Restaurant</option>';
+    Object.entries(restaurants).forEach(([id, name]) => {
+        const option = document.createElement("option");
+        option.value = id;
+        option.textContent = name;
+        restaurantSelect.appendChild(option);
+    });
+}
 
-//Add Item to Cart
-window.addToCart = async (itemId) => {
-    try {
-        const res = await fetch(`${API_URL}/cart/add/${itemId}`, {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${currentToken}` }
-        });
-        const data = await res.json();
-        logData(data);
-        
-        // Auto-refresh the cart UI
-        document.getElementById('btn-view-cart').click(); 
-    } catch (err) { handleError(err); }
-};
+function fillScheduledItems() {
+    const restaurantId = Number(document.getElementById("sched-restaurant").value);
+    const itemSelect = document.getElementById("sched-item");
+    itemSelect.innerHTML = '<option value="">Select Menu Item</option>';
+    if (!restaurantId) return;
 
-//Remove Item from Cart
-window.removeFromCart = async (itemId) => {
-    try {
-        const res = await fetch(`${API_URL}/cart/remove/${itemId}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${currentToken}` }
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.detail || "Failed to remove item");
-        
-        // Auto-refresh the cart UI so the item visually disappears
-        document.getElementById('btn-view-cart').click(); 
-    } catch (err) { handleError(err); }
-};
-
-// 3. View Cart
-document.getElementById('btn-view-cart').onclick = async () => {
-    try {
-        const res = await fetch(`${API_URL}/cart`, {
-            headers: { 'Authorization': `Bearer ${currentToken}` }
-        });
-        const data = await res.json();
-        logData(data);
-
-        const cartIds = data.cart_items || [];
-        const cartContainer = document.getElementById('cart-contents');
-        
-        if (cartIds.length === 0) return cartContainer.innerHTML = 'Cart is empty.';
-
-        let html = '<ul style="margin-top: 0; padding-left: 20px;">';
-        let total = 0;
-        
-        cartIds.forEach(id => {
-            const item = menuItemsCache[id];
-            if (item) {
-                // ADDED: A small, red Remove button next to each item
-                html += `<li style="margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
-                            <span><strong>${item.name}</strong> - $${item.price.toFixed(2)}</span>
-                            <button class="btn-danger" style="width: auto; padding: 2px 8px; margin: 0; font-size: 12px;" onclick="removeFromCart(${id})">X</button>
-                         </li>`;
-                total += item.price;
-            } else {
-                html += `<li>Item ID: ${id} (Details not loaded)</li>`;
-            }
+    Object.values(menuItemsCache)
+        .filter((item) => item.restaurant_id === restaurantId)
+        .forEach((item) => {
+            const option = document.createElement("option");
+            option.value = JSON.stringify(item);
+            option.textContent = `${item.name} - ${formatPrice(item)}`;
+            itemSelect.appendChild(option);
         });
 }
 
@@ -581,46 +541,13 @@ async function removeFavoriteRestaurant() {
     await viewFavorites();
 }
 
-// Register Storefront
-document.getElementById('btn-register-store').onclick = async () => {
-    const name = document.getElementById('store-name').value;
-    const cuisine = document.getElementById('store-cuisine').value;
-
-    if (!name || !cuisine) return alert("Please provide a name and cuisine type.");
-
-    const payload = {
-        name: name,
-        cuisine_type: cuisine,
-        owner_id: currentUser.id,
-        coordinate: currentUser.coordinate,
-        address: currentUser.address
-    };
-
-    try {
-        const res = await fetch(`${API_URL}/search/restaurants`, {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${currentToken}` 
-            },
-            body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.detail || "Failed to register storefront");
-        
-        alert(`Storefront registered! Your Restaurant ID is: ${data.id}`);
-        document.getElementById('manage-rest-id').value = data.id;
-        logData(data);
-    } catch (err) { handleError(err); }
-};
-
-// Add Menu Item (Detailed)
-document.getElementById('btn-add-menu').onclick = async () => {
-    const restId = document.getElementById('manage-rest-id').value;
-    const name = document.getElementById('add-menu-name').value;
-    const description = document.getElementById('add-menu-description').value;
-    const category = document.getElementById('add-menu-category').value;
-    const price = parseFloat(document.getElementById('add-menu-price').value);
+async function addFavoriteItem() {
+    if (!requireLogin()) return;
+    const itemId = Number(document.getElementById("fav-item-id").value);
+    if (!itemId) return alert("Enter a menu item ID.");
+    await apiRequest(`/user/favourites/items/${itemId}`, { method: "POST", auth: true });
+    await viewFavorites();
+}
 
 async function removeFavoriteItem() {
     if (!requireLogin()) return;
@@ -633,40 +560,28 @@ async function removeFavoriteItem() {
 async function updateUser() {
     if (!requireLogin()) return;
     const payload = {
-        name: name,
-        description: description || "Delicious food",
-        price: price,
-        category: category || "General",
-        image_url: "",
-        is_available: true,
-        add_ons: [],
-        restaurant_id: parseInt(restId)
+        name: document.getElementById("update-name").value || currentUser.name,
+        email: document.getElementById("update-email").value || currentUser.email,
+        phone_number: document.getElementById("update-phone").value || currentUser.phone_number,
+        password: document.getElementById("update-password").value || "password123",
+        role: currentUser.role,
+        address: document.getElementById("update-address").value || currentUser.address,
+        coordinate: {
+            latitude: Number(document.getElementById("update-latitude").value || currentUser.coordinate?.latitude || 49.88),
+            longitude: Number(document.getElementById("update-longitude").value || currentUser.coordinate?.longitude || -119.49)
+        },
+        delivery_note: document.getElementById("update-note").value || currentUser.delivery_note || ""
     };
     const result = await apiRequest("/user/update", { method: "POST", body: payload, auth: true });
     await refreshUserState();
     setBox("feature-results", `<p>${escapeHtml(result.message)}</p>`);
 }
 
-    try {
-        const res = await fetch(`${API_URL}/menu/${restId}/add`, {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${currentToken}` 
-            },
-            body: JSON.stringify(payload)
-        });
-        logData(await res.json());
-        alert("Item added to your menu!");
-    } catch (err) { handleError(err); }
-};
-
-// Delete Menu Item
-document.getElementById('btn-delete-menu').onclick = async () => {
-    const restId = document.getElementById('manage-rest-id').value;
-    const itemId = document.getElementById('delete-item-id').value;
-
-    if (!restId || !itemId) return alert("Fill out Restaurant ID and Item ID.");
+async function viewAuthDashboard() {
+    if (!requireLogin()) return;
+    const data = await apiRequest("/auth/dashboard", { auth: true });
+    setBox("feature-results", `<pre>${escapeHtml(toPrettyJson(data))}</pre>`);
+}
 
 async function submitReview() {
     if (!requireLogin()) return;
@@ -1023,42 +938,105 @@ document.getElementById("btn-view-profile").onclick = async () => {
 document.getElementById("btn-logout").onclick = () => {
     currentToken = null;
     currentUser = null;
-    menuItemsCache = {}; // Clear the cart cache on logout
-    document.getElementById('login-form').reset();
-    document.getElementById('register-form').reset();
-    authSection.style.display = 'block';
-    customerDashboard.style.display = 'none';
-    ownerDashboard.style.display = 'none';
-    adminDashboard.style.display = 'none';
-    sharedSection.style.display = 'none';
+    menuItemsCache = {};
+    lastOrders = [];
+    lastQueue = [];
+    lastRestaurants = [];
+    lastReportQueue = [];
+    authSection.style.display = "block";
+    if (appLayout) appLayout.style.display = "none";
+    if (sessionSection) sessionSection.style.display = "none";
+    sharedSection.style.display = "none";
+    if (publicToolsSection) publicToolsSection.style.display = "none";
+    resetDashboards();
+    document.getElementById("login-form").reset();
+    document.getElementById("register-form").reset();
+    logRequest("Awaiting action...");
     logData("Awaiting action...");
 };
 
-document.getElementById('btn-update-multiplier').onclick = async () => {
-    const multiplierInput = document.getElementById('delivery-fee-multiplier');
-    const multiplier = parseFloat(multiplierInput.value);
-    const status = document.getElementById('multiplier-status');
+window.loadRestaurantMenuAction = (restaurantId) => loadRestaurantMenu(restaurantId).catch((error) => logData({ error: error.message }));
+window.loadRestaurantRatingAction = (restaurantId) => loadRestaurantRating(restaurantId).catch((error) => logData({ error: error.message }));
+window.loadRestaurantReviewsAction = (restaurantId) => loadRestaurantReviews(restaurantId).catch((error) => logData({ error: error.message }));
+window.addToCartAction = (itemId) => addToCart(itemId).catch((error) => logData({ error: error.message }));
+window.removeFromCartAction = (itemId) => removeFromCart(itemId).catch((error) => logData({ error: error.message }));
+window.trackOrderByIdAction = (orderId) => trackOrderById(orderId).catch((error) => logData({ error: error.message }));
 
-    if (Number.isNaN(multiplier) || multiplier <= 0) {
-        return alert('Enter a valid multiplier greater than 0');
-    }
-
-    try {
-        const res = await fetch(`${API_URL}/admin/config/update`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${currentToken}`
-            },
-            body: JSON.stringify({ delivery_fee_multiplier: multiplier })
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.detail || 'Failed to update multiplier');
-
-        status.textContent = `Updated multiplier to ${data.delivery_fee_multiplier}`;
-        logData(data);
-    } catch (err) {
-        status.textContent = err.message;
-        handleError(err);
-    }
+document.getElementById("btn-search").onclick = () => searchRestaurants().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-clear-search").onclick = () => {
+    document.getElementById("search-name").value = "";
+    document.getElementById("search-cuisine").value = "";
+    document.getElementById("search-min-rating").value = "";
+    document.getElementById("search-sort").value = "";
+    document.getElementById("search-limit").value = "10";
+    document.getElementById("search-offset").value = "0";
+    setBox("search-results", "Search results will appear here.");
 };
+
+document.getElementById("btn-browse-menus").onclick = () => loadAllMenus().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-refresh-scheduled-source").onclick = () => loadScheduledSource().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-get-rating").onclick = () => loadRestaurantRating(Number(document.getElementById("review-restaurant-id").value)).catch((error) => logData({ error: error.message }));
+document.getElementById("btn-get-reviews").onclick = () => loadRestaurantReviews(Number(document.getElementById("review-restaurant-id").value)).catch((error) => logData({ error: error.message }));
+document.getElementById("btn-submit-review").onclick = () => submitReview().catch((error) => logData({ error: error.message }));
+
+document.getElementById("btn-view-favorites").onclick = () => viewFavorites().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-view-recent").onclick = () => viewRecent().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-add-favorite-restaurant").onclick = () => addFavoriteRestaurant().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-remove-favorite-restaurant").onclick = () => removeFavoriteRestaurant().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-add-favorite-item").onclick = () => addFavoriteItem().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-remove-favorite-item").onclick = () => removeFavoriteItem().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-update-user").onclick = () => updateUser().catch((error) => logData({ error: error.message }));
+
+document.getElementById("btn-view-cart").onclick = () => viewCart().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-clear-cart").onclick = () => clearCart().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-remove-cart-item").onclick = () => removeFromCart(Number(document.getElementById("cart-remove-item-id").value)).catch((error) => logData({ error: error.message }));
+document.getElementById("btn-checkout").onclick = () => checkout().catch((error) => logData({ error: error.message }));
+
+document.getElementById("btn-my-orders").onclick = () => viewOrders().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-refresh-order-status").onclick = () => trackOrderById(Number(document.getElementById("track-order-id").value)).catch((error) => logData({ error: error.message }));
+document.getElementById("btn-track-order").onclick = () => trackOrderById(Number(document.getElementById("track-order-id").value)).catch((error) => logData({ error: error.message }));
+document.getElementById("btn-cancel-order").onclick = () => cancelOrder().catch((error) => logData({ error: error.message }));
+
+document.getElementById("btn-simulate-payment").onclick = () => simulatePayment().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-submit-decision").onclick = () => submitPaymentDecision("").catch((error) => logData({ error: error.message }));
+document.getElementById("btn-check-status").onclick = () => checkOrderStatus().catch((error) => logData({ error: error.message }));
+
+document.getElementById("btn-my-notifications").onclick = () => loadMyNotifications().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-all-notifications").onclick = () => loadAllNotifications().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-order-notifications").onclick = () => loadOrderNotifications().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-order-timeline").onclick = () => loadOrderTimeline("timeline-order-id").catch((error) => logData({ error: error.message }));
+
+document.getElementById("sched-restaurant").onchange = fillScheduledItems;
+document.getElementById("sched-restaurant").onfocus = () => loadScheduledSource().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-place-scheduled").onclick = () => placeScheduledOrder().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-my-scheduled").onclick = () => loadMyScheduledOrders().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-cancel-scheduled").onclick = () => cancelScheduledOrder().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-get-scheduled").onclick = () => getScheduledOrder().catch((error) => logData({ error: error.message }));
+
+document.getElementById("btn-submit-report").onclick = () => submitReport().catch((error) => logData({ error: error.message }));
+
+document.getElementById("btn-register-restaurant").onclick = () => registerRestaurant().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-my-restaurants").onclick = () => loadMyRestaurants().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-update-restaurant").onclick = () => updateRestaurant().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-delete-restaurant").onclick = () => deleteRestaurant().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-load-owner-menu").onclick = () => loadOwnerMenu().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-add-menu").onclick = () => addMenuItem().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-update-menu").onclick = () => updateMenuItem().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-delete-menu").onclick = () => deleteMenuItem().catch((error) => logData({ error: error.message }));
+
+document.getElementById("btn-view-queue").onclick = () => viewQueue().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-update-status").onclick = () => updateOrderStatus().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-owner-submit-decision").onclick = () => submitPaymentDecision("owner-").catch((error) => logData({ error: error.message }));
+document.getElementById("btn-owner-my-notifications").onclick = () => loadMyNotifications().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-owner-timeline").onclick = () => loadOrderTimeline("owner-timeline-order-id").catch((error) => logData({ error: error.message }));
+
+document.getElementById("btn-update-multiplier").onclick = () => updateMultiplier().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-load-report-queue").onclick = () => loadReportQueue().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-handle-report").onclick = () => handleReport().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-admin-notifications").onclick = () => loadAllNotifications().catch((error) => logData({ error: error.message }));
+document.getElementById("btn-admin-auth-dashboard").onclick = () => viewAuthDashboard().catch((error) => logData({ error: error.message }));
+
+document.getElementById("btn-driver-orders").onclick = () => loadDriverOrders().catch((error) => logData({ error: error.message }));
+
+logRequest("Awaiting action...");
+logData("Awaiting action...");

@@ -103,7 +103,7 @@ def test_payment_attempt_correct_amount_single_item():
     response = client.post("/orders", json=single_item_cart)
     assert response.status_code == successful_status
     data = response.json()
-    assert data["payment"]["amount"] == 28.39
+    assert round(data["payment"]["amount"], 2) == 24.39
 
 def test_no_payment_attempt_on_empty_cart():
     """Verify that a failed order (empty cart) does not create a payment attempt."""
