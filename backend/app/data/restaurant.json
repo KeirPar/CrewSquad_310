@@ -35,7 +35,8 @@
     "phone_number": "250-555-1010",
     "price_tier": 2,
     "owner_id": 20,
-    "flags": 1
+    "flags": 3,
+    "is_open": false
   },
   {
     "id": 2,
@@ -771,5 +772,249 @@
     "phone_number": "250-999-9999",
     "price_tier": 3,
     "owner_id": 111
+  },
+  {
+    "id": 31,
+    "menu": [
+      {
+        "id": 1,
+        "restaurant_id": 31,
+        "name": "Test Item",
+        "description": "A delicious test item",
+        "price": 9.99,
+        "category": "Test Category",
+        "image_url": "http://example.com/test_item.jpg",
+        "is_available": true,
+        "add_ons": []
+      }
+    ],
+    "name": "Taco Stand",
+    "address": "123 Taco St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "cuisine_type": "Mexican",
+    "phone_number": "555-1234",
+    "price_tier": 1,
+    "flags": 0,
+    "owner_id": 26
+  },
+  {
+    "id": 32,
+    "menu": [
+      {
+        "id": 1,
+        "restaurant_id": 32,
+        "name": "Chorizo Taco",
+        "description": "Spicy",
+        "price": 4.5,
+        "category": "Protein",
+        "image_url": "taco.jpg",
+        "is_available": true,
+        "add_ons": []
+      },
+      {
+        "id": 2,
+        "restaurant_id": 32,
+        "name": "Big Burrito",
+        "description": "Huge",
+        "price": 12.0,
+        "category": "Protein",
+        "image_url": "burrito.jpg",
+        "is_available": true,
+        "add_ons": []
+      }
+    ],
+    "name": "Test Kitchen",
+    "address": "123 Skoupas Lane",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "cuisine_type": "Other",
+    "phone_number": "250-555-1111",
+    "price_tier": 2,
+    "flags": 0,
+    "owner_id": 8
+  },
+  {
+    "id": 33,
+    "menu": [
+      {
+        "id": 1,
+        "restaurant_id": 33,
+        "name": "Original Pizza",
+        "description": "Very Cheesy",
+        "price": 15.5,
+        "category": "Main",
+        "image_url": "pizza.jpg",
+        "is_available": true,
+        "add_ons": []
+      }
+    ],
+    "name": "Update Test Kitchen",
+    "address": "456 Update St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "cuisine_type": "Other",
+    "phone_number": "250-555-2222",
+    "price_tier": 2,
+    "flags": 0,
+    "owner_id": 8
+  },
+  {
+    "id": 34,
+    "menu": [],
+    "name": "Delete Test Kitchen",
+    "address": "789 Delete Ave",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "cuisine_type": "Other",
+    "phone_number": "250-555-3333",
+    "price_tier": 1,
+    "flags": 0,
+    "owner_id": 8
+  },
+  {
+    "id": 35,
+    "menu": [],
+    "name": "Test Bistro",
+    "address": "456 Test Ave",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "cuisine_type": "Other",
+    "phone_number": "250-999-9999",
+    "price_tier": 3,
+    "flags": 0,
+    "owner_id": 4
+  },
+  {
+    "id": 36,
+    "menu": [
+      {
+        "id": 1,
+        "restaurant_id": 36,
+        "name": "Test Item",
+        "description": "A delicious test item",
+        "price": 9.99,
+        "category": "Test Category",
+        "image_url": "http://example.com/test_item.jpg",
+        "is_available": true,
+        "add_ons": []
+      }
+    ],
+    "name": "Taco Stand",
+    "address": "123 Taco St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "cuisine_type": "Mexican",
+    "phone_number": "555-1234",
+    "price_tier": 1,
+    "flags": 0,
+    "owner_id": 26
+  },
+  {
+    "id": 37,
+    "menu": [
+      {
+        "id": 1,
+        "restaurant_id": 37,
+        "name": "Chorizo Taco",
+        "description": "Spicy",
+        "price": 4.5,
+        "category": "Protein",
+        "image_url": "taco.jpg",
+        "is_available": true,
+        "add_ons": []
+      },
+      {
+        "id": 2,
+        "restaurant_id": 37,
+        "name": "Big Burrito",
+        "description": "Huge",
+        "price": 12.0,
+        "category": "Protein",
+        "image_url": "burrito.jpg",
+        "is_available": true,
+        "add_ons": []
+      }
+    ],
+    "name": "Test Kitchen",
+    "address": "123 Skoupas Lane",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "cuisine_type": "Other",
+    "phone_number": "250-555-1111",
+    "price_tier": 2,
+    "flags": 0,
+    "owner_id": 8
+  },
+  {
+    "id": 38,
+    "menu": [
+      {
+        "id": 1,
+        "restaurant_id": 38,
+        "name": "Original Pizza",
+        "description": "Very Cheesy",
+        "price": 15.5,
+        "category": "Main",
+        "image_url": "pizza.jpg",
+        "is_available": true,
+        "add_ons": []
+      }
+    ],
+    "name": "Update Test Kitchen",
+    "address": "456 Update St",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "cuisine_type": "Other",
+    "phone_number": "250-555-2222",
+    "price_tier": 2,
+    "flags": 0,
+    "owner_id": 8
+  },
+  {
+    "id": 39,
+    "menu": [],
+    "name": "Delete Test Kitchen",
+    "address": "789 Delete Ave",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "cuisine_type": "Other",
+    "phone_number": "250-555-3333",
+    "price_tier": 1,
+    "flags": 0,
+    "owner_id": 8
+  },
+  {
+    "id": 40,
+    "menu": [],
+    "name": "Test Bistro",
+    "address": "456 Test Ave",
+    "coordinate": {
+      "latitude": 49.94290035633633,
+      "longitude": -119.39555529342739
+    },
+    "cuisine_type": "Other",
+    "phone_number": "250-999-9999",
+    "price_tier": 3,
+    "flags": 0,
+    "owner_id": 4
   }
 ]
