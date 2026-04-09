@@ -7,6 +7,7 @@ let menuItemsCache = {}; // Remembers item details to build the cart payload lat
 const authSection = document.getElementById('auth-section');
 const customerDashboard = document.getElementById('customer-dashboard');
 const ownerDashboard = document.getElementById('owner-dashboard');
+const adminDashboard = document.getElementById('admin-dashboard');
 const sharedSection = document.getElementById('shared-section');
 const dataDisplay = document.getElementById('data-display');
 
@@ -89,9 +90,14 @@ async function fetchProfile() {
     document.querySelectorAll('.user-name').forEach(el => el.innerText = currentUser.name);
     authSection.style.display = 'none';
     sharedSection.style.display = 'block';
+    ownerDashboard.style.display = 'none';
+    customerDashboard.style.display = 'none';
+    adminDashboard.style.display = 'none';
 
     if (currentUser.role.toUpperCase() === 'OWNER' || currentUser.role === 'Restaurant Owner') {
         ownerDashboard.style.display = 'block';
+    } else if (currentUser.role === 'Admin') {
+        adminDashboard.style.display = 'block';
     } else {
         customerDashboard.style.display = 'block';
     }
@@ -737,6 +743,36 @@ document.getElementById('btn-logout').onclick = () => {
     authSection.style.display = 'block';
     customerDashboard.style.display = 'none';
     ownerDashboard.style.display = 'none';
+    adminDashboard.style.display = 'none';
     sharedSection.style.display = 'none';
     logData("Awaiting action...");
+};
+
+document.getElementById('btn-update-multiplier').onclick = async () => {
+    const multiplierInput = document.getElementById('delivery-fee-multiplier');
+    const multiplier = parseFloat(multiplierInput.value);
+    const status = document.getElementById('multiplier-status');
+
+    if (Number.isNaN(multiplier) || multiplier <= 0) {
+        return alert('Enter a valid multiplier greater than 0');
+    }
+
+    try {
+        const res = await fetch(`${API_URL}/admin/config/update`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}`
+            },
+            body: JSON.stringify({ delivery_fee_multiplier: multiplier })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to update multiplier');
+
+        status.textContent = `Updated multiplier to ${data.delivery_fee_multiplier}`;
+        logData(data);
+    } catch (err) {
+        status.textContent = err.message;
+        handleError(err);
+    }
 };
