@@ -1,11 +1,1 @@
-[
-  {
-    "order_id": 1,
-    "target_type": "Restaurant",
-    "target_id": 1,
-    "reason": "This is the final straw!",
-    "id": 1,
-    "status": "VALIDATED",
-    "admin_notes": ""
-  }
-]
+[]
