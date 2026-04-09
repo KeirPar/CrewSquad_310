@@ -1,0 +1,79 @@
+[
+  {
+    "id": 1,
+    "content": "Hello",
+    "rating": 5.0,
+    "user_id": 6,
+    "restaurant_id": 1
+  },
+  {
+    "id": 2,
+    "content": "",
+    "rating": 3.0,
+    "user_id": 32,
+    "restaurant_id": 1
+  },
+  {
+    "id": 3,
+    "content": "",
+    "rating": 6.0,
+    "user_id": 32,
+    "restaurant_id": 2
+  },
+  {
+    "id": 4,
+    "content": "",
+    "rating": 9.0,
+    "user_id": 32,
+    "restaurant_id": 3
+  },
+  {
+    "id": 5,
+    "content": "",
+    "rating": 2.0,
+    "user_id": 32,
+    "restaurant_id": 4
+  },
+  {
+    "id": 6,
+    "content": "",
+    "rating": 5.0,
+    "user_id": 32,
+    "restaurant_id": 5
+  },
+  {
+    "id": 7,
+    "content": "",
+    "rating": 8.0,
+    "user_id": 32,
+    "restaurant_id": 6
+  },
+  {
+    "id": 8,
+    "content": "",
+    "rating": 1.0,
+    "user_id": 32,
+    "restaurant_id": 7
+  },
+  {
+    "id": 9,
+    "content": "",
+    "rating": 4.0,
+    "user_id": 32,
+    "restaurant_id": 8
+  },
+  {
+    "id": 10,
+    "content": "",
+    "rating": 7.0,
+    "user_id": 32,
+    "restaurant_id": 9
+  },
+  {
+    "id": 11,
+    "content": "",
+    "rating": 0.0,
+    "user_id": 32,
+    "restaurant_id": 10
+  }
+]
