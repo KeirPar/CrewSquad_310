@@ -1,4 +1,5 @@
 from fastapi.testclient import TestClient
+from app.repositories.helpers.repository_manager import RepositoryManager
 from app.main import app
 from app.repositories.notification_repo import notification_db
 from fastapi import status
@@ -133,6 +134,7 @@ def test_no_notification_on_mixed_restaurant_cart():
 
 
 def test_multiple_orders_create_multiple_notifications():
+    RepositoryManager.reset_all_repositories()
     """Verify that each order creates its own separate notification."""
     before = len(client.get("/notifications").json()["notifications"])
     client.post("/orders", json=make_cart())
