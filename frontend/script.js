@@ -140,24 +140,25 @@ document.getElementById('btn-search').onclick = async () => {
 
 // --- INDIVIDUAL FEATURE: FAVORITES & RECENT ORDERS ---
 
-//View Favorites
+// View Favorites
 document.getElementById('btn-view-favorites').onclick = async () => {
     try {
-        // IMPORTANT: Adjust this URL to match your exact backend endpoint
-        const res = await fetch(`${API_URL}/favorites`, { 
+        // Fix: Fetch the user profile, because it contains the favourite_restaurants list!
+        const res = await fetch(`${API_URL}/auth/me`, { 
             headers: { 'Authorization': `Bearer ${currentToken}` }
         });
         const data = await res.json();
-        logData(data); // Shows full response in the raw JSON viewer
+        logData(data); 
 
         const container = document.getElementById('feature-results');
-        if (!res.ok) throw new Error(data.detail || "Failed to fetch favorites");
-        if (!data || data.length === 0) return container.innerHTML = "You have no favorite restaurants yet.";
+        if (!res.ok) throw new Error(data.detail || "Failed to fetch profile");
+
+        const favRests = data.favourite_restaurants || [];
+        if (favRests.length === 0) return container.innerHTML = "You have no favorite restaurants yet.";
 
         let html = '<ul style="margin-top: 0; padding-left: 20px;">';
-        // Adjust "fav.name" or "fav.restaurant_name" based on what your backend returns
-        data.forEach(fav => {
-            html += `<li style="margin-bottom: 5px;"><strong>Restaurant ID: ${fav.restaurant_id}</strong></li>`;
+        favRests.forEach(id => {
+            html += `<li style="margin-bottom: 5px;"><strong>Restaurant ID: ${id}</strong></li>`;
         });
         html += '</ul>';
         container.innerHTML = html;
@@ -165,14 +166,14 @@ document.getElementById('btn-view-favorites').onclick = async () => {
     } catch (err) { handleError(err); }
 };
 
-//Add Favorite
+// Add Favorite
 document.getElementById('btn-add-favorite').onclick = async () => {
     const restId = parseInt(document.getElementById('add-fav-id').value);
     if (!restId) return alert("Please enter a Restaurant ID to favorite.");
 
     try {
-        // IMPORTANT: Adjust this URL and Method to match your backend
-        const res = await fetch(`${API_URL}/favorites/${restId}`, {
+        // Fix: Updated to exactly match your Python router
+        const res = await fetch(`${API_URL}/user/favourites/restaurants/${restId}`, {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${currentToken}` }
         });
@@ -181,30 +182,30 @@ document.getElementById('btn-add-favorite').onclick = async () => {
         
         alert("Restaurant added to favorites!");
         logData(data);
-        document.getElementById('btn-view-favorites').click(); // Auto-refresh the list
+        document.getElementById('btn-view-favorites').click(); 
     } catch (err) { handleError(err); }
 };
 
-//View Recent Orders
+// View Recent Orders (Recent Items)
 document.getElementById('btn-view-recent').onclick = async () => {
     try {
-        // IMPORTANT: Adjust this URL to match your exact backend endpoint
-        const res = await fetch(`${API_URL}/orders/recent`, { 
+        // Fix: Updated to exactly match your Python router
+        const res = await fetch(`${API_URL}/user/recently-ordered`, { 
             headers: { 'Authorization': `Bearer ${currentToken}` }
         });
         const data = await res.json();
         logData(data);
 
         const container = document.getElementById('feature-results');
-        if (!res.ok) throw new Error(data.detail || "Failed to fetch recent orders");
+        if (!res.ok) throw new Error(data.detail || "Failed to fetch recent items");
         
-        // Handle both possible JSON structures (array or object with a list inside)
-        const ordersList = Array.isArray(data) ? data : (data.orders || []);
-        if (ordersList.length === 0) return container.innerHTML = "No recent orders found.";
+        // Fix: Your backend returns 'recent_items' which are Menu Item objects, not Orders!
+        const recentItems = data.recent_items || [];
+        if (recentItems.length === 0) return container.innerHTML = "No recent items found.";
 
         let html = '<ul style="margin-top: 0; padding-left: 20px;">';
-        ordersList.forEach(order => {
-            html += `<li style="margin-bottom: 5px;"><strong>Order #${order.id}</strong> - Status: ${order.status} - Total: $${order.total_amount}</li>`;
+        recentItems.forEach(item => {
+            html += `<li style="margin-bottom: 5px;"><strong>${item.name}</strong> - $${item.price.toFixed(2)} <br><span style="font-size: 12px; color: gray;">(Restaurant ID: ${item.restaurant_id})</span></li>`;
         });
         html += '</ul>';
         container.innerHTML = html;
@@ -219,11 +220,11 @@ document.getElementById('btn-browse-menus').onclick = async () => {
     const nameQuery = document.getElementById('menu-search-name').value.toLowerCase();
     
     try {
+        // ADDED: You need this fetch line or 'items' will be undefined!
         const res = await fetch(`${API_URL}/menu?limit=50&offset=0`);
         const data = await res.json();
-        
         let items = data.items || [];
-        
+
         // Frontend filtering if nameQuery exists
         if (nameQuery) {
             items = items.filter(item => item.name.toLowerCase().includes(nameQuery));
@@ -234,30 +235,45 @@ document.getElementById('btn-browse-menus').onclick = async () => {
 
         if (items.length === 0) return resultsContainer.innerHTML = '<p class="helper-text">No items found.</p>';
 
-        items.forEach(item => {
-            menuItemsCache[item.id] = item; // Cache the item for the cart payload!
+        // Group items by category
+        const groupedItems = items.reduce((acc, item) => {
+            const cat = item.category || "General";
+            if (!acc[cat]) acc[cat] = [];
+            acc[cat].push(item);
+            return acc;
+        }, {});
 
-            const itemDiv = document.createElement('div');
-            itemDiv.style.borderBottom = '1px solid #eee';
-            itemDiv.style.padding = '10px 0';
-            itemDiv.style.display = 'flex';
-            itemDiv.style.justifyContent = 'space-between';
-            itemDiv.style.alignItems = 'center';
+        // Display by category folders
+        for (const category in groupedItems) {
+            const catHeader = document.createElement('h4');
+            catHeader.innerText = `📂 ${category}`;
+            catHeader.style.margin = '15px 0 5px 0';
+            resultsContainer.appendChild(catHeader);
 
-            itemDiv.innerHTML = `
-                <div>
-                    <strong>${item.name}</strong> - $${item.price.toFixed(2)}<br>
-                    <span class="helper-text">Rest ID: ${item.restaurant_id} | ${item.description}</span>
-                </div>
-                <button class="btn-secondary" style="width: auto; padding: 6px 12px; margin: 0;" onclick="addToCart(${item.id})">Add</button>
-            `;
-            resultsContainer.appendChild(itemDiv);
-        });
+            groupedItems[category].forEach(item => {
+                menuItemsCache[item.id] = item;
+                const itemDiv = document.createElement('div');
+                itemDiv.style.borderBottom = '1px solid #eee';
+                itemDiv.style.padding = '10px 0';
+                itemDiv.style.display = 'flex';
+                itemDiv.style.justifyContent = 'space-between';
+                itemDiv.style.alignItems = 'center';
+
+                itemDiv.innerHTML = `
+                    <div>
+                        <strong>${item.name}</strong> - $${item.price.toFixed(2)}<br>
+                        <span class="helper-text">${item.description}</span>
+                    </div>
+                    <button class="btn-secondary" style="width: auto; padding: 6px 12px; margin: 0;" onclick="addToCart(${item.id})">Add</button>
+                `;
+                resultsContainer.appendChild(itemDiv);
+            });
+        }
         logData(data);
     } catch (err) { handleError(err); }
 };
 
-// 2. Add Item to Cart
+//Add Item to Cart
 window.addToCart = async (itemId) => {
     try {
         const res = await fetch(`${API_URL}/cart/add/${itemId}`, {
@@ -268,6 +284,21 @@ window.addToCart = async (itemId) => {
         logData(data);
         
         // Auto-refresh the cart UI
+        document.getElementById('btn-view-cart').click(); 
+    } catch (err) { handleError(err); }
+};
+
+//Remove Item from Cart
+window.removeFromCart = async (itemId) => {
+    try {
+        const res = await fetch(`${API_URL}/cart/remove/${itemId}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${currentToken}` }
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || "Failed to remove item");
+        
+        // Auto-refresh the cart UI so the item visually disappears
         document.getElementById('btn-view-cart').click(); 
     } catch (err) { handleError(err); }
 };
@@ -420,31 +451,71 @@ document.getElementById('btn-update-status').onclick = async () => {
     } catch (err) { handleError(err); }
 };
 
-// Add Menu Item
+// Register Storefront
+document.getElementById('btn-register-store').onclick = async () => {
+    const name = document.getElementById('store-name').value;
+    const cuisine = document.getElementById('store-cuisine').value;
+
+    if (!name || !cuisine) return alert("Please provide a name and cuisine type.");
+
+    const payload = {
+        name: name,
+        cuisine_type: cuisine,
+        owner_id: currentUser.id,
+        coordinate: currentUser.coordinate,
+        address: currentUser.address
+    };
+
+    try {
+        const res = await fetch(`${API_URL}/search/restaurants`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}` 
+            },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || "Failed to register storefront");
+        
+        alert(`Storefront registered! Your Restaurant ID is: ${data.id}`);
+        document.getElementById('manage-rest-id').value = data.id;
+        logData(data);
+    } catch (err) { handleError(err); }
+};
+
+// Add Menu Item (Detailed)
 document.getElementById('btn-add-menu').onclick = async () => {
     const restId = document.getElementById('manage-rest-id').value;
     const name = document.getElementById('add-menu-name').value;
+    const description = document.getElementById('add-menu-description').value;
+    const category = document.getElementById('add-menu-category').value;
     const price = parseFloat(document.getElementById('add-menu-price').value);
 
     if (!restId || !name || isNaN(price)) return alert("Fill out Restaurant ID, Name, and Price.");
 
     const payload = {
         name: name,
-        description: "Added via Owner UI",
+        description: description || "Delicious food",
         price: price,
-        category: "Main",
+        category: category || "General",
         image_url: "",
         is_available: true,
-        add_ons: []
+        add_ons: [],
+        restaurant_id: parseInt(restId)
     };
 
     try {
         const res = await fetch(`${API_URL}/menu/${restId}/add`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${currentToken}` },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${currentToken}` 
+            },
             body: JSON.stringify(payload)
         });
         logData(await res.json());
+        alert("Item added to your menu!");
     } catch (err) { handleError(err); }
 };
 
