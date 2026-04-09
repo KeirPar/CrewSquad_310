@@ -35,9 +35,9 @@
     "phone_number": "250-555-1010",
     "price_tier": 2,
     "owner_id": 20,
-    "flags": 0,
+    "flags": 3,
     "rating": 5.0,
-    "is_open": true
+    "is_open": false
   },
   {
     "id": 2,
